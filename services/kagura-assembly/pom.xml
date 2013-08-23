@@ -80,8 +80,6 @@
                 <groupId>org.apache.karaf.tooling</groupId>
                 <artifactId>karaf-maven-plugin</artifactId>
                 <configuration>
-
-
                     <startupFeatures>
                         <feature>kagura-features</feature>
                     </startupFeatures>

@@ -17,6 +17,14 @@
 -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" default-activation="eager">
 
+        <camelContext xmlns="http://camel.apache.org/schema/blueprint">
+            <route>
+                <from uri="timer:test" />
+                <to uri="log:test" />
+            </route>
+        </camelContext>
+
+
     <bean id="serviceBean" class="com.base2.kagura.services.MyServiceImpl"/>
 
     <service ref="serviceBean" interface="com.base2.kagura.services.MyService"/>

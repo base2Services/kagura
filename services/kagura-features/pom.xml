@@ -34,14 +34,9 @@
     <description>kagura-features details</description>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>org.apache</groupId>-->
-            <!--<artifactId>bundle1</artifactId>-->
-            <!--<version>1.0</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>com.base2.kagura.services</groupId>
-            <artifactId>kagura-blueprint</artifactId>
+            <artifactId>kagura-camel</artifactId>
         </dependency>
     </dependencies>
 

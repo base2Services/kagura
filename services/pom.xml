@@ -17,13 +17,21 @@
     <properties>
         <karaf.version>3.0.0.RC1</karaf.version>
         <camel.version>2.11.1</camel.version>
+        <jaxb.version>2.2.6</jaxb.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Dependencies -->
+            <!--<dependency>-->
+                <!--<groupId>com.sun.xml.bind</groupId>-->
+                <!--<artifactId>jaxb-osgi</artifactId>-->
+                <!--<version>${jaxb.version}</version>-->
+            <!--</dependency>-->
+            <!-- Kagura -->
             <dependency>
                 <groupId>com.base2.kagura.services</groupId>
-                <artifactId>kagura-blueprint</artifactId>
+                <artifactId>kagura-camel</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -32,6 +40,23 @@
                 <version>${project.version}</version>
                 <type>feature</type>
             </dependency>
+            <!-- Camel -->
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-blueprint</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-spring</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <!-- Karaf -->
             <dependency>
                 <groupId>org.apache.karaf</groupId>
                 <artifactId>apache-karaf</artifactId>
@@ -48,9 +73,9 @@
     </dependencyManagement>
 
     <modules>
-        <module>kagura-blueprint</module>
         <module>kagura-features</module>
-    <module>kagura-assembly</module>
+        <module>kagura-assembly</module>
+        <module>kagura-camel</module>
   </modules>
 
 </project>
