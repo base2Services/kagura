@@ -80,21 +80,25 @@
                 <groupId>org.apache.karaf.tooling</groupId>
                 <artifactId>karaf-maven-plugin</artifactId>
                 <configuration>
+
+
                     <startupFeatures>
                         <feature>kagura-features</feature>
                     </startupFeatures>
                     <bootFeatures>
                         <feature>standard</feature>
                         <feature>management</feature>
+                        <feature>kagura-features</feature>
                     </bootFeatures>
                     <installedFeatures>
                         <feature>kagura-features</feature>
                     </installedFeatures>
                     <includeMvnBasedDescriptors>true</includeMvnBasedDescriptors>
                     <archiveTarGz>true</archiveTarGz>
-                    <!--<descriptors>-->
-                        <!--<descriptor>mvn:com.base2.kagura.services/kagura-features/${project.version}/xml/features</descriptor>-->
-                    <!--</descriptors>-->
+                    <descriptors>
+                        <descriptor>mvn:com.base2.kagura.services/kagura-features/${project.version}/xml/features</descriptor>
+                    </descriptors>
+                    <featuresFile>src/main/feature/feature.xml</featuresFile>
                 </configuration>
                 <executions>
                     <execution>
@@ -107,6 +111,7 @@
                                 <descriptor>mvn:com.base2.kagura.services/kagura-features/${project.version}/xml/features</descriptor>
                             </descriptors>
                             <features>
+                                <!--<feature>kagura-assembly</feature>-->
                                 <feature>kagura-features</feature>
                             </features>
                             <repository>target/features-repo</repository>
