@@ -34,11 +34,11 @@
     <description>Create a feature with the defined dependencies set.</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.base2.kagura.services</groupId>
-            <artifactId>kagura-camel</artifactId>
-            <type>jar</type>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.base2.kagura.services</groupId>-->
+            <!--<artifactId>kagura-camel</artifactId>-->
+            <!--<type>jar</type>-->
+        <!--</dependency>-->
         <!--<dependency>-->
             <!--<groupId>com.base2.kagura.services</groupId>-->
             <!--<artifactId>kagura-blueprint</artifactId>-->
