@@ -168,7 +168,6 @@
     <modules>
         <module>kagura-features</module>
         <module>kagura-assembly</module>
-        <!--<module>kagura-blueprint</module>-->
         <module>kagura-camel</module>
     </modules>
 
