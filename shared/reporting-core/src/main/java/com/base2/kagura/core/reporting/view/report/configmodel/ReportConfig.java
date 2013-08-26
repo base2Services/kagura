@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,26 +18,26 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.PROPERTY,
-        property = "type")
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = JDBCReportConfig.class, name = "JDBC"),
         @JsonSubTypes.Type(value = JNDIReportConfig.class, name = "JNDI"),
         @JsonSubTypes.Type(value = FakeReportConfig.class, name = "Fake")
 })
 public abstract class ReportConfig {
-    String reportName;
     String reportId;
     List<ParamConfig> paramConfig;
     List<ColumnDef> columns;
-    int diplayPriority;
-    String image;
-    private String description;
+    Map<String, String> extraOptions;
 
     public List<ParamConfig> getParamConfig() {
         return paramConfig;
     }
+
+    @JsonIgnore
+    abstract public ReportConnector getReportConnector();
 
     public void setParamConfig(List<ParamConfig> paramConfig) {
         this.paramConfig = paramConfig;
@@ -59,38 +60,12 @@ public abstract class ReportConfig {
         this.columns = columns;
     }
 
-    public String getReportName() {
-        return reportName;
+    public Map<String, String> getExtraOptions() {
+        return extraOptions;
     }
 
-    public void setReportName(String reportName) {
-        this.reportName = reportName;
+    public void setExtraOptions(Map<String, String> extraOptions) {
+        this.extraOptions = extraOptions;
     }
 
-    public int getDiplayPriority() {
-        return diplayPriority;
-    }
-
-    public void setDiplayPriority(int diplayPriority) {
-        this.diplayPriority = diplayPriority;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    @JsonIgnore
-    abstract public ReportConnector getReportConnector();
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }

@@ -1,5 +1,4 @@
 type: "JDBC"
-reportName: "JDBC Test SQL"
 paramConfig:
   - type: String
     name: "Type something"
@@ -21,5 +20,7 @@ jdbc: "jdbc:mysql://localhost:3306/etsaPole_20130206"
 sql: "SELECT id, email, enabled, username, version FROM User <#if param.User?has_content>WHERE username=${method.value(param.User)}</#if><@limit />;"
 username: root
 password:
-diplayPriority: 1
-description: JDBC test stuff
+extraOptions:
+  reportName: "JDBC Test SQL"
+  diplayPriority: 1
+  description: JDBC test stuff

@@ -1,6 +1,9 @@
 {
     "type": "JDBC",
-    "reportName": "Json Report Test 2",
+    "extraOptions":
+    {
+        "reportName": "Json Report Test 2"
+    },
     "paramConfig":
     [
         {

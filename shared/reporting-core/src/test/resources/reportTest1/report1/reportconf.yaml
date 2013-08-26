@@ -1,5 +1,6 @@
 type: "JDBC"
-reportName: "Json Report Test 1"
+extraOptions:
+  reportName: "Json Report Test 1"
 paramConfig:
   - type: String
     name: "An anonymous string"

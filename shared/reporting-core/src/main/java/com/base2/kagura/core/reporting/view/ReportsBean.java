@@ -19,7 +19,9 @@ import java.util.*;
  */
 //@Named
 public class ReportsBean implements Serializable {
-//    @Inject
+    public static final String DISPLAY_PRIORITY_KEY = "displayPriority";
+    public static final String IMAGE_KEY = "image";
+    //    @Inject
     private ReportConnectorFactorySingleton reportConnectorFactorySingleton;
     private List<String> errors;
 
@@ -37,15 +39,20 @@ public class ReportsBean implements Serializable {
             public boolean evaluate(Object object) {
                 ReportConfig reportConfig = (ReportConfig)object;
                 if (reportConfig == null) return false;
-                return reportConfig.getDiplayPriority() > 0 && StringUtils.isNotBlank(reportConfig.getImage());
+                try
+                {
+                    String displayPriorityStr = reportConfig.getExtraOptions().get(DISPLAY_PRIORITY_KEY);
+                    if (displayPriorityStr == null) return false;
+                    Integer displayPriority = Integer.valueOf(displayPriorityStr);
+                    return displayPriority > 0 && StringUtils.isNotBlank(reportConfig.getExtraOptions().get(IMAGE_KEY));
+                } catch (Exception e)
+                {
+                    errors.add("Report " + reportConfig.getReportId() + " raised error " + e.toString());
+                    return false;
+                }
             }
         });
-        Collections.sort(configList, new Comparator<ReportConfig>() {
-            @Override
-            public int compare(ReportConfig reportConfig, ReportConfig reportConfig2) {
-                return (reportConfig != null ? reportConfig.getDiplayPriority() : 0) - (reportConfig2 != null ? reportConfig2.getDiplayPriority() : 0);
-            }
-        });
+        Collections.sort(configList, new ReportConfigComparator());
         return configList;
     }
 
@@ -57,15 +64,20 @@ public class ReportsBean implements Serializable {
             public boolean evaluate(Object object) {
                 ReportConfig reportConfig = (ReportConfig)object;
                 if (reportConfig == null) return false;
-                return reportConfig.getDiplayPriority() > 0 && StringUtils.isBlank(reportConfig.getImage());
+                try
+                {
+                    String displayPriorityStr = reportConfig.getExtraOptions().get(DISPLAY_PRIORITY_KEY);
+                    if (displayPriorityStr == null) return false;
+                    Integer displayPriority = Integer.valueOf(displayPriorityStr);
+                    return displayPriority > 0;
+                } catch (Exception e)
+                {
+                    errors.add("Report " + reportConfig.getReportId() + " raised error " + e.toString());
+                    return false;
+                }
             }
         });
-        Collections.sort(configList, new Comparator<ReportConfig>() {
-            @Override
-            public int compare(ReportConfig reportConfig, ReportConfig reportConfig2) {
-                return (reportConfig != null ? reportConfig.getDiplayPriority() : 0) - (reportConfig2 != null ? reportConfig2.getDiplayPriority() : 0);
-            }
-        });
+        Collections.sort(configList, new ReportConfigComparator());
         return configList;
     }
 
@@ -90,5 +102,27 @@ public class ReportsBean implements Serializable {
 
     public List<String> getErrors() {
         return errors;
+    }
+
+    private class ReportConfigComparator implements Comparator<ReportConfig> {
+        @Override
+        public int compare(ReportConfig reportConfig, ReportConfig reportConfig2) {
+            try {
+                Integer displayPriority = null;
+                if (reportConfig != null) {
+                    String displayPriorityStr = reportConfig.getExtraOptions().get(DISPLAY_PRIORITY_KEY);
+                    displayPriority = displayPriorityStr != null ? Integer.valueOf(displayPriorityStr) : 0;
+                }
+                Integer displayPriority2 = null;
+                if (reportConfig2 != null) {
+                    String displayPriority2Str = reportConfig2.getExtraOptions().get(DISPLAY_PRIORITY_KEY);
+                    displayPriority2 = displayPriority2Str != null ? Integer.valueOf(displayPriority2Str) : 0;
+                }
+                return displayPriority - displayPriority2;
+            } catch (Exception e) {
+                errors.add("Report " + reportConfig.getReportId() + " raised error " + e.toString());
+                return 0;
+            }
+        }
     }
 }

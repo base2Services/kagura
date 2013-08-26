@@ -1,5 +1,4 @@
 type: "Fake"
-reportName: "Fake sample 1"
 paramConfig:
   - type: String
     name: "An anonymous string"
@@ -21,5 +20,7 @@ rows:
     Description: "Unique Visitors"
   - Number: 234
     Description: String
-diplayPriority: 1
-image: resources/assets/img/features/feature-1.png
+extraOptions:
+  diplayPriority: 1
+  image: resources/assets/img/features/feature-1.png
+  reportName: "Fake sample 1"
