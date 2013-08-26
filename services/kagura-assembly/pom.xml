@@ -27,7 +27,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>assembly</artifactId>
+    <artifactId>kagura-assembly</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>kagura-assembly</name>
@@ -37,6 +37,7 @@
         <dependency>
             <groupId>com.base2.kagura.services</groupId>
             <artifactId>kagura-features</artifactId>
+            <type>pom</type>
         </dependency>
         <dependency>
             <groupId>org.apache.karaf</groupId>
@@ -149,24 +150,40 @@
                         </goals>
                         <configuration>
                             <descriptors>
-                                <descriptor>
-                                    mvn:org.apache.karaf.assemblies.features/standard/${karaf.version}/xml/features
-                                </descriptor>
-                                <descriptor>
-                                    mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features
-                                </descriptor>
-                                <descriptor>
-                                    mvn:com.base2.kagura.services/kagura-features/${project.version}/xml/features
-                                </descriptor>
+                                <descriptor>mvn:org.apache.karaf.assemblies.features/standard/${karaf.version}/xml/features</descriptor>
+                                <descriptor>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</descriptor>
+                                <descriptor>mvn:com.base2.kagura.services/kagura-features/${project.version}/xml/features</descriptor>
                             </descriptors>
                             <features>
                                 <!--<feature>camel-spring</feature>-->
-                                <feature>kagura-features</feature>
+                                <feature>camel-spring</feature>
+                                <feature>kagura-blueprint</feature>
+                                <!--<feature>kagura-features</feature>-->
                             </features>
                             <includeMvnBasedDescriptors>true</includeMvnBasedDescriptors>
                             <repository>target/features-repo</repository>
                         </configuration>
                         <inherited>false</inherited>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <configuration>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                    <delimiters>
+                        <delimiter>${*}</delimiter>
+                    </delimiters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>filter</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

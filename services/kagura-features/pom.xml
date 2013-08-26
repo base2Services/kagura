@@ -27,7 +27,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>features</artifactId>
+    <artifactId>kagura-features</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>kagura-features</name>
@@ -37,6 +37,7 @@
         <dependency>
             <groupId>com.base2.kagura.services</groupId>
             <artifactId>kagura-blueprint</artifactId>
+            <type>bundle</type>
         </dependency>
     </dependencies>
 
@@ -54,6 +55,7 @@
                         </goals>
                         <configuration>
                             <karafVersion>2.3.2</karafVersion>
+                            <featureName>kagura-features</featureName>
                         </configuration>
                     </execution>
                 </executions>

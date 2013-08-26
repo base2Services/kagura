@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <karaf.version>2.3.2</karaf.version>
+        <karaf.version>2.3.1</karaf.version>
         <camel.version>2.11.1</camel.version>
     </properties>
 
@@ -25,11 +25,13 @@
                 <groupId>com.base2.kagura.services</groupId>
                 <artifactId>kagura-blueprint</artifactId>
                 <version>${project.version}</version>
+                <type>bundle</type>
             </dependency>
             <dependency>
                 <groupId>com.base2.kagura.services</groupId>
                 <artifactId>kagura-features</artifactId>
                 <version>${project.version}</version>
+                <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>org.apache.karaf</groupId>
@@ -47,9 +49,9 @@
     </dependencyManagement>
 
     <modules>
-        <module>features</module>
-        <module>assembly</module>
-    <module>kagura-blueprint</module>
-  </modules>
+        <module>kagura-features</module>
+        <module>kagura-assembly</module>
+        <module>kagura-blueprint</module>
+    </modules>
 
 </project>

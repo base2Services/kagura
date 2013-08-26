@@ -34,7 +34,19 @@
                 <exclude>**/demos/**</exclude>
                 <exclude>bin/**</exclude>
                 <exclude>karaf-manual*.*</exclude>
+                <exclude>etc/org.apache.karaf.features.cfg</exclude>
             </excludes>
+        </fileSet>
+
+        <!-- Copy over resources -->
+        <fileSet>
+            <directory>target/classes/etc</directory>
+            <outputDirectory>/etc/</outputDirectory>
+            <includes>
+                <include>*.*</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0644</fileMode>
         </fileSet>
 
         <!-- Copy over bin/* separately to get the correct file mode -->
