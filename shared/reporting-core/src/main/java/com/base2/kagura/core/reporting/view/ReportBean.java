@@ -7,6 +7,7 @@ import com.base2.kagura.core.reporting.view.report.connectors.FakeDataReportConn
 import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class ReportBean implements Serializable {
     public ReportBean(ReportExportBean reportExportBean, ReportConnectorFactorySingleton reportConnectorFactorySingleton) {
         this.reportExportBean = reportExportBean;
         this.reportConnectorFactorySingleton = reportConnectorFactorySingleton;
-        errors = null;
+        errors = new ArrayList<String>();
     }
 
     public void init(){
