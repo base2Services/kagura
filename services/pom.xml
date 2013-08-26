@@ -17,15 +17,24 @@
     <properties>
         <karaf.version>2.3.1</karaf.version>
         <camel.version>2.11.1</camel.version>
+        <log4j.version>1.2.17</log4j.version>
+        <slf4j.version>1.7.5</slf4j.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Kagura -->
+            <!--<dependency>-->
+                <!--<groupId>com.base2.kagura.services</groupId>-->
+                <!--<artifactId>kagura-blueprint</artifactId>-->
+                <!--<version>${project.version}</version>-->
+                <!--<type>bundle</type>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>com.base2.kagura.services</groupId>
-                <artifactId>kagura-blueprint</artifactId>
+                <artifactId>kagura-camel</artifactId>
                 <version>${project.version}</version>
-                <type>bundle</type>
+                <type>jar</type>
             </dependency>
             <dependency>
                 <groupId>com.base2.kagura.services</groupId>
@@ -33,6 +42,7 @@
                 <version>${project.version}</version>
                 <type>pom</type>
             </dependency>
+            <!-- Karaf -->
             <dependency>
                 <groupId>org.apache.karaf</groupId>
                 <artifactId>apache-karaf</artifactId>
@@ -45,13 +55,83 @@
                 <version>${karaf.version}</version>
                 <type>tar.gz</type>
             </dependency>
+            <!-- OSGI -->
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>4.3.0</version>
+            </dependency>
+
+            <!-- Camel -->
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-spring</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core-osgi</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-blueprint</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-scala</artifactId>
+                <version>${camel.version}</version>
+            </dependency>
+            <!-- logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
+            <!-- testing -->
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-test-spring</artifactId>
+                <scope>test</scope>
+                <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-test</artifactId>
+                <scope>test</scope>
+                <version>${camel.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
     <modules>
         <module>kagura-features</module>
         <module>kagura-assembly</module>
-        <module>kagura-blueprint</module>
-    </modules>
+        <!--<module>kagura-blueprint</module>-->
+        <module>kagura-camel</module>
+  </modules>
 
 </project>

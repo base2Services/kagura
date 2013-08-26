@@ -36,9 +36,14 @@
     <dependencies>
         <dependency>
             <groupId>com.base2.kagura.services</groupId>
-            <artifactId>kagura-blueprint</artifactId>
-            <type>bundle</type>
+            <artifactId>kagura-camel</artifactId>
+            <type>jar</type>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.base2.kagura.services</groupId>-->
+            <!--<artifactId>kagura-blueprint</artifactId>-->
+            <!--<type>bundle</type>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
@@ -46,7 +51,7 @@
             <plugin>
                 <groupId>org.apache.karaf.tooling</groupId>
                 <artifactId>features-maven-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>${karaf.version}</version>
                 <executions>
                     <execution>
                         <id>generate-features-file</id>
@@ -54,7 +59,7 @@
                             <goal>generate-features-file</goal>
                         </goals>
                         <configuration>
-                            <karafVersion>2.3.2</karafVersion>
+                            <karafVersion>${karaf.version}</karafVersion>
                             <featureName>kagura-features</featureName>
                         </configuration>
                     </execution>
