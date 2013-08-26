@@ -19,6 +19,8 @@
         <camel.version>2.11.1</camel.version>
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.5</slf4j.version>
+        <spring.version>3.0.5.RELEASE</spring.version>
+        <junit.version>4.8.2</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -110,6 +112,34 @@
                 <version>${log4j.version}</version>
             </dependency>
 
+            <!-- spring -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+                <exclusions>
+                    <!-- Exclude Commons Logging in favor of SLF4j -->
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <type>jar</type>
+                <scope>test</scope>
+                <version>${spring.version}</version>
+            </dependency>
+
             <!-- testing -->
             <dependency>
                 <groupId>org.apache.camel</groupId>
@@ -122,6 +152,12 @@
                 <artifactId>camel-test</artifactId>
                 <scope>test</scope>
                 <version>${camel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
             </dependency>
 
         </dependencies>
