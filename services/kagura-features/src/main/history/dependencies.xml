@@ -3,12 +3,11 @@
     <feature>
         <bundle>mvn:com.base2.kagura.services/kagura-camel/1.0-SNAPSHOT</bundle>
         <bundle>mvn:log4j/log4j/1.2.17</bundle>
+        <bundle>mvn:org.apache.camel/camel-core-osgi/2.11.1</bundle>
         <bundle>mvn:org.apache.camel/camel-core/2.11.1</bundle>
         <bundle>mvn:org.apache.camel/camel-spring/2.11.1</bundle>
-        <bundle>mvn:org.slf4j/slf4j-api/1.6.6</bundle>
         <bundle>mvn:org.slf4j/slf4j-api/1.7.5</bundle>
         <bundle>mvn:org.slf4j/slf4j-log4j12/1.7.5</bundle>
-        <bundle>mvn:org.springframework/spring-aop/3.1.4.RELEASE</bundle>
         <bundle>mvn:org.springframework/spring-asm/3.1.4.RELEASE</bundle>
         <bundle>mvn:org.springframework/spring-beans/3.1.4.RELEASE</bundle>
         <bundle>mvn:org.springframework/spring-context/3.1.4.RELEASE</bundle>

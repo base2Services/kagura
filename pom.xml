@@ -12,22 +12,53 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java-version.source>1.6</java-version.source>
     </properties>
 
     <repositories>
+        <repository>
+            <id>springsource-repo</id>
+            <name>SpringSource Repository</name>
+            <url>http://repo.springsource.org/release</url>
+        </repository>
+        <repository>
+            <id>JavaDotNet</id>
+            <url>https://maven.java.net/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>http://repo.maven.apache.org/maven2/</url>
+        </repository>
         <repository>
             <id>fusesource</id>
             <url>http://repo.fusesource.com/nexus/content/groups/public/</url>
         </repository>
         <repository>
-            <id>springsource-repo</id>
-            <name>SpringSource Repository</name>
-            <url>http://repo.springsource.org/release</url>
+            <id>spring-osgified-artifacts</id>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <name>Springframework Maven OSGified Artifacts Repository</name>
+            <url>http://maven.springframework.org/osgi</url>
         </repository>
     </repositories>
 
     <modules>
         <module>services</module>
     </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>${java-version.source}</source>
+                    <target>${java-version.source}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

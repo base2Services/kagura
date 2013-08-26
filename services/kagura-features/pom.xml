@@ -64,6 +64,8 @@
                     <logDependencyChanges>true</logDependencyChanges>
                     <overwriteChangedDependencies>true</overwriteChangedDependencies>
                     <featuresFile>src/main/feature/feature.xml</featuresFile>
+                    <includeMvnBasedDescriptors>true</includeMvnBasedDescriptors>
+                    <addBundlesToPrimaryFeature>true</addBundlesToPrimaryFeature>
                 </configuration>
             </plugin>
         </plugins>
