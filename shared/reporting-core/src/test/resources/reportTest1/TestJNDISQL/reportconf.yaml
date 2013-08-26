@@ -1,0 +1,21 @@
+type: "JNDI"
+reportName: "JNDI Test SQL"
+paramConfig:
+  - type: String
+    name: "User"
+    help: ""
+    placeholder: ""
+    value:
+columns:
+  - name: id
+    styleType: text
+  - name: enabled
+    styleType: text
+  - name: username
+    styleType: text
+  - name: version
+    styleType: text
+jndi: "java:/medimailDS"
+sql: "SELECT id, active, username, version FROM User <#if param.User?has_content>WHERE username=${method.value(param.User)}</#if><@limit />;"
+diplayPriority: 2
+description: JNDI test stuff

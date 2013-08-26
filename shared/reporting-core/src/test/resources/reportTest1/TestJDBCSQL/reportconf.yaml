@@ -1,0 +1,25 @@
+type: "JDBC"
+reportName: "JDBC Test SQL"
+paramConfig:
+  - type: String
+    name: "Type something"
+    help: ""
+    placeholder: ""
+    value:
+columns:
+  - name: id
+    styleType: text
+  - name: email
+    styleType: text
+  - name: enabled
+    styleType: text
+  - name: username
+    styleType: text
+  - name: version
+    styleType: text
+jdbc: "jdbc:mysql://localhost:3306/etsaPole_20130206"
+sql: "SELECT id, email, enabled, username, version FROM User <#if param.User?has_content>WHERE username=${method.value(param.User)}</#if><@limit />;"
+username: root
+password:
+diplayPriority: 1
+description: JDBC test stuff
