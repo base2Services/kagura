@@ -17,15 +17,15 @@ import java.util.*;
  * Time: 11:44 AM
  * To change this template use File | Settings | File Templates.
  */
-//@Named
 public class ReportsBean implements Serializable {
     public static final String DISPLAY_PRIORITY_KEY = "displayPriority";
     public static final String IMAGE_KEY = "image";
-    //    @Inject
+
     private ReportConnectorFactorySingleton reportConnectorFactorySingleton;
     private List<String> errors;
 
-    public ReportsBean() {
+    public ReportsBean(ReportConnectorFactorySingleton reportConnectorFactorySingleton) {
+        this.reportConnectorFactorySingleton = reportConnectorFactorySingleton;
         errors = new ArrayList<String>();
     }
 

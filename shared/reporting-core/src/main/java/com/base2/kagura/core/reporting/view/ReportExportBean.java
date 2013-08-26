@@ -33,12 +33,7 @@ import java.util.Map;
  * Time: 1:49 PM
  * To change this template use File | Settings | File Templates.
  */
-//@Named
 public class ReportExportBean implements Serializable {
-//    @Inject
-    ReportBean reportBean;
-
-
     public void generatePdf(OutputStream out, List<Map<String, Object>> rows, List<ColumnDef> columns) {
         try {
             Document document = new Document();

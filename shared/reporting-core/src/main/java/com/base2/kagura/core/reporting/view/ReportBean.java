@@ -6,15 +6,6 @@ import com.base2.kagura.core.reporting.view.report.ReportConnectorFactorySinglet
 import com.base2.kagura.core.reporting.view.report.connectors.FakeDataReportConnector;
 import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
 
-//import javax.enterprise.context.Conversation;
-//import javax.enterprise.context.ConversationScoped;
-//import javax.faces.application.FacesMessage;
-//import javax.faces.context.FacesContext;
-//import javax.faces.event.ActionEvent;
-//import javax.inject.Inject;
-//import javax.inject.Named;
-//import javax.servlet.ServletOutputStream;
-//import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +17,6 @@ import java.util.Map;
  * Time: 4:45 PM
  * To change this template use File | Settings | File Templates.
  */
-//@Named
-//@ConversationScoped
 public class ReportBean implements Serializable {
     public static final int EXPORT_PAGE_LIMIT = 10000;
     private String reportId;
@@ -37,24 +26,18 @@ public class ReportBean implements Serializable {
     private List<Map<String, Object>> rows; // Second string may become "object" inlight of changes regarding columns and jdbc output.
     private ReportConnector reportConnector;
 
-//    @Inject
-    ReportExportBean reportExportBean;
+    private ReportExportBean reportExportBean;
 
-//    @Inject
-//    private Conversation conversation;
-
-//    @Inject
     private ReportConnectorFactorySingleton reportConnectorFactorySingleton;
 
-    public ReportBean() {
+    public ReportBean(ReportExportBean reportExportBean, ReportConnectorFactorySingleton reportConnectorFactorySingleton) {
+        this.reportExportBean = reportExportBean;
+        this.reportConnectorFactorySingleton = reportConnectorFactorySingleton;
         errors = null;
     }
 
     public void init(){
-//        if (conversation.isTransient()) {
-//            conversation.begin();
             resetState();
-//        }
     }
 
     private void resetState() {
@@ -158,7 +141,6 @@ public class ReportBean implements Serializable {
     }
 
     public OutputStream download(String filetype, boolean all) {
-
 //        response.setHeader("Content-Disposition", "attachment;filename=" + getReportId() + "." + filetype);
         OutputStream out = new ByteArrayOutputStream();
         int prevpage = getPage();
