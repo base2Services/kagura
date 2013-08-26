@@ -14,11 +14,11 @@ public class Activator implements BundleActivator {
     private static final Logger LOG = LoggerFactory.getLogger(Activator.class);
 
     public void start(BundleContext context) {
-        LOG.info("Starting the bundle");
+        LOG.info("Starting the bundle: " + this.getClass().getName());
     }
 
     public void stop(BundleContext context) {
-        LOG.info("Stopping the bundle");
+        LOG.info("Stopping the bundle: " + this.getClass().getName());
     }
 
 }
