@@ -30,12 +30,12 @@
                 <!--<version>${project.version}</version>-->
                 <!--<type>bundle</type>-->
             <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>com.base2.kagura.services</groupId>-->
-                <!--<artifactId>kagura-camel</artifactId>-->
-                <!--<version>${project.version}</version>-->
-                <!--<type>jar</type>-->
-            <!--</dependency>-->
+            <dependency>
+                <groupId>com.base2.kagura.services</groupId>
+                <artifactId>kagura-camel</artifactId>
+                <version>${project.version}</version>
+                <type>jar</type>
+            </dependency>
             <dependency>
                 <groupId>com.base2.kagura.services</groupId>
                 <artifactId>kagura-features</artifactId>
