@@ -155,12 +155,9 @@
                                 <descriptor>mvn:com.base2.kagura.services/kagura-features/${project.version}/xml/features</descriptor>
                             </descriptors>
                             <features>
+                                <feature>cxf</feature>
                                 <feature>camel-spring</feature>
-                                <!--<feature>camel-core-osgi</feature>-->
-                                <!--<feature>camel-blueprint</feature>-->
-                                <!--<feature>kagura-blueprint</feature>-->
                                 <feature>kagura-camel</feature>
-                                <!--<feature>kagura-features</feature>-->
                             </features>
                             <includeMvnBasedDescriptors>true</includeMvnBasedDescriptors>
                             <repository>target/features-repo</repository>

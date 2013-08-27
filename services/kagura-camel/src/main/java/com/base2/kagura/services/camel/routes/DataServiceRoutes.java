@@ -9,7 +9,7 @@ import org.apache.camel.builder.RouteBuilder;
 public class DataServiceRoutes extends RouteBuilder {
     @Override
     public void configure() throws Exception {
-        from("direct:returnData")
+        from("cxfrs:bean:rsServer")
                 .log("Executed")
                 .routeId("RouteId");
     }
