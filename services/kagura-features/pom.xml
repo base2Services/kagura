@@ -37,13 +37,11 @@
         <dependency>
             <groupId>com.base2.kagura.services</groupId>
             <artifactId>kagura-camel</artifactId>
-            <type>jar</type>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.base2.kagura.services</groupId>-->
-            <!--<artifactId>kagura-blueprint</artifactId>-->
-            <!--<type>bundle</type>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.base2.kagura.shared</groupId>
+            <artifactId>kagura-resources</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

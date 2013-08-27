@@ -12,7 +12,11 @@
 	<name>kagura-camel</name>
 
 	<dependencies>
-
+        <!-- Kagura -->
+        <dependency>
+            <groupId>com.base2.kagura.shared</groupId>
+            <artifactId>kagura-resources</artifactId>
+        </dependency>
         <!-- OSGI -->
         <dependency>
             <groupId>org.osgi</groupId>
@@ -22,6 +26,10 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jackson</artifactId>
         </dependency>
 
         <dependency>
@@ -35,6 +43,10 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-cxf-transport</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-stream</artifactId>
         </dependency>
 
         <!-- Spring -->
@@ -92,13 +104,33 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+        <!-- Object mappers / converters -->
+        <!--<dependency>-->
+            <!--<groupId>com.fasterxml.jackson.dataformat</groupId>-->
+            <!--<artifactId>jackson-dataformat-yaml</artifactId>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
     </dependencies>
 
 	<build>
 		<finalName>kagura-camel</finalName>
-		<plugins>
 
-			<!-- Facilitates downloading source and javadoc in Eclipse -->
+        <plugins>
+            <!-- Facilitates downloading source and javadoc in Eclipse -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>

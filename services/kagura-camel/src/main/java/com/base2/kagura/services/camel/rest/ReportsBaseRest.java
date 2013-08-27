@@ -19,4 +19,14 @@ public class ReportsBaseRest {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String test(){return null;}
+
+    @Path("test2")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String test2(){return null;}
+
+    @Path("favicon.ico")
+    @GET
+    @Produces("image/x-icon")
+    public Byte[] favicon(){return null;}
 }
