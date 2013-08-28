@@ -19,6 +19,7 @@
         <camel.version>2.11.1</camel.version>
         <spring.version>3.0.5.RELEASE</spring.version>
         <jackson.version>2.2.2</jackson.version>
+        <cxf.version>2.7.5</cxf.version>
     </properties>
 
     <dependencyManagement>
@@ -115,6 +116,17 @@
                 <groupId>org.apache.camel</groupId>
                 <artifactId>camel-stream</artifactId>
                 <version>${camel.version}</version>
+            </dependency>
+            <!-- CXF -->
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-security-oauth2</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-bundle-jaxrs</artifactId>
+                <version>${cxf.version}</version>
             </dependency>
             <!-- logging -->
             <dependency>

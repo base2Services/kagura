@@ -12,6 +12,12 @@
 	<name>kagura-camel</name>
 
 	<dependencies>
+        <!-- java -->
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+        </dependency>
         <!-- Kagura -->
         <dependency>
             <groupId>com.base2.kagura.shared</groupId>
@@ -47,6 +53,16 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-stream</artifactId>
+        </dependency>
+
+        <!-- CXF -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-security-oauth2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-bundle-jaxrs</artifactId>
         </dependency>
 
         <!-- Spring -->
