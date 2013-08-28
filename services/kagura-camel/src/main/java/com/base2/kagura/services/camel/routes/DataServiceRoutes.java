@@ -23,8 +23,7 @@ public class DataServiceRoutes extends RouteBuilder {
 
         from("direct:rs-test")
                 .setBody(simple("hi"))
-                .routeId("rsTestRouteId")
-        ;
+                .routeId("rsTestRouteId");
 
         from("direct:rs-favicon")
                 .process(new Processor() {
@@ -33,8 +32,7 @@ public class DataServiceRoutes extends RouteBuilder {
                         exchange.getIn().setBody(ResourcesUtils.getFaviconPng());
                     }
                 })
-                .routeId("rsFaviconRouteId")
-        ;
+                .routeId("rsFaviconRouteId");
 
         from("direct:rs-test2")
                 .process(new Processor() {
@@ -44,8 +42,7 @@ public class DataServiceRoutes extends RouteBuilder {
                     }
                 })
                 .marshal().json(JsonLibrary.Jackson)
-                .routeId("rsTest2RouteId")
-        ;
+                .routeId("rsTest2RouteId");
 
     }
 }

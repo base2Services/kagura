@@ -10,23 +10,42 @@ import java.util.List;
  */
 @Path("/")
 public class ReportsBaseRest {
+    /**
+     * Returns a list of reports
+     * @param authToken Authentication token
+     * @return Returns a list of reports
+     */
     @Path("reports")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> getReports(@CookieParam("AuthToken") String authToken){return null;}
 
+    /**
+     * Test command.
+     * @return Returns "test"
+     */
     @Path("test")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String test(){return null;}
 
+    /**
+     * Test command.
+     * @return Returns camel headers
+     */
     @Path("test2")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String test2(){return null;}
 
+    /**
+     * Fav icon
+     * @return favicon stream
+     */
     @Path("favicon.ico")
     @GET
     @Produces("image/x-icon")
     public Byte[] favicon(){return null;}
+
+
 }
