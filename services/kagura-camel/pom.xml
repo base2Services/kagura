@@ -242,8 +242,8 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
                         <Bundle-Activator>com.base2.kagura.services.camel.Activator</Bundle-Activator>
-                        <Export-Package>com.base2.kagura.services*;version=${project.version}</Export-Package>
-                        <Import-Package>javax.servlet, javax.servlet.http, *</Import-Package>
+                        <Export-Package>com.base2.kagura.services ;version=${project.version}</Export-Package>
+                        <Import-Package>javax.servlet, javax.servlet.http,  </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>

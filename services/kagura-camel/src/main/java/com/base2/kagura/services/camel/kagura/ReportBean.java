@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 public class ReportBean {
     private ServerBean serverBean;
 
+
+
     @Autowired
     public void setServerBean(ServerBean serverBean) {
         this.serverBean = serverBean;

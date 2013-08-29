@@ -24,4 +24,8 @@
                     serviceClass="com.base2.kagura.services.camel.rest.AuthRest"
                     loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
      </cxf:rsServer>
+    <cxf:rsServer id="rsFaviconServer" address="http://0.0.0.0:8432/favicon.ico"
+                  serviceClass="com.base2.kagura.services.camel.rest.FaviconRest"
+                  loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
+    </cxf:rsServer>
 </beans>

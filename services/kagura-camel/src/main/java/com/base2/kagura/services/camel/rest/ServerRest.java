@@ -41,14 +41,4 @@ public class ServerRest {
     @Produces(MediaType.APPLICATION_JSON)
     public String test2(){return null;}
 
-    /**
-     * Fav icon
-     * @return favicon stream
-     */
-    @Path("favicon.ico")
-    @GET
-    @Produces("image/x-icon")
-    public Byte[] favicon(){return null;}
-
-
 }
