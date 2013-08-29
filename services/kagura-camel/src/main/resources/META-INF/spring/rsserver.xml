@@ -4,43 +4,24 @@
        xmlns:cxf="http://camel.apache.org/schema/cxf"
        xmlns:jaxrs="http://cxf.apache.org/jaxrs"
        xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
     ">
 
-    <!-- implements OAuthDataProvider -->
-    <!--<bean id="oauthProvider" class="com.base2.kagura.services.camel.oauth.StaticOAuthProvider"/>-->
-
-    <!--<bean id="accessTokenService" class="org.apache.cxf.rs.security.oauth2.services.AccessTokenService">-->
-        <!--<property name="dataProvider" ref="oauthProvider"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="authorizationService" class="org.apache.cxf.rs.security.oauth2.services.AuthorizationCodeGrantService">-->
-        <!--<property name="dataProvider" ref="oauthProvider"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="authorizationService" class="org.apache.cxf.rs.security.oauth2.grants.clientcred.ClientCredentialsGrantHandler">-->
-        <!--<property name="dataProvider" ref="oauthProvider"/>-->
-    <!--</bean>-->
-
-    <!--<bean id="accessTokenValidateService" class="org.apache.cxf.rs.security.oauth2.services.AccessTokenValidatorService">-->
-        <!--<property name="dataProvider" ref="oauthProvider" />-->
-    <!--</bean>-->
-
-
-    <!--<jaxrs:server id="oauthServer" address="http://0.0.0.0:${kagura.camel.rest.port:8432}/oauth/">-->
-        <!--<jaxrs:serviceBeans>-->
-            <!--<ref bean="accessTokenService" />-->
-            <!--<ref bean="authorizationService" />-->
-            <!--<ref bean="accessTokenValidateService" />-->
-        <!--</jaxrs:serviceBeans>-->
-    <!--</jaxrs:server>-->
 
      <!-- Defined the server endpoint to create the cxf-rs consumer -->
-     <cxf:rsServer id="rsServer" address="http://0.0.0.0:${kagura.camel.rest.port:8432}/report/"
-                    serviceClass="com.base2.kagura.services.camel.rest.ReportsBaseRest"
+     <cxf:rsServer id="rsReportsServer" address="http://0.0.0.0:${kagura.camel.rest.port:8432}/report/"
+                    serviceClass="com.base2.kagura.services.camel.rest.ReportsRest"
+                    loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
+     </cxf:rsServer>
+     <cxf:rsServer id="rsServer" address="http://0.0.0.0:${kagura.camel.rest.port:8432}/server/"
+                    serviceClass="com.base2.kagura.services.camel.rest.ServerRest"
+                    loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
+     </cxf:rsServer>
+     <cxf:rsServer id="rsAuthServer" address="http://0.0.0.0:${kagura.camel.rest.port:8432}/auth/"
+                    serviceClass="com.base2.kagura.services.camel.rest.AuthRest"
                     loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
      </cxf:rsServer>
 </beans>
