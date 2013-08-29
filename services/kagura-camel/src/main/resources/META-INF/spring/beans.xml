@@ -20,6 +20,9 @@
         </packageScan>
     </camelContext>
 
+    <bean id="authBean" class="com.base2.kagura.services.camel.kagura.AuthBean" />
+    <bean id="reportBean" class="com.base2.kagura.services.camel.kagura.ReportBean" />
+
     <!-- default value -->
     <osgix:cm-properties id="kagura.services.camel.defaults" persistent-id="com.base2.kagura.services.camel">
     </osgix:cm-properties>

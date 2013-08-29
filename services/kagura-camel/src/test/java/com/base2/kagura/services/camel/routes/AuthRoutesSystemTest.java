@@ -1,5 +1,7 @@
 package com.base2.kagura.services.camel.routes;
 
+import com.jayway.restassured.response.Response;
+import com.jayway.restassured.response.ResponseBody;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -14,14 +16,38 @@ import static org.hamcrest.Matchers.*;
 public class AuthRoutesSystemTest extends CamelSpringTestSupport {
 
     @Test
-    public void test()
+    public void tryAuthFailNopass()
     {
-        expect().body(equalTo("hi")).when().get("http://localhost:8432/auth/test");
+        expect().body(equalTo("{\"error\":\"Authentication failure\",\"token\":\"\"}"))
+                .when().request().body("").post("http://localhost:8432/auth/login/username");
+    }
+    @Test
+    public void tryAuthFailGoodPass()
+    {
+        expect()
+                    .body("error",equalTo(""))
+                    .body("issue",not(equalTo("")))
+                .when().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser");
+    }
+    @Test
+    public void authenticationPersists()
+    {
+        ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
+        String token = login.jsonPath().get("token");
+        expect().body(equalTo("OK"))
+                .when().get("http://localhost:8432/auth/test/{1}", token);
+    }
+    @Test
+    public void authenticationPersistsInvalidFails()
+    {
+        ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
+        String token = login.jsonPath().get("token");
+        expect().body(equalTo("Not OK"))
+                .when().get("http://localhost:8432/auth/test/{1}", token+"asdf");
     }
 
     @Override
     protected AbstractApplicationContext createApplicationContext() {
         return new ClassPathXmlApplicationContext("/META-INF/spring/beans-test.xml");
-//        return new ClassPathXmlApplicationContext("classpath:/META-INF/spring/rsserver.xml");
     }
 }

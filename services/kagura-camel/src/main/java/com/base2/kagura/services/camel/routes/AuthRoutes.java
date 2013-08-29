@@ -1,5 +1,6 @@
 package com.base2.kagura.services.camel.routes;
 
+import com.base2.kagura.services.camel.kagura.AuthException;
 import com.base2.kagura.shared.ResourcesUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -15,12 +16,27 @@ public class AuthRoutes extends RouteBuilder {
     public void configure() throws Exception {
         from("cxfrs:bean:rsAuthServer?bindingStyle=SimpleConsumer")
                 .log("Executed ${header.operationName}")
-                .recipientList(simple("direct:rs-${header.operationName}"))
+                .doTry()
+                    .recipientList(simple("direct:rs-${header.operationName}")).end()
+                .doCatch(AuthException.class)
+                    .beanRef("authBean", "buildAuthFail")
+                    .marshal().json(JsonLibrary.Jackson)
+                .end()
                 .routeId("cxfrsAuthInRouteId");
 
         from("direct:rs-getAuthToken")
-                .setBody(simple("hi"))
+                .beanRef("authBean", "authenticate")
+                .marshal().json(JsonLibrary.Jackson)
                 .routeId("rsGetAuthRouteId");
+
+        from("direct:rs-testAuthToken")
+                .doTry()
+                    .beanRef("authBean", "isLoggedIn")
+                    .setBody(constant("OK"))
+                .doCatch(AuthException.class)
+                    .setBody(constant("Not OK"))
+                .end()
+                .routeId("rsTestAuthTokenRouteId");
 
     }
 }

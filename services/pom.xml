@@ -22,6 +22,7 @@
         <cxf.version>2.7.5</cxf.version>
         <rest-assured.version>1.8.1</rest-assured.version>
         <groovy.version>2.1.2</groovy.version>
+        <guava-osgi.version>11.0.0</guava-osgi.version>
     </properties>
 
     <dependencyManagement>
@@ -47,6 +48,32 @@
                 <groupId>com.base2.kagura.shared</groupId>
                 <artifactId>kagura-resources</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <!-- Commons -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.googlecode.guava-osgi</groupId>
+                <artifactId>guava-osgi</artifactId>
+                <version>${guava-osgi.version}</version>
             </dependency>
             <!-- Karaf -->
             <dependency>

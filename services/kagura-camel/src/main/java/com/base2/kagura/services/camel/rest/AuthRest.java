@@ -21,4 +21,15 @@ public class AuthRest {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
     public String getAuthToken(@PathParam("user") String user, String password){return null;}
+
+    /**
+     * Tests login status of token
+     * @param authToken Auth token
+     * @return either OK, or Not OK
+     */
+    @Path("test/{authToken}")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String testAuthToken(@PathParam("authToken") String authToken){return null;}
+
 }

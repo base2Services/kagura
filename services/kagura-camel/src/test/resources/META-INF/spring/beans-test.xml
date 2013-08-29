@@ -9,6 +9,9 @@
 
     <import resource="rsserver-test.xml" />
 
+    <bean id="authBean" class="com.base2.kagura.services.camel.kagura.AuthBean" />
+    <bean id="reportBean" class="com.base2.kagura.services.camel.kagura.ReportBean" />
+
     <camelContext xmlns="http://camel.apache.org/schema/spring" id="kagura-camel-context">
         <packageScan>
             <package>com.base2.kagura.services.camel.routes</package>

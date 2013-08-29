@@ -16,7 +16,7 @@
                     serviceClass="com.base2.kagura.services.camel.rest.ServerRest"
                     loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
      </cxf:rsServer>
-     <cxf:rsServer id="rsAuthServer" address="http://0.0.0.0:8432/server/"
+     <cxf:rsServer id="rsAuthServer" address="http://0.0.0.0:8432/auth/"
                     serviceClass="com.base2.kagura.services.camel.rest.AuthRest"
                     loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
      </cxf:rsServer>
