@@ -41,6 +41,10 @@ public class AuthBean {
         exchange.getOut().setBody(response);
     }
 
+    public Map<String, AuthDetails> getTokens() {
+        return tokens;
+    }
+
     public static class AuthDetails {
         private Boolean loggedIn;
         private String username;
