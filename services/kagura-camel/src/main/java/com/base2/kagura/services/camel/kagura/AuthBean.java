@@ -80,6 +80,15 @@ public class AuthBean {
         exchange.getOut().setBody(response);
     }
 
+    public void logout(@Header("authToken") String authToken, Exchange exchange) throws AuthException {
+        if (tokens.containsKey(authToken) && tokens.get(authToken).getLoggedIn())
+        {
+            tokens.remove(authToken);
+            return;
+        }
+        throw new AuthException("User is not logged in.");
+    }
+
     public List<Group> getGroups()
     {
         String filename = FilenameUtils.concat(serverBean.getConfigPath(), "groups.yaml");

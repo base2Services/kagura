@@ -32,4 +32,14 @@ public class AuthRest {
     @Produces(MediaType.TEXT_PLAIN)
     public String testAuthToken(@PathParam("authToken") String authToken){return null;}
 
+    /**
+     * Allows users to logout
+     * @param authToken Auth token
+     * @return either Done, or Not done
+     */
+    @Path("logout/{authToken}")
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String logout(@PathParam("authToken") String authToken){return null;}
+
 }

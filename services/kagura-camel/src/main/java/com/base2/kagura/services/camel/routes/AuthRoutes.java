@@ -38,5 +38,14 @@ public class AuthRoutes extends RouteBuilder {
                 .end()
                 .routeId("rsTestAuthTokenRouteId");
 
+        from("direct:rs-logout")
+                .doTry()
+                    .beanRef("authBean", "logout")
+                    .setBody(constant("Done"))
+                .doCatch(AuthException.class)
+                    .setBody(constant("Not done"))
+                .end()
+                .routeId("rsLogoutRouteId");
+
     }
 }
