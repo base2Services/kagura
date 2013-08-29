@@ -34,11 +34,12 @@ public class ReportsRest {
 
     /**
      * Exports report as a file type;
+     * @param filetype File type, CSV, PDF, or XLS, defaults to CSV
      * @return Returns a list of reports
      */
     @Path("export")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Object exportReport(){return null;}
+    @Produces(MediaType.WILDCARD)
+    public Object exportReport(@DefaultValue("CSV") @QueryParam("filetype") String filetype){return null;}
 
 }

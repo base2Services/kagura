@@ -9,8 +9,16 @@
 
     <import resource="rsserver-test.xml" />
 
-    <bean id="authBean" class="com.base2.kagura.services.camel.kagura.AuthBean" />
-    <bean id="reportBean" class="com.base2.kagura.services.camel.kagura.ReportBean" />
+    <bean id="serverBean" class="com.base2.kagura.services.camel.kagura.ServerBean">
+        <property name="configPath" value="/TestReports/" />
+    </bean>
+
+    <bean id="authBean" class="com.base2.kagura.services.camel.kagura.AuthBean">
+        <property name="serverBean" ref="serverBean" />
+    </bean>
+    <bean id="reportBean" class="com.base2.kagura.services.camel.kagura.ReportBean">
+        <property name="serverBean" ref="serverBean" />
+    </bean>
 
     <camelContext xmlns="http://camel.apache.org/schema/spring" id="kagura-camel-context">
         <packageScan>

@@ -1,5 +1,6 @@
 package com.base2.kagura.services.camel.routes;
 
+import com.base2.kagura.services.camel.kagura.AuthException;
 import com.base2.kagura.shared.ResourcesUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -14,7 +15,16 @@ public class ReportsRoutes extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("cxfrs:bean:rsReportsServer?bindingStyle=SimpleConsumer")
-                .log("Executed ${header.operationName}")
+                .log("Executing ${header.operationName}")
+                .doTry()
+                    .beanRef("authBean", "isLoggedIn")
+                    .recipientList(simple("direct:rs-${header.operationName}")).end()
+                .doCatch(AuthException.class)
+                    .log("Authentication failed ${header.operationName}")
+                    .beanRef("authBean", "buildAuthFail")
+                    .marshal().json(JsonLibrary.Jackson)
+                .end()
+
                 .recipientList(simple("direct:rs-${header.operationName}"))
                 .routeId("cxfrsReportsInRouteId");
 

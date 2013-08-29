@@ -1,0 +1,2 @@
+- { username: "testuser", password: "testuserpass", groups: ["test reports"] }
+- { username: "testuser2", password: "testuserpass2", groups: ["test reports"] }

@@ -1,11 +1,24 @@
 package com.base2.kagura.services.camel.kagura;
 
+import com.base2.kagura.services.camel.model.Group;
+import com.base2.kagura.services.camel.model.User;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.camel.Body;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -14,8 +27,11 @@ import java.util.UUID;
  *         Date: 29/08/13
  */
 public class AuthBean {
+    private static final Logger LOG = LoggerFactory.getLogger(AuthBean.class);
 
     private Map<String, AuthDetails> tokens = new HashMap<String, AuthDetails>();
+
+    ServerBean serverBean;
 
     public void isLoggedIn(@Header("authToken") String authToken, Exchange exchange) throws AuthException {
         if (tokens.containsKey(authToken) && tokens.get(authToken).getLoggedIn()) return;
@@ -41,8 +57,58 @@ public class AuthBean {
         exchange.getOut().setBody(response);
     }
 
-    public Map<String, AuthDetails> getTokens() {
-        return tokens;
+    public List<Group> getGroups()
+    {
+        String filename = FilenameUtils.concat(serverBean.getConfigPath(), "groups.yaml");
+        File selectedYaml = null;
+        try {
+            selectedYaml = new File(new URI(filename));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            LOG.error("Can not find: {}", filename);
+            return null;
+        }
+        if (!selectedYaml.exists())
+        {
+            LOG.error("Can not find: {}", filename);
+            return null;
+        }
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        List<Group> groups = null;
+        try {
+            groups = mapper.readValue(selectedYaml, new TypeReference<List<Group>>(){});
+        } catch (IOException e) {
+            LOG.warn("Error parsing {}", filename);
+            e.printStackTrace();
+        }
+        return groups;
+    }
+
+    public List<User> getUsers()
+    {
+        String filename = FilenameUtils.concat(serverBean.getConfigPath(), "users.yaml");
+        File selectedYaml = null;
+        try {
+            selectedYaml = new File(new URI(filename));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            LOG.error("Can not find: {}", filename);
+            return null;
+        }
+        if (!selectedYaml.exists())
+        {
+            LOG.error("Can not find: {}", filename);
+            return null;
+        }
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        List<User> users = null;
+        try {
+            users = mapper.readValue(selectedYaml, new TypeReference<List<User>>(){});
+        } catch (IOException e) {
+            LOG.warn("Error parsing {}", filename);
+            e.printStackTrace();
+        }
+        return users;
     }
 
     public static class AuthDetails {
@@ -75,5 +141,17 @@ public class AuthBean {
         public UUID getToken() {
             return token;
         }
+    }
+
+    public Map<String, AuthDetails> getTokens() {
+        return tokens;
+    }
+
+    public ServerBean getServerBean() {
+        return serverBean;
+    }
+
+    public void setServerBean(ServerBean serverBean) {
+        this.serverBean = serverBean;
     }
 }
