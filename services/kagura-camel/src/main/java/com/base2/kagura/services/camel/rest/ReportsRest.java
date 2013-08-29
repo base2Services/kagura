@@ -1,0 +1,44 @@
+package com.base2.kagura.services.camel.rest;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+/**
+ * @author aubels
+ *         Date: 26/08/13
+ */
+@Path("{id}")
+public class ReportsRest {
+    @PathParam("id")
+    String id;
+    @CookieParam("AuthToken")
+    String authToken;
+    /**
+     *
+     * @return Returns a list of reports
+     */
+    @Path("details")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Object reportDetails(){return null;}
+
+    /**
+     *
+     * @return Returns a list of reports
+     */
+    @Path("run")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Object runReport(@DefaultValue("0") @QueryParam("page") String page){return null;}
+
+    /**
+     * Exports report as a file type;
+     * @return Returns a list of reports
+     */
+    @Path("export")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Object exportReport(){return null;}
+
+}

@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author aubels
  *         Date: 26/08/13
  */
-public class DataServiceRoutes extends RouteBuilder {
+public class ServerRoutes extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("cxfrs:bean:rsServer?bindingStyle=SimpleConsumer")
