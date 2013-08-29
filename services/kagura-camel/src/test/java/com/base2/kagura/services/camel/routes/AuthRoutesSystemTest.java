@@ -45,6 +45,16 @@ public class AuthRoutesSystemTest extends CamelSpringTestSupport {
                 .when().get("http://localhost:8432/auth/test/{1}", token+"asdf");
     }
 
+    @Test
+    public void authenticationLogoutWorks()
+    {
+        ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
+        String token = login.jsonPath().get("token");
+        expect().body(equalTo("OK")).when().get("http://localhost:8432/auth/test/{1}", token);
+        expect().body(equalTo("Done")).when().get("http://localhost:8432/auth/logout/{1}", token);
+        expect().body(equalTo("Not OK")).when().get("http://localhost:8432/auth/test/{1}", token);
+    }
+
     @Override
     protected AbstractApplicationContext createApplicationContext() {
         return TestUtils.testUtils();
