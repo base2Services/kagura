@@ -17,9 +17,11 @@
     <properties>
         <karaf.version>2.3.1</karaf.version>
         <camel.version>2.11.1</camel.version>
-        <spring.version>3.0.5.RELEASE</spring.version>
+        <spring.version>3.1.4.RELEASE</spring.version>
         <jackson.version>2.2.2</jackson.version>
         <cxf.version>2.7.5</cxf.version>
+        <rest-assured.version>1.8.1</rest-assured.version>
+        <groovy.version>2.1.2</groovy.version>
     </properties>
 
     <dependencyManagement>
@@ -165,13 +167,6 @@
                 </exclusions>
             </dependency>
 
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <type>jar</type>
-                <scope>test</scope>
-                <version>${spring.version}</version>
-            </dependency>
 
             <!-- testing -->
             <dependency>
@@ -198,6 +193,48 @@
                 <version>${hamcrest.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <type>jar</type>
+                <scope>test</scope>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jayway.restassured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${rest-assured.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <!-- Exclude Groovy because of classpath issue -->
+                    <exclusion>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                    </exclusion>
+                </exclusions>
+
+            </dependency>
+            <dependency>
+                <groupId>com.jayway.restassured</groupId>
+                <artifactId>json-path</artifactId>
+                <version>${rest-assured.version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <!-- Exclude Groovy because of classpath issue -->
+                    <exclusion>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <!-- Needs to be the same version that REST Assured depends on -->
+                <version>${groovy.version}</version>
+                <scope>test</scope>
+            </dependency>
+
             <!-- JSON and YAML -->
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>

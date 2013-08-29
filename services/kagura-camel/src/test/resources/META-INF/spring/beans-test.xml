@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+        ">
+
+    <import resource="rsserver-test.xml" />
+
+    <camelContext xmlns="http://camel.apache.org/schema/spring" id="kagura-camel-context">
+        <packageScan>
+            <package>com.base2.kagura.services.camel.routes</package>
+        </packageScan>
+    </camelContext>
+</beans>
