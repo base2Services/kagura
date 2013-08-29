@@ -1,13 +1,12 @@
 package com.base2.kagura.services.camel.routes;
 
-import com.jayway.restassured.response.Response;
+import com.base2.kagura.services.camel.utils.TestUtils;
 import com.jayway.restassured.response.ResponseBody;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import static com.jayway.restassured.RestAssured.*;
-import static com.jayway.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 /**
  * @author aubels
@@ -48,6 +47,7 @@ public class AuthRoutesSystemTest extends CamelSpringTestSupport {
 
     @Override
     protected AbstractApplicationContext createApplicationContext() {
-        return new ClassPathXmlApplicationContext("/META-INF/spring/beans-test.xml");
+        return TestUtils.testUtils();
     }
+
 }

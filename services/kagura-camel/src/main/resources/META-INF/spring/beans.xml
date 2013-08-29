@@ -10,7 +10,9 @@
         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
         http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+        http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    ">
 
     <import resource="rsserver.xml" />
 
@@ -22,12 +24,10 @@
 
     <bean id="serverBean" class="com.base2.kagura.services.camel.kagura.ServerBean" />
 
-    <bean id="authBean" class="com.base2.kagura.services.camel.kagura.AuthBean">
-        <property name="serverBean" ref="serverBean" />
-    </bean>
-    <bean id="reportBean" class="com.base2.kagura.services.camel.kagura.ReportBean">
-        <property name="serverBean" ref="serverBean" />
-    </bean>
+    <bean id="authBean" class="com.base2.kagura.services.camel.kagura.AuthBean" />
+    <bean id="reportBean" class="com.base2.kagura.services.camel.kagura.ReportBean" />
+
+    <ctx:component-scan base-package="com.base2.kagura.services.camel.kagura" />
 
     <!-- default value -->
     <osgix:cm-properties id="kagura.services.camel.defaults" persistent-id="com.base2.kagura.services.camel">

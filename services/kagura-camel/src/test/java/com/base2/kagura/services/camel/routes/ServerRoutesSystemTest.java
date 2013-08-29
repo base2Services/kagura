@@ -1,5 +1,6 @@
 package com.base2.kagura.services.camel.routes;
 
+import com.base2.kagura.services.camel.utils.TestUtils;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -22,6 +23,6 @@ public class ServerRoutesSystemTest extends CamelSpringTestSupport {
 
     @Override
     protected AbstractApplicationContext createApplicationContext() {
-        return new ClassPathXmlApplicationContext("/META-INF/spring/beans-test.xml");
+        return TestUtils.testUtils();
     }
 }

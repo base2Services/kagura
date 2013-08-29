@@ -2,12 +2,10 @@ package com.base2.kagura.services.camel.kagura;
 
 import com.base2.kagura.services.camel.model.Group;
 import com.base2.kagura.services.camel.model.User;
-import org.hamcrest.Matchers;
+import com.base2.kagura.services.camel.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 import static org.hamcrest.Matchers.*;
 
@@ -17,22 +15,11 @@ import static org.hamcrest.Matchers.*;
  */
 public class AuthBeanTests {
 
-    public String getResourcePath(String path)
-    {
-        URL dir_url = ClassLoader.getSystemResource(path);
-        try {
-            return dir_url.toURI().toString();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     @Test
     public void getGroupsTest()
     {
         ServerBean serverBean = new ServerBean();
-        serverBean.setConfigPath(getResourcePath("TestReports"));
+        serverBean.setConfigPath(TestUtils.getResourcePath("TestReports"));
         AuthBean authBean = new AuthBean();
         authBean.setServerBean(serverBean);
         List<Group> groups = authBean.getGroups();
@@ -46,7 +33,7 @@ public class AuthBeanTests {
     public void getUsersTest()
     {
         ServerBean serverBean = new ServerBean();
-        serverBean.setConfigPath(getResourcePath("TestReports"));
+        serverBean.setConfigPath(TestUtils.getResourcePath("TestReports"));
         AuthBean authBean = new AuthBean();
         authBean.setServerBean(serverBean);
         List<User> users = authBean.getUsers();
@@ -55,6 +42,6 @@ public class AuthBeanTests {
         Assert.assertThat(users, contains(
                 allOf(hasProperty("username", equalTo("testuser")), hasProperty("password", equalTo("testuserpass")), hasProperty("groups", hasSize(1)), hasProperty("groups", contains("test reports"))),
                 allOf(hasProperty("username", equalTo("testuser2")), hasProperty("password", equalTo("testuserpass2")), hasProperty("groups", hasSize(1)), hasProperty("groups", contains("test reports")))
-            ));
+        ));
     }
 }

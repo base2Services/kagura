@@ -12,6 +12,8 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +28,7 @@ import java.util.UUID;
  * @author aubels
  *         Date: 29/08/13
  */
+@Service
 public class AuthBean {
     private static final Logger LOG = LoggerFactory.getLogger(AuthBean.class);
 
@@ -40,7 +43,27 @@ public class AuthBean {
 
     public void authenticate(@Header("user") String user, @Body String pass, Exchange exchange) throws AuthException {
         if (StringUtils.isBlank(user) || StringUtils.isBlank(pass))
+        {
+            LOG.info("User '{}' attempted to login with a blank username or password.", user);
             throw new AuthException("User was not logged in.");
+        }
+        List<User> users = getUsers();
+        Map<String, User> userMap = new HashMap<String, User>();
+        for (User each : users)
+        {
+            userMap.put(each.getUsername(), each);
+        }
+        User matchUser = userMap.get(user);
+        if (matchUser == null)
+        {
+            LOG.info("User '{}' does not exist.", user);
+            throw new AuthException("User was not logged in.");
+        }
+        if (!matchUser.getPassword().equals(pass))
+        {
+            LOG.info("User '{}' bad password entered.", user);
+            throw new AuthException("User was not logged in.");
+        }
         AuthDetails authDetails = new AuthDetails(user);
         tokens.put(authDetails.getToken().toString(), authDetails);
         Map<String, String> response = new HashMap<String, String>();
@@ -151,6 +174,7 @@ public class AuthBean {
         return serverBean;
     }
 
+    @Autowired
     public void setServerBean(ServerBean serverBean) {
         this.serverBean = serverBean;
     }
