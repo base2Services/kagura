@@ -11,13 +11,6 @@
 
     <import resource="rsserver-test.xml" />
 
-    <bean id="serverBean" class="com.base2.kagura.services.camel.kagura.ServerBean">
-        <property name="configPath" value="/TestReports/" />
-    </bean>
-
-    <bean id="authBean" class="com.base2.kagura.services.camel.kagura.AuthBean" />
-    <bean id="reportBean" class="com.base2.kagura.services.camel.kagura.ReportBean" />
-
     <ctx:component-scan base-package="com.base2.kagura.services.camel.kagura" />
 
     <camelContext xmlns="http://camel.apache.org/schema/spring" id="kagura-camel-context">

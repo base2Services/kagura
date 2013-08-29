@@ -22,11 +22,6 @@
         </packageScan>
     </camelContext>
 
-    <bean id="serverBean" class="com.base2.kagura.services.camel.kagura.ServerBean" />
-
-    <bean id="authBean" class="com.base2.kagura.services.camel.kagura.AuthBean" />
-    <bean id="reportBean" class="com.base2.kagura.services.camel.kagura.ReportBean" />
-
     <ctx:component-scan base-package="com.base2.kagura.services.camel.kagura" />
 
     <!-- default value -->
