@@ -24,7 +24,7 @@ public class ReportsConfigTest {
         Assert.assertThat(actual.getReports().get("TestJDBCSQL"), IsInstanceOf.instanceOf(JDBCReportConfig.class));
         Assert.assertThat(actual.getReports().get("TestJNDISQL"), IsInstanceOf.instanceOf(JNDIReportConfig.class));
         Assert.assertThat(actual.getReports().get("TestJNDISQL"), IsInstanceOf.instanceOf(JNDIReportConfig.class));
-        Assert.assertThat(((JNDIReportConfig)actual.getReports().get("TestJNDISQL")).getJndi(), Is.is("java:/medimailDS"));
-        Assert.assertThat(((JDBCReportConfig)actual.getReports().get("TestJDBCSQL")).getJdbc(), Is.is("jdbc:mysql://localhost:3306/etsaPole_20130206"));
+        Assert.assertThat(((JNDIReportConfig)actual.getReports().get("TestJNDISQL")).getJndi(), Is.is("java:/testDS"));
+        Assert.assertThat(((JDBCReportConfig)actual.getReports().get("TestJDBCSQL")).getJdbc(), Is.is("jdbc:mysql://localhost:3306/test"));
     }
 }

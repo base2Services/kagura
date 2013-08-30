@@ -16,7 +16,7 @@ columns:
     styleType: text
   - name: version
     styleType: text
-jdbc: "jdbc:mysql://localhost:3306/etsaPole_20130206"
+jdbc: "jdbc:mysql://localhost:3306/test"
 sql: "SELECT id, email, enabled, username, version FROM User <#if param.User?has_content>WHERE username=${method.value(param.User)}</#if><@limit />;"
 username: root
 password:
