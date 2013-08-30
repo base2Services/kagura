@@ -52,9 +52,9 @@ public class AuthRoutes extends RouteBuilder {
                 .marshal().json(JsonLibrary.Jackson)
                 .routeId("rsGetReportsRouteId");
 
-        from("direct:rs-getReportsDetails")
-                .beanRef("authBean", "getReportsDetails")
+        from("direct:rs-getReportsDetailed")
+                .beanRef("authBean", "getReportsDetailed")
                 .marshal().json(JsonLibrary.Jackson)
-                .routeId("rsGetReportsDetailsRouteId");
+                .routeId("rsGetReportsDetailedRouteId");
     }
 }

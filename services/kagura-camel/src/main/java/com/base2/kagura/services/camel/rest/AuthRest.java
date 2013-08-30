@@ -61,6 +61,6 @@ public class AuthRest {
     @Path("reportsDetails/{authToken}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getReportsDetails(@PathParam("authToken") String authToken){return null;}
+    public Map<String, Object> getReportsDetailed(@PathParam("authToken") String authToken){return null;}
 
 }
