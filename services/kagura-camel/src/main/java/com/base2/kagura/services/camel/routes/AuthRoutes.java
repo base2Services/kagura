@@ -1,9 +1,6 @@
 package com.base2.kagura.services.camel.routes;
 
-import com.base2.kagura.services.camel.kagura.AuthException;
-import com.base2.kagura.shared.ResourcesUtils;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import com.base2.kagura.services.camel.kagura.AuthenticationException;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 
@@ -18,7 +15,7 @@ public class AuthRoutes extends RouteBuilder {
                 .log("Executed ${header.operationName}")
                 .doTry()
                     .recipientList(simple("direct:rs-${header.operationName}")).end()
-                .doCatch(AuthException.class)
+                .doCatch(AuthenticationException.class)
                     .beanRef("authBean", "buildAuthFail")
                     .marshal().json(JsonLibrary.Jackson)
                 .end()
@@ -33,7 +30,7 @@ public class AuthRoutes extends RouteBuilder {
                 .doTry()
                     .beanRef("authBean", "isLoggedIn")
                     .setBody(constant("OK"))
-                .doCatch(AuthException.class)
+                .doCatch(AuthenticationException.class)
                     .setBody(constant("Not OK"))
                 .end()
                 .routeId("rsTestAuthTokenRouteId");
@@ -42,7 +39,7 @@ public class AuthRoutes extends RouteBuilder {
                 .doTry()
                     .beanRef("authBean", "logout")
                     .setBody(constant("Done"))
-                .doCatch(AuthException.class)
+                .doCatch(AuthenticationException.class)
                     .setBody(constant("Not done"))
                 .end()
                 .routeId("rsLogoutRouteId");

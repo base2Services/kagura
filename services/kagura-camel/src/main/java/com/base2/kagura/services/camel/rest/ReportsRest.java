@@ -8,10 +8,10 @@ import java.util.List;
  * @author aubels
  *         Date: 26/08/13
  */
-@Path("{authToken}/{id}")
+@Path("{authToken}/{reportId}")
 public class ReportsRest {
-    @PathParam("id")
-    String id;
+    @PathParam("reportId")
+    String reportId;
     @PathParam("authToken")
     String authToken;
     /**

@@ -1,6 +1,7 @@
 package com.base2.kagura.services.camel.routes;
 
 import com.base2.kagura.services.camel.utils.TestUtils;
+import com.jayway.restassured.response.ResponseBody;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;

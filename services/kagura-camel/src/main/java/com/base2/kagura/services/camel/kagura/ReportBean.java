@@ -3,6 +3,8 @@ package com.base2.kagura.services.camel.kagura;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
+import org.apache.camel.Exchange;
+import org.apache.camel.Header;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,11 +43,31 @@ public class ReportBean {
     }
 
     public Map<String, Object> getReportDetails(String reportName) {
-        Map<String, Object> result = new HashMap<String, Object>();
         ReportConfig reportConfig = getReportConfig(reportName);
-        result.put("reportId", reportName);
-        result.put("extra", reportConfig.getExtraOptions());
+        Map<String, Object> result = null;
+        if (reportConfig != null)
+        {
+            result = new HashMap<String, Object>();
+            result.put("reportId", reportName);
+            result.put("extra", reportConfig.getExtraOptions());
+        }
+        else
+        {
+            result = noSuchReport(reportName);
+        }
         return result;
+    }
+
+    public Map<String, Object> noSuchReport(String reportName) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("reportId", reportName);
+        result.put("error", "No such report");
+        return result;
+    }
+
+    public void noSuchReport(@Header("reportId") String reportName, Exchange exchange) {
+        Map<String, Object> result = noSuchReport(reportName);
+        exchange.getOut().setBody(result);
     }
 
     private ReportConfig getReportConfig(String reportName) {
@@ -55,6 +76,11 @@ public class ReportBean {
         if (reportConfig == null)
             return null;
         return reportConfig;
+    }
+
+    public Map<String, Object> getReportsDetailed(@Header("reportId") String reportId, Exchange exchange) throws AuthenticationException {
+        Map<String, Object> result = getReportDetails(reportId);
+        return result;
     }
 
     @Autowired

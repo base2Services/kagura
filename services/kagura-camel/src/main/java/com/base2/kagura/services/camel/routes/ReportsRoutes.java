@@ -1,11 +1,11 @@
 package com.base2.kagura.services.camel.routes;
 
-import com.base2.kagura.services.camel.kagura.AuthException;
-import com.base2.kagura.shared.ResourcesUtils;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import com.base2.kagura.services.camel.kagura.AuthenticationException;
+import com.base2.kagura.services.camel.kagura.AuthorizationException;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.spi.DataFormat;
 
 /**
  * @author aubels
@@ -14,30 +14,37 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 public class ReportsRoutes extends RouteBuilder {
     @Override
     public void configure() throws Exception {
+        DataFormat jsonDataFormat = new JacksonDataFormat();
         from("cxfrs:bean:rsReportsServer?bindingStyle=SimpleConsumer")
                 .log("Executing ${header.operationName}")
                 .doTry()
                     .beanRef("authBean", "isLoggedIn")
+                    .beanRef("authBean", "canAccessReport")
                     .recipientList(simple("direct:rs-${header.operationName}")).end()
-                .doCatch(AuthException.class)
+                .doCatch(AuthenticationException.class)
                     .log("Authentication failed ${header.operationName}")
                     .beanRef("authBean", "buildAuthFail")
-                    .marshal().json(JsonLibrary.Jackson)
+                    .marshal(jsonDataFormat)
+                .doCatch(AuthorizationException.class)
+                    .log("Report authorization failed ${header.operationName} ${header.reportId}")
+                    .beanRef("reportBean", "noSuchReport")
+                    .marshal(jsonDataFormat)
                 .end()
-
-                .recipientList(simple("direct:rs-${header.operationName}"))
                 .routeId("cxfrsReportsInRouteId");
 
         from("direct:rs-reportDetails")
-                .setBody(simple("hi"))
+                .beanRef("reportBean", "getReportsDetailed")
+                .marshal().json(JsonLibrary.Jackson)
                 .routeId("rsReportDetailsRouteId");
 
         from("direct:rs-runReport")
-                .setBody(simple("hi"))
+                .beanRef("reportBean", "getReportsDetailed")
+                .marshal().json(JsonLibrary.Jackson)
                 .routeId("rsRunReportRouteId");
 
         from("direct:rs-exportReport")
-                .setBody(simple("hi"))
+                .beanRef("reportBean", "getReportsDetailed")
+                .marshal().json(JsonLibrary.Jackson)
                 .routeId("rsExportReportRouteId");
     }
 }

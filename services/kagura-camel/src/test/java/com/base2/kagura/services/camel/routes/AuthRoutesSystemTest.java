@@ -75,6 +75,7 @@ public class AuthRoutesSystemTest extends CamelSpringTestSupport {
                 .body("fake1.extra.displayPriority", equalTo("1"))
                 .body("fake1.extra.image", equalTo("fake.png"))
                 .body("fake1.extra.reportName", equalTo("Fake sample 1"))
+                .body("fake1.reportId", equalTo("fake1"))
                 .when().get("http://localhost:8432/auth/reportsDetails/{1}", token);
 
     }

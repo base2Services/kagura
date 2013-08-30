@@ -1,0 +1,26 @@
+type: "Fake"
+paramConfig:
+  - type: String
+    name: "An anonymous string"
+    help: "Just put anything in"
+    placeholder: "asdfsdaef"
+    value:
+  - type: Boolean
+    name: "Select one"
+    help: "Just select something"
+    placeholder: "No Value"
+    value:
+columns:
+  - name: test1
+    styleType: text
+  - name: test2
+    styleType: numbers
+rows:
+  - Number: 899
+    Description: "Unique Visitors"
+  - Number: 234
+    Description: String
+extraOptions:
+  displayPriority: 2
+  image: fake.png
+  reportName: "Fake sample 2"

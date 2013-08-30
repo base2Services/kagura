@@ -34,28 +34,28 @@ public class AuthBean {
     ServerBean serverBean;
     private ReportBean reportsBean;
 
-    public void isLoggedIn(@Header("authToken") String authToken, Exchange exchange) throws AuthException {
+    public void isLoggedIn(@Header("authToken") String authToken, Exchange exchange) throws AuthenticationException {
         if (tokens.containsKey(authToken) && tokens.get(authToken).getLoggedIn()) return;
-        throw new AuthException("User is not logged in.");
+        throw new AuthenticationException("User is not logged in.");
     }
 
-    public void authenticate(@Header("user") String user, @Body String pass, Exchange exchange) throws AuthException {
+    public void authenticate(@Header("user") String user, @Body String pass, Exchange exchange) throws AuthenticationException {
         if (StringUtils.isBlank(user) || StringUtils.isBlank(pass))
         {
             LOG.info("User '{}' attempted to login with a blank username or password.", user);
-            throw new AuthException("User was not logged in.");
+            throw new AuthenticationException("User was not logged in.");
         }
         Map<String, User> userMap = getStringUserMap();
         User matchUser = userMap.get(user);
         if (matchUser == null)
         {
             LOG.info("User '{}' does not exist.", user);
-            throw new AuthException("User was not logged in.");
+            throw new AuthenticationException("User was not logged in.");
         }
         if (!matchUser.getPassword().equals(pass))
         {
             LOG.info("User '{}' bad password entered.", user);
-            throw new AuthException("User was not logged in.");
+            throw new AuthenticationException("User was not logged in.");
         }
         AuthDetails authDetails = new AuthDetails(user);
         tokens.put(authDetails.getToken().toString(), authDetails);
@@ -93,13 +93,23 @@ public class AuthBean {
         exchange.getOut().setBody(response);
     }
 
-    public void logout(@Header("authToken") String authToken, Exchange exchange) throws AuthException {
+    public void logout(@Header("authToken") String authToken, Exchange exchange) throws AuthenticationException {
         if (tokens.containsKey(authToken) && tokens.get(authToken).getLoggedIn())
         {
             tokens.remove(authToken);
             return;
         }
-        throw new AuthException("User is not logged in.");
+        throw new AuthenticationException("User is not logged in.");
+    }
+
+    public void canAccessReport(@Header("authToken") String authToken, @Header("reportId") String reportId, Exchange exchange) throws AuthorizationException, AuthenticationException {
+        if (tokens.containsKey(authToken) && tokens.get(authToken).getLoggedIn())
+        {
+            if (getUserReports(tokens.get(authToken).getUsername()).contains(reportId))
+                return;
+            throw new AuthorizationException("User is not logged in.");
+        }
+        throw new AuthenticationException("User is not logged in.");
     }
 
     public List<Group> getGroups()
@@ -156,18 +166,18 @@ public class AuthBean {
         return users;
     }
     
-    public Collection<String> getReports(@Header("authToken") String authToken, Exchange exchange) throws AuthException {
+    public Collection<String> getReports(@Header("authToken") String authToken, Exchange exchange) throws AuthenticationException {
         if (!tokens.containsKey(authToken) || !tokens.get(authToken).getLoggedIn())
-            throw new AuthException("User is not logged in.");
+            throw new AuthenticationException("User is not logged in.");
         AuthDetails authDetails = tokens.get(authToken);
         String username = authDetails.getUsername();
         Set<String> result = getUserReports(username);
         return result;
     }
 
-    public Map<String, Object> getReportsDetailed(@Header("authToken") String authToken, Exchange exchange) throws AuthException {
+    public Map<String, Object> getReportsDetailed(@Header("authToken") String authToken, Exchange exchange) throws AuthenticationException {
         if (!tokens.containsKey(authToken) || !tokens.get(authToken).getLoggedIn())
-            throw new AuthException("User is not logged in.");
+            throw new AuthenticationException("User is not logged in.");
         AuthDetails authDetails = tokens.get(authToken);
         String username = authDetails.getUsername();
         Set<String> reports = getUserReports(username);
