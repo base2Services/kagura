@@ -7,6 +7,7 @@ import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
 //import javax.inject.Inject;
 //import javax.inject.Named;
 import java.io.Serializable;
+import java.net.URISyntaxException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,6 +33,11 @@ public class ReportConnectorFactorySingleton implements Serializable {
     }
 
     public ReportsConfig getReportsConfig() {
-        return ReportsConfig.getConfig(report_directory);
+        try {
+            return ReportsConfig.getConfig(report_directory);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

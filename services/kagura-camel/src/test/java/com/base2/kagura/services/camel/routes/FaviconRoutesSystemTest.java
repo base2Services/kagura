@@ -1,10 +1,7 @@
 package com.base2.kagura.services.camel.routes;
 
 import com.base2.kagura.services.camel.utils.TestUtils;
-import com.jayway.restassured.response.ResponseBody;
-import junit.framework.Assert;
 import org.apache.camel.test.spring.CamelSpringTestSupport;
-import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
 
@@ -12,8 +9,6 @@ import java.io.IOException;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static com.jayway.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 
 /**
@@ -29,6 +24,6 @@ public class FaviconRoutesSystemTest extends CamelSpringTestSupport {
 
     @Override
     protected AbstractApplicationContext createApplicationContext() {
-        return TestUtils.testUtils();
+        return TestUtils.buildContext();
     }
 }

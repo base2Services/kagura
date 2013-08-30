@@ -23,7 +23,7 @@ public class TestUtils {
         return null;
     }
 
-    public static AbstractApplicationContext testUtils() {
+    public static AbstractApplicationContext buildContext() {
         ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("/META-INF/spring/beans-test.xml");
         ServerBean serverBean = (ServerBean)classPathXmlApplicationContext.getBean("serverBean");
         serverBean.setConfigPath(getResourcePath("TestReports"));

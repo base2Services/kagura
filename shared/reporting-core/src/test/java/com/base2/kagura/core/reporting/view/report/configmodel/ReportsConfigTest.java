@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
 
+import java.net.URISyntaxException;
+
 /**
  * Created with IntelliJ IDEA.
  * User: aubels
@@ -16,8 +18,7 @@ import org.junit.matchers.JUnitMatchers;
  */
 public class ReportsConfigTest {
     @Test
-    public void getReports1Test()
-    {
+    public void getReports1Test() throws URISyntaxException {
         String reportDirectory = this.getClass().getResource("/reportTest1").getFile();
         ReportsConfig actual = ReportsConfig.getConfig(reportDirectory);
         Assert.assertThat(actual.getReports().get("TestJDBCSQL"), IsInstanceOf.instanceOf(JDBCReportConfig.class));

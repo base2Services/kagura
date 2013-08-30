@@ -55,9 +55,33 @@ public class AuthRoutesSystemTest extends CamelSpringTestSupport {
         expect().body(equalTo("Not OK")).when().get("http://localhost:8432/auth/test/{1}", token);
     }
 
+    @Test
+    public void correctReportsAreReturned()
+    {
+        ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
+        String token = login.jsonPath().get("token");
+        expect().body(equalTo("[\"fake1\"]")).when().get("http://localhost:8432/auth/reports/{1}", token);
+
+    }
+
+    @Test
+    public void correctReportsDetailsAreReturned()
+    {
+        ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
+        String token = login.jsonPath().get("token");
+
+        ResponseBody details = expect().get("http://localhost:8432/auth/reportsDetails/{1}", token);
+        expect()
+                .body("fake1.extra.displayPriority", equalTo("1"))
+                .body("fake1.extra.image", equalTo("fake.png"))
+                .body("fake1.extra.reportName", equalTo("Fake sample 1"))
+                .when().get("http://localhost:8432/auth/reportsDetails/{1}", token);
+
+    }
+
     @Override
     protected AbstractApplicationContext createApplicationContext() {
-        return TestUtils.testUtils();
+        return TestUtils.buildContext();
     }
 
 }

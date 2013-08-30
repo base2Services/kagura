@@ -3,9 +3,12 @@ package com.base2.kagura.services.camel.kagura;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +20,7 @@ import java.util.Map;
 @Service
 public class ReportBean {
     private ServerBean serverBean;
+    private static final Logger LOG = LoggerFactory.getLogger(ReportBean.class);
 
     private ReportConnector getConnector(String name)
     {
@@ -28,7 +32,13 @@ public class ReportBean {
     }
 
     private ReportsConfig getReportsConfig() {
-        return ReportsConfig.getConfig(serverBean.getConfigPath());
+        LOG.info("Opening {}", serverBean.getConfigPath());
+        try {
+            return ReportsConfig.getConfig(serverBean.getConfigPath());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Map<String, Object> getReportDetails(String reportName) {

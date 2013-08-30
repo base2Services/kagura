@@ -6,6 +6,8 @@ import com.google.common.io.PatternFilenameFilter;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,9 +42,9 @@ public class ReportsConfig {
         errors = new ArrayList<String>();
     }
 
-    public static ReportsConfig getConfig(String report_directory) {
+    public static ReportsConfig getConfig(String report_directory) throws URISyntaxException {
         ReportsConfig result = new ReportsConfig();
-        File file = new File(report_directory);
+        File file = new File(new URI(report_directory));
         if (file == null || !file.exists()) {
             result.errors.add("Couldn't open report directory, doesn't exist.");
             return result;
