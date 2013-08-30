@@ -54,6 +54,7 @@
     <modules>
         <module>shared</module>
         <module>services</module>
+        <module>example</module>
     </modules>
 
     <build>
