@@ -8,11 +8,11 @@ import java.util.List;
  * @author aubels
  *         Date: 26/08/13
  */
-@Path("{id}")
+@Path("{authToken}/{id}")
 public class ReportsRest {
     @PathParam("id")
     String id;
-    @CookieParam("AuthToken")
+    @PathParam("authToken")
     String authToken;
     /**
      *

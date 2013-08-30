@@ -40,6 +40,10 @@
             <groupId>com.base2.kagura.shared</groupId>
             <artifactId>kagura-resources</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.base2.kagura.shared</groupId>
+            <artifactId>reporting-core</artifactId>
+        </dependency>
         <!-- OSGI -->
         <dependency>
             <groupId>org.osgi</groupId>

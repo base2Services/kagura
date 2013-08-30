@@ -14,16 +14,6 @@ import java.util.List;
 @Path("/")
 public class ServerRest {
     /**
-     * Returns a list of reports
-     * @param authToken Authentication token
-     * @return Returns a list of reports
-     */
-    @Path("reports")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getReports(@CookieParam("AuthToken") String authToken){return null;}
-
-    /**
      * Test command.
      * @return Returns "test"
      */

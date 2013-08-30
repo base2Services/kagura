@@ -3,6 +3,7 @@ package com.base2.kagura.services.camel.rest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author aubels
@@ -41,5 +42,25 @@ public class AuthRest {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String logout(@PathParam("authToken") String authToken){return null;}
+
+    /**
+     * Returns a list of reports
+     * @param authToken Authentication token
+     * @return Returns a list of reports
+     */
+    @Path("reports/{authToken}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> getReports(@PathParam("authToken") String authToken){return null;}
+
+    /**
+     * Returns a list of reports
+     * @param authToken Authentication token
+     * @return Returns a list of reports
+     */
+    @Path("reportsDetails/{authToken}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> getReportsDetails(@PathParam("authToken") String authToken){return null;}
 
 }

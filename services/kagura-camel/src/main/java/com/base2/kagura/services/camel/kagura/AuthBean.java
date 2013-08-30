@@ -19,10 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author aubels
@@ -35,6 +32,7 @@ public class AuthBean {
     private Map<String, AuthDetails> tokens = new HashMap<String, AuthDetails>();
 
     ServerBean serverBean;
+    private ReportBean reportsBean;
 
     public void isLoggedIn(@Header("authToken") String authToken, Exchange exchange) throws AuthException {
         if (tokens.containsKey(authToken) && tokens.get(authToken).getLoggedIn()) return;
@@ -47,12 +45,7 @@ public class AuthBean {
             LOG.info("User '{}' attempted to login with a blank username or password.", user);
             throw new AuthException("User was not logged in.");
         }
-        List<User> users = getUsers();
-        Map<String, User> userMap = new HashMap<String, User>();
-        for (User each : users)
-        {
-            userMap.put(each.getUsername(), each);
-        }
+        Map<String, User> userMap = getStringUserMap();
         User matchUser = userMap.get(user);
         if (matchUser == null)
         {
@@ -70,6 +63,26 @@ public class AuthBean {
         response.put("error","");
         response.put("token",authDetails.getToken().toString());
         exchange.getOut().setBody(response);
+    }
+
+    private Map<String, User> getStringUserMap() {
+        List<User> users = getUsers();
+        Map<String, User> userMap = new HashMap<String, User>();
+        for (User each : users)
+        {
+            userMap.put(each.getUsername(), each);
+        }
+        return userMap;
+    }
+
+    private Map<String, Group> getStringGroupMap() {
+        List<Group> users = getGroups();
+        Map<String, Group> userMap = new HashMap<String, Group>();
+        for (Group each : users)
+        {
+            userMap.put(each.getGroupname(), each);
+        }
+        return userMap;
     }
 
     public void buildAuthFail(Exchange exchange)
@@ -142,6 +155,46 @@ public class AuthBean {
         }
         return users;
     }
+    
+    public Collection<String> getReports(@Header("authToken") String authToken, Exchange exchange) throws AuthException {
+        if (!tokens.containsKey(authToken) || !tokens.get(authToken).getLoggedIn())
+            throw new AuthException("User is not logged in.");
+        AuthDetails authDetails = tokens.get(authToken);
+        String username = authDetails.getUsername();
+        Set<String> result = getUserReports(username);
+        return result;
+    }
+
+    public Map<String, Object> getReportsDetailed(@Header("authToken") String authToken, Exchange exchange) throws AuthException {
+        if (!tokens.containsKey(authToken) || !tokens.get(authToken).getLoggedIn())
+            throw new AuthException("User is not logged in.");
+        AuthDetails authDetails = tokens.get(authToken);
+        String username = authDetails.getUsername();
+        Set<String> reports = getUserReports(username);
+        Map<String, Object> result = new HashMap<String, Object>();
+        for (String reportName : reports)
+        {
+            result.put(reportName, reportsBean.getReportDetails(reportName));
+        }
+        return result;
+    }
+
+    private Set<String> getUserReports(String username) {
+        Set<String> result = new HashSet<String>();
+        Map<String, User> userMap = getStringUserMap();
+        Map<String, Group> groupMap = getStringGroupMap();
+        User user = userMap.get(username);
+        for (String group : user.getGroups())
+        {
+            if (groupMap.containsKey(group))
+            {
+                result.addAll(groupMap.get(group).getReports());
+            }
+            else
+                LOG.warn("Group '{}' does nto exist.", group);
+        }
+        return result;
+    }
 
     public static class AuthDetails {
         private Boolean loggedIn;
@@ -187,4 +240,10 @@ public class AuthBean {
     public void setServerBean(ServerBean serverBean) {
         this.serverBean = serverBean;
     }
+
+    @Autowired
+    public void setReportsBean(ReportBean reportsBean) {
+        this.reportsBean = reportsBean;
+    }
+
 }
