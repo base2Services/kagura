@@ -22,6 +22,12 @@ public class ServerRoutesSystemTest extends CamelSpringTestSupport {
         expect().body(equalTo("hi")).when().get("http://localhost:8432/server/test");
     }
 
+    @Test
+    public void test2()
+    {
+        expect().when().get("http://localhost:8432/server/test2");
+    }
+
     @Override
     protected AbstractApplicationContext createApplicationContext() {
         return TestUtils.buildContext();

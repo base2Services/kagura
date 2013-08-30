@@ -60,7 +60,10 @@ public class ReportsRoutesSystemTest extends CamelSpringTestSupport {
     {
         ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
         String token = login.jsonPath().get("token");
-        expect().body(equalTo("hi")).when().get("http://localhost:8432/report/{1}/fake1/run", token);
+        expect()
+                .body("columns",hasSize(2))
+                .body("rows",hasSize(2))
+                .when().get("http://localhost:8432/report/{1}/fake1/run", token);
     }
 
     @Test

@@ -94,8 +94,23 @@ public class ReportBean {
         return result;
     }
 
-    public Map<String, Object> run(@Header("reportId") String reportId, Exchange exchange) throws AuthenticationException {
+    public Map<String, Object> run(
+            @Header("reportId") String reportId
+            , @Header("page") int page
+            , @Header("allpages") boolean all
+            , @Header("pageLimit") int pageLimit) throws AuthenticationException {
         Map<String, Object> result = new HashMap<String, Object>();
+        ReportConnector reportConnector = getConnector(reportId);
+        reportConnector.setPage(page);
+        if (all)
+            reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
+        else
+            reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
+        reportConnector.run();
+        List<ColumnDef> columns = reportConnector.getColumns();
+        List<Map<String, Object>> rows = reportConnector.getRows();
+        result.put("columns",columns);
+        result.put("rows",rows);
         return result;
     }
 
@@ -106,8 +121,6 @@ public class ReportBean {
             , @Header("filetype") String filetype
             , @Header("pageLimit") int pageLimit) throws AuthenticationException {
         ReportExportBean reportExportBean = new ReportExportBean();
-        List<Map<String, Object>> rows;
-        List<ColumnDef> columns;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ReportConnector reportConnector = getConnector(reportId);
         try {
@@ -117,8 +130,8 @@ public class ReportBean {
             else
                 reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
             reportConnector.run();
-            columns = reportConnector.getColumns();
-            rows = reportConnector.getRows();
+            List<ColumnDef> columns = reportConnector.getColumns();
+            List<Map<String, Object>> rows = reportConnector.getRows();
             if (filetype.equalsIgnoreCase("pdf"))
             {
                 reportExportBean.generatePdf(out, rows, columns);
