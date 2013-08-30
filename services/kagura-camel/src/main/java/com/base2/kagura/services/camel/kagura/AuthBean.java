@@ -184,7 +184,7 @@ public class AuthBean {
         Map<String, Object> result = new HashMap<String, Object>();
         for (String reportName : reports)
         {
-            result.put(reportName, reportsBean.getReportDetails(reportName));
+            result.put(reportName, reportsBean.getReportDetails(reportName, false));
         }
         return result;
     }

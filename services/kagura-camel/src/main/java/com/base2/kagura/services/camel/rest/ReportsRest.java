@@ -1,5 +1,8 @@
 package com.base2.kagura.services.camel.rest;
 
+import com.base2.kagura.services.camel.kagura.AuthenticationException;
+import org.apache.camel.Header;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -30,7 +33,11 @@ public class ReportsRest {
     @Path("run")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Object runReport(@DefaultValue("0") @QueryParam("page") String page){return null;}
+    public Object runReport(
+            @DefaultValue("false") @QueryParam("allpages") boolean allpages,
+            @DefaultValue("10") @QueryParam("pageLimit") int pageLimit,
+            @DefaultValue("0") @QueryParam("page") int page
+    ){return null;}
 
     /**
      * Exports report as a file type;
@@ -40,6 +47,10 @@ public class ReportsRest {
     @Path("export")
     @GET
     @Produces(MediaType.WILDCARD)
-    public Object exportReport(@DefaultValue("CSV") @QueryParam("filetype") String filetype){return null;}
-
+    public Object exportReport(
+            @DefaultValue("false") @QueryParam("allpages") boolean allpages,
+            @DefaultValue("csv") @QueryParam("filetype") String filetype,
+            @DefaultValue("10") @QueryParam("pageLimit") int pageLimit,
+            @DefaultValue("0") @QueryParam("page") int page
+    ){return null;}
 }
