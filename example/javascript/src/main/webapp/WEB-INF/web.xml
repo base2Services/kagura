@@ -4,4 +4,20 @@
 
 <web-app>
     <display-name>Example Javascript kagura site.</display-name>
+    <servlet>
+            <servlet-name>RestProxy</servlet-name>
+            <servlet-class>org.eclipse.jetty.servlets.ProxyServlet$Transparent</servlet-class>
+            <load-on-startup>1</load-on-startup>
+            <init-param>
+              <param-name>ProxyTo</param-name><param-value>http://localhost:8432/</param-value>
+            </init-param>
+            <init-param>
+              <param-name>Prefix</param-name><param-value>/rest</param-value>
+            </init-param>
+          </servlet>
+       
+      <servlet-mapping>
+        <servlet-name>RestProxy</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+      </servlet-mapping>
 </web-app>
