@@ -235,7 +235,7 @@
 				</configuration>
 			</plugin>
 
-            <!-- OSGI bulde -->
+            <!-- OSGI bundle -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -252,6 +252,14 @@
                 </configuration>
             </plugin>
 
+            <!-- Camel plugin -->
+            <plugin>
+                  <groupId>org.apache.camel</groupId>
+                  <artifactId>camel-maven-plugin</artifactId>
+                  <configuration>
+                    <applicationContextUri>run.xml</applicationContextUri>
+                  </configuration>
+            </plugin>
         </plugins>
 	</build>
 </project>

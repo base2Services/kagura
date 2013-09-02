@@ -6,16 +6,12 @@
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-        ">
+    ">
 
-    <import resource="rsserver-test.xml" />
+    <ctx:property-placeholder  />
+    <import resource="META-INF/spring/beans.xml" />
+    <import resource="META-INF/spring/rsserver.xml" />
 
-    <ctx:component-scan base-package="com.base2.kagura.services.camel.kagura" />
-
-    <camelContext xmlns="http://camel.apache.org/schema/spring" id="kagura-camel-context">
-        <packageScan>
-            <package>com.base2.kagura.services.camel.routes</package>
-        </packageScan>
-    </camelContext>
 </beans>

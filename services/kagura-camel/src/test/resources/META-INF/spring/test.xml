@@ -10,12 +10,8 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
     ">
 
-    <camelContext xmlns="http://camel.apache.org/schema/spring" id="kagura-camel-context">
-        <packageScan>
-            <package>com.base2.kagura.services.camel.routes</package>
-        </packageScan>
-    </camelContext>
-
-    <ctx:component-scan base-package="com.base2.kagura.services.camel.kagura" />
+    <ctx:property-placeholder  />
+    <import resource="beans.xml" />
+    <import resource="rsserver.xml" />
 
 </beans>

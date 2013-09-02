@@ -10,7 +10,6 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
     ">
 
-
      <!-- Defined the server endpoint to create the cxf-rs consumer -->
      <cxf:rsServer id="rsReportsServer" address="http://0.0.0.0:${kagura.camel.rest.port:8432}/report/"
                     serviceClass="com.base2.kagura.services.camel.rest.ReportsRest"
