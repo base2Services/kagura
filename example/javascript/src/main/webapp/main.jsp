@@ -52,36 +52,37 @@
                 <img src="" class="hidden" align="left" id="reportImage" />
                 <p id="reportDescription"></p>
             </p>
-            <div class="span4" id="paramPanel">
-                <h3>Parameters</h3>
-                <div class="hidden" id="inputParamFieldTemplate">
-                    <label for="inputParamTemplate"> </label> <input id="inputParamTemplate" type="text" />
-                </div>
-                <button class="btn btn-primary" type="button" onclick="runReport();">Run report</button>
-            </div>
-            <div class="span8" id="reportPanel">
-                <table class="table table-hover" id="reportTable">
-                    <thead id="reportTableHeader">
-                    <tr><th class="hidden"></th></tr>
-                    </thead>
-                    <tbody id="reportTableBody">
-                    <tr class="hidden"><td class="hidden"></td></tr>
-                    </tbody>
-                </table>
-                <div class="span8">
-                    <div class="span4">
-                        <a href="#" onclick="exportReport("csv", false);">&lt;&lt; Previous Page;</a>
-                        <a href="#" onclick="exportReport('csv', false);">CSV</a>
-                        <a href="#" onclick="exportReport('csv', true);">(all)</a>;
-                        <a href="#" onclick="exportReport('xls', false);">Excel</a>
-                        <a href="#" onclick="exportReport('xls', true);">(all)</a>;
-                        <a href="#" onclick="exportReport('pdf', false);">PDF</a>
-                        <a href="#" onclick="exportReport('pdf', true);">(all)</a>;
+            <div class="row-fluid span12">
+                <div class="span4" id="paramPanel">
+                    <h3>Parameters</h3>
+                    <div class="hidden" id="inputParamFieldTemplate">
+                        <label for="inputParamTemplate"> </label> <input id="inputParamTemplate" type="text" />
                     </div>
-                    <div class="span4">
-                        <a href="#" onclick="prevPage();">&lt;&lt; Previous Page;</a>
-                        Page <div id="reportPageNumber">1</div>
-                        <a href="#" onclick="nextPage();">;Next Page &gt;&gt;</a>
+                    <button class="btn btn-primary" type="button" onclick="runReport();">Run report</button>
+                </div>
+                <div class="span8" id="reportPanel">
+                    <table class="table table-hover" id="reportTable">
+                        <thead id="reportTableHeader">
+                        <tr><th class="hidden"></th></tr>
+                        </thead>
+                        <tbody id="reportTableBody">
+                        <tr class="hidden"><td class="hidden"></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="span12">
+                        <div class="span6">
+                            <a href="#" onclick="exportReport('csv', false);">CSV</a>
+                            <a href="#" onclick="exportReport('csv', true);">(all)</a>;
+                            <a href="#" onclick="exportReport('xls', false);">Excel</a>
+                            <a href="#" onclick="exportReport('xls', true);">(all)</a>;
+                            <a href="#" onclick="exportReport('pdf', false);">PDF</a>
+                            <a href="#" onclick="exportReport('pdf', true);">(all)</a>;
+                        </div>
+                        <div class="span6" style="text-align: right;">
+                            <a href="#" onclick="prevPage();">&lt;&lt; Previous;</a>
+                            Page <span id="reportPageNumber">1</span>
+                            <a href="#" onclick="nextPage();">;Next &gt;&gt;</a>
+                        </div>
                     </div>
                 </div>
             </div>

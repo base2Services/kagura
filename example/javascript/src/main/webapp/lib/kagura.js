@@ -18,6 +18,7 @@ var opts = {
 };
 var spinner = new Spinner(opts);
 var token;
+var pageNumber = 1;
 
 function loginSpin() {
     spinner.stop();
@@ -120,12 +121,29 @@ function loadReport(reportId)
             var reportImage = $("#reportImage");
             if (msg.extra.image)
             {
-                reportImage.src(msg.extra.image);
+                reportImage.prop('src', msg.extra.image);
                 reportImage.removeClass("hidden");
             } else {
                 reportImage.addClass("hidden");
             }
+            var reportTableHeader = $("#reportTableHeader");
+            var templateTr = reportTableHeader.find("tr").clone();
+            templateTr.removeClass("hidden");
+            reportTableHeader.append(templateTr);
+            msg.columns.forEach(function (column)
+            {
+                var templateTh = templateTr.find("th").clone();
+                templateTh.text(column.name);
+                templateTh.removeClass("hidden");
+                if (column.styleType == "text")
+                {
+                } else if (column.styleType == "numbers")
+                {
+                }
+                templateTr.append(templateTh);
+            });
             spinner.stop();
+            pageNumber = 1;
         }
     }).fail(function (jqXHR, textStatus, errorThrown)
         {
@@ -146,4 +164,26 @@ function displayAbout()
 {
     resetDisplay();
     $('#kaguraAbout').removeClass("hidden");
+}
+function exportReport(fileType, all)
+{
+
+}
+
+function runReport()
+{
+    $('#reportPageNumber').text(pageNumber);
+
+}
+
+function prevPage()
+{
+    pageNumber = Math.max(pageNumber - 1, 1);
+    runReport();
+}
+
+function nextPage()
+{
+    pageNumber = pageNumber + 1;
+    runReport();
 }
