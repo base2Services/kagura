@@ -56,17 +56,18 @@
                 <div class="span4" id="paramPanel">
                     <h3>Parameters</h3>
                     <div class="hidden" id="inputParamFieldTemplate">
-                        <label for="inputParamTemplate"> </label> <input id="inputParamTemplate" type="text" />
+                        <label for="inputParamTemplate"> </label> <input id="inputParamTemplate" type="text" placeholder="" />
+                        <p name="helpText"></p>
                     </div>
-                    <button class="btn btn-primary" type="button" onclick="runReport();">Run report</button>
+                    <button id="runReportButton" class="btn btn-primary" type="button" onclick="runReport();">Run report</button>
                 </div>
                 <div class="span8" id="reportPanel">
                     <table class="table table-hover" id="reportTable">
                         <thead id="reportTableHeader">
-                        <tr><th class="hidden"></th></tr>
+                            <tr class="hidden"><th class="hidden"></th></tr>
                         </thead>
                         <tbody id="reportTableBody">
-                        <tr class="hidden"><td class="hidden"></td></tr>
+                            <tr class="hidden"><td class="hidden"></td></tr>
                         </tbody>
                     </table>
                     <div class="span12">

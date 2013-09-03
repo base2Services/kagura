@@ -97,9 +97,19 @@ function loadReportListData(data)
 function resetDisplay() {
     $('#kaguraMain,#reportContactUs,#kaguraAbout,#reportMain').addClass("hidden");
 }
+function resetReportConfig()
+{
+    $('#reportTableHeader>tr:not(.hidden)').remove();
+    $('#paramPanel>div:not(.hidden)').remove();
+}
+function resetReport()
+{
+}
 function loadReport(reportId)
 {
     resetDisplay();
+    resetReportConfig();
+    resetReport();
     $('#reportTitle').text(reportId);
     spinner.stop();
     var reportMain = $('#reportMain');
@@ -127,6 +137,7 @@ function loadReport(reportId)
                 reportImage.addClass("hidden");
             }
             var reportTableHeader = $("#reportTableHeader");
+            var reportTableBody = $("#reportTableBody");
             var templateTr = reportTableHeader.find("tr").clone();
             templateTr.removeClass("hidden");
             reportTableHeader.append(templateTr);
@@ -135,12 +146,38 @@ function loadReport(reportId)
                 var templateTh = templateTr.find("th").clone();
                 templateTh.text(column.name);
                 templateTh.removeClass("hidden");
+                templateTr.append(templateTh);
+                var templateRow = reportTableBody.find("tr.hidden");
+                templateRow.removeClass("hidden");
+                var templateTd = templateRow.find("td.hidden").clone();
+                templateTd.removeClass("hidden");
+                templateRow.append(templateTd);
+                templateTd.attr("name", column.name);
                 if (column.styleType == "text")
                 {
                 } else if (column.styleType == "numbers")
                 {
                 }
-                templateTr.append(templateTh);
+                templateRow.addClass("hidden");
+            });
+            var paramPanel = $('#paramPanel');
+            var inputParamFieldTemplate = $('#inputParamFieldTemplate');
+            msg.params.forEach(function (param)
+            {
+                var template = inputParamFieldTemplate.clone();
+                template.removeAttr("id");
+                template.removeClass("hidden");
+                var label = template.find("label");
+                label.text(param.name);
+                var paramId = param.id + "Param";
+                label.prop("for", paramId);
+                var input = template.find("input");
+                input.val(param.value);
+                input.prop("placeholder", param.placeholder);
+                input.prop("id", paramId);
+                var help = template.find("p[name='help']");
+                help.text(param.help);
+                template.insertBefore('#runReportButton');
             });
             spinner.stop();
             pageNumber = 1;
@@ -172,8 +209,11 @@ function exportReport(fileType, all)
 
 function runReport()
 {
-    $('#reportPageNumber').text(pageNumber);
+    spinner.stop();
+    spinner.spin(document.getElementById('reportMain'));
 
+    $('#reportPageNumber').text(pageNumber);
+    resetReport();
 }
 
 function prevPage()
