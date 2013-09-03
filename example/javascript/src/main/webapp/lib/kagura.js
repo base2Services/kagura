@@ -32,6 +32,12 @@ function loginUnspin() {
 
 function setToken(token) {
     this.token = token;
+    var date = new Date();
+    setCookie("token", token, date.getTime() + (2 * 24 * 60 * 60 * 1000));
+}
+function gotoMain()
+{
+    window.location.href = server_base + "main.jsp";
 }
 function doLogin()
 {
@@ -40,7 +46,7 @@ function doLogin()
     var password = $("#loginPassword").val();
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/rest/auth/login/" + user,
+        url: server_base + "rest/auth/login/" + user,
         data: password,
         contentType: "TEXT/PLAIN",
         success: function (msg)
@@ -51,7 +57,93 @@ function doLogin()
                 alert(msg.error);
             } else {
                 setToken(msg.token);
+                gotoMain();
             }
         }
+        }).fail(function (jqXHR, textStatus, errorThrown)
+            {
+                loginUnspin();
+                alert(errorThrown);
+            });
+}
+function loadReportList() {
+    token = getCookie("token");
+    $.ajax({
+        type: "GET",
+        url: server_base + "rest/auth/reports/" + token,
+        success: function (msg)
+        {
+            loadReportListData(msg);
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown)
+        {
+            alert(errorThrown);
+        });
+};
+function loadReportListData(data)
+{
+    var reportDDList = $("#reportDropdownList");
+    reportDDList.find("li:not(.hidden)").remove();
+//    Object.keys(data)
+    data.forEach(function (report)
+    {
+        var template = reportDDList.find("li.hidden").clone();
+        template.removeClass("hidden");
+        reportDDList.append(template);
+        template.html("<a href='#' onclick='loadReport(\""+report+"\")'>"+report+"</a>");
     });
+}
+function resetDisplay() {
+    $('#kaguraMain,#reportContactUs,#kaguraAbout,#reportMain').addClass("hidden");
+}
+function loadReport(reportId)
+{
+    resetDisplay();
+    $('#reportTitle').text(reportId);
+    spinner.stop();
+    var reportMain = $('#reportMain');
+    reportMain.removeClass("hidden");
+    spinner.spin(document.getElementById('reportMain'));
+    $.ajax({
+        type: "GET",
+        url: server_base + "rest/report/" + token + "/" + reportId + "/details",
+        success: function (msg)
+        {
+            if (msg.extra.reportName)
+            {
+                $("#reportTitle").text(msg.extra.reportName);
+            }
+            if (msg.extra.description)
+            {
+                $("#reportDescription").text(msg.extra.description);
+            }
+            var reportImage = $("#reportImage");
+            if (msg.extra.image)
+            {
+                reportImage.src(msg.extra.image);
+                reportImage.removeClass("hidden");
+            } else {
+                reportImage.addClass("hidden");
+            }
+            spinner.stop();
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown)
+        {
+            alert(errorThrown);
+        });
+}
+function displayMain()
+{
+    resetDisplay();
+    $('#kaguraMain').removeClass("hidden");
+}
+function displayContactUs()
+{
+    resetDisplay();
+    $('#kaguraContactUs').removeClass("hidden");
+}
+function displayAbout()
+{
+    resetDisplay();
+    $('#kaguraAbout').removeClass("hidden");
 }

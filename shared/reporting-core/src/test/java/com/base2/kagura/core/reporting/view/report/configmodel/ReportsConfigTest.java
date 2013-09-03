@@ -7,7 +7,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.matchers.JUnitMatchers;
 
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,8 +20,8 @@ import java.net.URISyntaxException;
  */
 public class ReportsConfigTest {
     @Test
-    public void getReports1Test() throws URISyntaxException {
-        String reportDirectory = this.getClass().getResource("/reportTest1").getFile();
+    public void getReports1Test() throws URISyntaxException, MalformedURLException {
+        URL reportDirectory = this.getClass().getResource("/reportTest1");
         ReportsConfig actual = ReportsConfig.getConfig(reportDirectory);
         Assert.assertThat(actual.getReports().get("TestJDBCSQL"), IsInstanceOf.instanceOf(JDBCReportConfig.class));
         Assert.assertThat(actual.getReports().get("TestJNDISQL"), IsInstanceOf.instanceOf(JNDIReportConfig.class));

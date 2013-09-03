@@ -1,4 +1,4 @@
-<%@page language="java" import="javax.servlet.jsp.PageContext" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html>
@@ -42,8 +42,6 @@
 </head>
 
 <body>
-<%= pageContext.getRequest().getServletContext().getContextPath() %>
-${pageContext.servletContext.contextPath}
     <div class="container">
         <div class="hero-unit">
             <h1>Kagura</h1>

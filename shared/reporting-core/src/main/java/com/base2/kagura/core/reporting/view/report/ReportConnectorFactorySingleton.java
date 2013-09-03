@@ -7,6 +7,7 @@ import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
 //import javax.inject.Inject;
 //import javax.inject.Named;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 
 /**
@@ -36,6 +37,8 @@ public class ReportConnectorFactorySingleton implements Serializable {
         try {
             return ReportsConfig.getConfig(report_directory);
         } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return null;
