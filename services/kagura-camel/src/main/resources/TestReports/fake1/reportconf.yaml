@@ -15,11 +15,13 @@ columns:
     styleType: text
   - name: test2
     styleType: numbers
+  - name: test3
+    styleType: numbers
 rows:
-  - Number: 899
-    Description: "Unique Visitors"
-  - Number: 234
-    Description: String
+  - test2: 899
+    test1: "Unique Visitors"
+  - test2: 234
+    test1: String
 extraOptions:
   displayPriority: 1
   image: fake.png

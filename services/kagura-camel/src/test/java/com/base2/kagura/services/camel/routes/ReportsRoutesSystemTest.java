@@ -61,7 +61,7 @@ public class ReportsRoutesSystemTest extends CamelSpringTestSupport {
         ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
         String token = login.jsonPath().get("token");
         expect()
-                .body("columns",hasSize(2))
+                .body("columns",hasSize(3))
                 .body("rows",hasSize(2))
                 .when().get("http://localhost:8432/report/{1}/fake1/run", token);
     }
@@ -71,9 +71,9 @@ public class ReportsRoutesSystemTest extends CamelSpringTestSupport {
     {
         ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
         String token = login.jsonPath().get("token");
-        ResponseBody responseBody =  expect().when().get("http://localhost:8432/report/{1}/fake1/export", token);
+        ResponseBody responseBody =  expect().when().get("http://localhost:8432/report/{1}/fake1/export.csv", token);
         byte[] bytes = responseBody.asByteArray();
-        Assert.assertThat(bytes.length, equalTo(19));
+        Assert.assertThat(bytes.length, equalTo(54));
     }
 
     @Test
@@ -81,9 +81,9 @@ public class ReportsRoutesSystemTest extends CamelSpringTestSupport {
     {
         ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
         String token = login.jsonPath().get("token");
-        ResponseBody responseBody =  expect().when().get("http://localhost:8432/report/{1}/fake1/export?filetype=pdf", token);
+        ResponseBody responseBody =  expect().when().get("http://localhost:8432/report/{1}/fake1/export.pdf", token);
         byte[] bytes = responseBody.asByteArray();
-        Assert.assertThat(bytes.length, equalTo(1155));
+        Assert.assertThat(bytes.length, equalTo(1216));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ReportsRoutesSystemTest extends CamelSpringTestSupport {
     {
         ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
         String token = login.jsonPath().get("token");
-        ResponseBody responseBody =  expect().when().get("http://localhost:8432/report/{1}/fake1/export?filetype=xls", token);
+        ResponseBody responseBody =  expect().when().get("http://localhost:8432/report/{1}/fake1/export.xls", token);
         byte[] bytes = responseBody.asByteArray();
         Assert.assertThat(bytes.length, equalTo(4096));
     }

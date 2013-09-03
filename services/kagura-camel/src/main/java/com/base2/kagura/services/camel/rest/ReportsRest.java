@@ -44,12 +44,12 @@ public class ReportsRest {
      * @param filetype File type, CSV, PDF, or XLS, defaults to CSV
      * @return Returns a list of reports
      */
-    @Path("export")
+    @Path("export.{filetype}")
     @GET
-    @Produces(MediaType.WILDCARD)
+    @Produces("application/octet-stream")
     public Object exportReport(
             @DefaultValue("false") @QueryParam("allpages") boolean allpages,
-            @DefaultValue("csv") @QueryParam("filetype") String filetype,
+            @DefaultValue("csv") @PathParam("filetype") String filetype,
             @DefaultValue("10") @QueryParam("pageLimit") int pageLimit,
             @DefaultValue("0") @QueryParam("page") int page
     ){return null;}

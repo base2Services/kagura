@@ -19,6 +19,7 @@ var opts = {
 var spinner = new Spinner(opts);
 var token;
 var pageNumber = 1;
+var curReport;
 
 function loginSpin() {
     spinner.stop();
@@ -85,7 +86,6 @@ function loadReportListData(data)
 {
     var reportDDList = $("#reportDropdownList");
     reportDDList.find("li:not(.hidden)").remove();
-//    Object.keys(data)
     data.forEach(function (report)
     {
         var template = reportDDList.find("li.hidden").clone();
@@ -100,10 +100,13 @@ function resetDisplay() {
 function resetReportConfig()
 {
     $('#reportTableHeader>tr:not(.hidden)').remove();
+    $('#reportTableBody>tr:not(.hidden)').remove();
+    $('#reportTableBody>tr>td:not(.hidden)').remove();
     $('#paramPanel>div:not(.hidden)').remove();
 }
 function resetReport()
 {
+    $('#reportTableBody>tr:not(.hidden)').remove();
 }
 function loadReport(reportId)
 {
@@ -143,7 +146,7 @@ function loadReport(reportId)
             reportTableHeader.append(templateTr);
             msg.columns.forEach(function (column)
             {
-                var templateTh = templateTr.find("th").clone();
+                var templateTh = templateTr.find("th.hidden").clone();
                 templateTh.text(column.name);
                 templateTh.removeClass("hidden");
                 templateTr.append(templateTh);
@@ -181,6 +184,7 @@ function loadReport(reportId)
             });
             spinner.stop();
             pageNumber = 1;
+            curReport = reportId;
         }
     }).fail(function (jqXHR, textStatus, errorThrown)
         {
@@ -204,16 +208,48 @@ function displayAbout()
 }
 function exportReport(fileType, all)
 {
-
+    var values = "page=" + pageNumber;
+    if (all)
+    {
+        values = values + "&allpages=true";
+    } else {
+        values = values + "&page=" + pageNumber;
+    }
+    window.open(server_base + "rest/report/" + token + "/" + curReport + "/export."+fileType+"?" + values);
 }
 
 function runReport()
 {
+    resetReport();
     spinner.stop();
     spinner.spin(document.getElementById('reportMain'));
-
     $('#reportPageNumber').text(pageNumber);
+    var values = "page=" + pageNumber;
     resetReport();
+    $.ajax({
+        type: "GET",
+        url: server_base + "rest/report/" + token + "/" + curReport + "/run?" + values,
+        success: function (msg)
+        {
+            var reportTableBody = $("#reportTableBody");
+            var templateRow = reportTableBody.find("tr.hidden");
+            msg.rows.forEach(function (row)
+            {
+                var rowInstance = templateRow.clone();
+                rowInstance.removeClass("hidden");
+                reportTableBody.append(rowInstance);
+                rowInstance.find("td.hidden").remove();
+                Object.keys(row).forEach(function (key)
+                {
+                    rowInstance.find("td[name='"+key+"']").text(row[key]);
+                })
+            });
+            spinner.stop();
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown)
+        {
+            alert(errorThrown);
+        });
 }
 
 function prevPage()
