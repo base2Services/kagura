@@ -255,16 +255,11 @@ function exportReport(fileType, all)
     } else {
         values = values + "&page=" + pageNumber;
     }
+    values = values + "&" + buildParameters();
     window.open(server_base + "rest/report/" + token + "/" + curReport + "/export."+fileType+"?" + values);
 }
 
-function runReport()
-{
-    resetReport();
-    spinner.stop();
-    spinner.spin(document.getElementById('reportMain'));
-    $('#reportPageNumber').text(pageNumber);
-    var values = "page=" + pageNumber;
+function buildParameters() {
     var params = {};
     $('div.parameterField:not(.hidden)').each(function (index, divfield) {
         var param = $(divfield).find("span[name='paramId']").text();
@@ -272,6 +267,16 @@ function runReport()
         params[param] = value;
     });
     var encParams = encodeURIComponent(JSON.stringify(params));
+    return encParams;
+}
+function runReport()
+{
+    resetReport();
+    spinner.stop();
+    spinner.spin(document.getElementById('reportMain'));
+    $('#reportPageNumber').text(pageNumber);
+    var values = "page=" + pageNumber;
+    var encParams = buildParameters();
     resetReport();
     $.ajax({
         type: "GET",
