@@ -54,11 +54,10 @@ public class ReportBean {
     }
 
     public Map<String, Object> getReportDetails(String reportName, boolean full) {
-        Map<String, Object> result = null;
+        Map<String, Object> result = new HashMap<String, Object>();
         ReportConfig reportConfig = getReportConfig(reportName, result);
         if (reportConfig != null)
         {
-            result = new HashMap<String, Object>();
             result.put("reportId", reportName);
             result.put("extra", reportConfig.getExtraOptions());
             if (full)
@@ -91,7 +90,8 @@ public class ReportBean {
         ReportConfig reportConfig = reportsConfig.getReports().get(reportName);
         if (reportConfig == null)
             return null;
-        result.put("errors", reportsConfig.getErrors());
+        if (reportsConfig.getErrors() != null)
+            result.put("errors", reportsConfig.getErrors());
         return reportConfig;
     }
 
