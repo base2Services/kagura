@@ -246,7 +246,7 @@ public class AuthBean {
         public Boolean expired()
         {
             Date curDate = Calendar.getInstance().getTime();
-            return curDate.getTime() - this.lastAccessed.getTime() > 2 * 24 * 60 * 60;
+            return curDate.getTime() - this.lastAccessed.getTime() > 2 * 24 * 60 * 60 * 1000;
         }
 
         public void updateLastAccessed()
