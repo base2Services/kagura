@@ -53,5 +53,10 @@ public class AuthRoutes extends RouteBuilder {
                 .beanRef("authBean", "getReportsDetailed")
                 .marshal().json(JsonLibrary.Jackson)
                 .routeId("rsGetReportsDetailedRouteId");
+
+        from("timer:cleanAuths?period=600000")
+                .log("cleaning Auth routes")
+                .beanRef("authBean", "cleanAuthTickets")
+                .routeId("cleanAuthsRouteId");
     }
 }

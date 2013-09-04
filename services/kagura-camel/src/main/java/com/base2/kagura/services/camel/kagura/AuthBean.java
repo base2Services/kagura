@@ -35,7 +35,16 @@ public class AuthBean {
     private ReportBean reportsBean;
 
     public void isLoggedIn(@Header("authToken") String authToken, Exchange exchange) throws AuthenticationException {
-        if (tokens.containsKey(authToken) && tokens.get(authToken).getLoggedIn()) return;
+        if (tokens.containsKey(authToken))
+        {
+            AuthDetails authDetails = tokens.get(authToken);
+            if( authDetails.getLoggedIn() && !authDetails.expired())
+            {
+                authDetails.updateLastAccessed();
+                return;
+            }
+            LOG.info("Ticket was expired or logged out.");
+        }
         throw new AuthenticationException("User is not logged in.");
     }
 
@@ -91,6 +100,21 @@ public class AuthBean {
         response.put("error","Authentication failure");
         response.put("token","");
         exchange.getOut().setBody(response);
+    }
+
+    public void cleanAuthTickets(Exchange exchange)
+    {
+        List<String> removeThese = new ArrayList<String>();
+        for (AuthDetails authDetails : tokens.values())
+        {
+            if (authDetails.expired())
+                removeThese.add(authDetails.getToken().toString());
+        }
+        for (String each: removeThese)
+        {
+            LOG.info("Removing token: " + each);
+            tokens.remove(each);
+        }
     }
 
     public void logout(@Header("authToken") String authToken, Exchange exchange) throws AuthenticationException {
@@ -210,11 +234,24 @@ public class AuthBean {
         private Boolean loggedIn;
         private String username;
         private UUID token;
+        private Date lastAccessed;
 
         private AuthDetails(String username) {
             this.username = username;
             this.loggedIn = true;
             this.token = UUID.randomUUID();
+            this.lastAccessed = Calendar.getInstance().getTime();
+        }
+
+        public Boolean expired()
+        {
+            Date curDate = Calendar.getInstance().getTime();
+            return curDate.getTime() - this.lastAccessed.getTime() > 2 * 24 * 60 * 60;
+        }
+
+        public void updateLastAccessed()
+        {
+            this.lastAccessed = Calendar.getInstance().getTime();
         }
 
         private Boolean getLoggedIn() {
@@ -235,6 +272,14 @@ public class AuthBean {
 
         public UUID getToken() {
             return token;
+        }
+
+        public Date getLastAccessed() {
+            return lastAccessed;
+        }
+
+        public void setLastAccessed(Date lastAccessed) {
+            this.lastAccessed = lastAccessed;
         }
     }
 

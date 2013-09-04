@@ -257,7 +257,7 @@ function exportReport(fileType, all)
         values = values + "&page=" + pageNumber;
     }
     values = values + "&" + buildParameters();
-    window.open(server_base + "rest/report/" + token + "/" + curReport + "/export."+fileType+"?" + values);
+    window.location.href = server_base + "rest/report/" + token + "/" + curReport + "/export."+fileType+"?" + values;
 }
 
 function buildParameters() {
