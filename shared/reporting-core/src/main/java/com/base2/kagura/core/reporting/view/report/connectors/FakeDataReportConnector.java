@@ -7,6 +7,7 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -36,7 +37,7 @@ public class FakeDataReportConnector extends ReportConnector {
 
     @Override
     public void run() {
-        rows = new ArrayList<Map<String, Object>>(data);
+        rows = new ArrayList<Map<String, Object>>(data != null ? data : new ArrayList<Map<String, Object>>());
         if (parameterConfig != null)
         {
             for (final ParamConfig paramConfig : parameterConfig)

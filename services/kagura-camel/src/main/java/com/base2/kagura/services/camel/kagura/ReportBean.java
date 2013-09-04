@@ -6,6 +6,7 @@ import com.base2.kagura.core.reporting.view.report.ParamConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
@@ -125,16 +126,14 @@ public class ReportBean {
     private void insertParameters(Parameters parameters, ReportConnector reportConnector) {
         for (ParamConfig paramConfig : reportConnector.getParameterConfig())
         {
-            if (parameters.getParameters().containsKey(paramConfig.getName()))
+            if (parameters.getParameters().containsKey(paramConfig.getId()))
             {
-                Object o = parameters.getParameters().get(paramConfig.getName());
+                Object o = parameters.getParameters().get(paramConfig.getId());
                 try {
-                    PropertyUtils.setProperty(paramConfig, "value", o);
+                    BeanUtils.setProperty(paramConfig, "value", o);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 }
             }

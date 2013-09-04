@@ -57,8 +57,9 @@
                 <div class="span4" id="paramPanel">
                     <h3>Parameters</h3>
                     <div class="hidden" id="inputParamFieldTemplate">
-                        <label for="inputParamTemplate"> </label> <input id="inputParamTemplate" type="text" placeholder="" />
+                        <label for="inputParamTemplate"> </label> <input id="inputParamTemplate" type="text" placeholder="" class="parameterFieldInput" />
                         <p name="helpText"></p>
+                        <span name="paramId" class="hidden"></span>
                     </div>
                     <button id="runReportButton" class="btn btn-primary" type="button" onclick="runReport();">Run report</button>
                 </div>

@@ -6,7 +6,7 @@ paramConfig:
     placeholder: "asdfsdaef"
     value:
   - type: Combo
-    name: "An anonymous string"
+    name: "Select one"
     help: "Just put anything in"
     placeholder: "asdfsdaef"
     values:
@@ -14,7 +14,7 @@ paramConfig:
       - 2013
       - 2014
   - type: Boolean
-    name: "Select one"
+    name: "Select yes no"
     help: "Just select something"
     placeholder: "No Value"
     value:
@@ -24,8 +24,8 @@ paramConfig:
     placeholder: "3.14"
     value:
   - type: ManyCombo
-    name: "An anonymous string"
-    help: "Just put anything in"
+    name: "Select many"
+    help: "You can select more than 1"
     placeholder: "asdfsdaef"
     values:
       - c1
@@ -40,3 +40,8 @@ extraOptions:
   displayPriority: 2
   image: fake.png
   reportName: "Fake sample 2"
+rows:
+  - test2: 899
+    test1: "Unique Visitors"
+  - test2: 234
+    test1: String
