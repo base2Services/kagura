@@ -1,1 +1,2 @@
 - { groupname: "test reports", reports: [ "fake1" ] }
+- { groupname: "test reports2", reports: [ "fake2" ] }

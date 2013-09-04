@@ -6,6 +6,9 @@ import org.apache.camel.Header;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.Map;
+import java.util.List;
+import com.base2.kagura.services.camel.model.Parameters;
 
 /**
  * @author aubels
@@ -36,7 +39,8 @@ public class ReportsRest {
     public Object runReport(
             @DefaultValue("false") @QueryParam("allpages") boolean allpages,
             @DefaultValue("10") @QueryParam("pageLimit") int pageLimit,
-            @DefaultValue("0") @QueryParam("page") int page
+            @DefaultValue("0") @QueryParam("page") int page,
+            @DefaultValue("{}") @QueryParam("parameters") Parameters parameters
     ){return null;}
 
     /**
@@ -51,6 +55,7 @@ public class ReportsRest {
             @DefaultValue("false") @QueryParam("allpages") boolean allpages,
             @DefaultValue("csv") @PathParam("filetype") String filetype,
             @DefaultValue("10") @QueryParam("pageLimit") int pageLimit,
-            @DefaultValue("0") @QueryParam("page") int page
+            @DefaultValue("0") @QueryParam("page") int page,
+            @DefaultValue("{}") @QueryParam("parameters") Parameters parameters
     ){return null;}
 }

@@ -5,21 +5,37 @@ paramConfig:
     help: "Just put anything in"
     placeholder: "asdfsdaef"
     value:
+  - type: Combo
+    name: "An anonymous string"
+    help: "Just put anything in"
+    placeholder: "asdfsdaef"
+    values:
+      - 2012
+      - 2013
+      - 2014
   - type: Boolean
     name: "Select one"
     help: "Just select something"
     placeholder: "No Value"
     value:
+  - type: Number
+    name: "Enter one"
+    help: "Just type a number or something"
+    placeholder: "3.14"
+    value:
+  - type: ManyCombo
+    name: "An anonymous string"
+    help: "Just put anything in"
+    placeholder: "asdfsdaef"
+    values:
+      - c1
+      - v1
+      - v2
 columns:
   - name: test1
     styleType: text
   - name: test2
     styleType: numbers
-rows:
-  - test2: 899
-    test1: "Unique Visitors"
-  - test2: 234
-    test1: String
 extraOptions:
   displayPriority: 2
   image: fake.png

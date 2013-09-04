@@ -2,9 +2,11 @@ package com.base2.kagura.services.camel.kagura;
 
 import com.base2.kagura.core.reporting.view.ReportExportBean;
 import com.base2.kagura.core.reporting.view.report.ColumnDef;
+import com.base2.kagura.core.reporting.view.report.ParamConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
 import org.apache.commons.io.IOUtils;
@@ -12,8 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.base2.kagura.services.camel.model.Parameters;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -101,7 +104,8 @@ public class ReportBean {
             @Header("reportId") String reportId
             , @Header("page") int page
             , @Header("allpages") boolean all
-            , @Header("pageLimit") int pageLimit) throws AuthenticationException {
+            , @Header("pageLimit") int pageLimit
+            , @Header("parameters") Parameters parameters) throws AuthenticationException {
         Map<String, Object> result = new HashMap<String, Object>();
         ReportConnector reportConnector = getConnector(reportId);
         reportConnector.setPage(page);
@@ -109,6 +113,7 @@ public class ReportBean {
             reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
         else
             reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
+        insertParameters(parameters, reportConnector);
         reportConnector.run();
         List<ColumnDef> columns = reportConnector.getColumns();
         List<Map<String, Object>> rows = reportConnector.getRows();
@@ -117,16 +122,37 @@ public class ReportBean {
         return result;
     }
 
+    private void insertParameters(Parameters parameters, ReportConnector reportConnector) {
+        for (ParamConfig paramConfig : reportConnector.getParameterConfig())
+        {
+            if (parameters.getParameters().containsKey(paramConfig.getName()))
+            {
+                Object o = parameters.getParameters().get(paramConfig.getName());
+                try {
+                    PropertyUtils.setProperty(paramConfig, "value", o);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public ByteArrayInputStream export(@Header("reportId") String reportId
             , Exchange exchange
             , @Header("page") int page
             , @Header("allpages") boolean all
             , @Header("filetype") String filetype
-            , @Header("pageLimit") int pageLimit) throws AuthenticationException {
+            , @Header("pageLimit") int pageLimit
+            , @Header("parameters") Parameters parameters) throws AuthenticationException {
         ReportExportBean reportExportBean = new ReportExportBean();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ReportConnector reportConnector = getConnector(reportId);
         try {
+            insertParameters(parameters, reportConnector);
             reportConnector.setPage(page);
             if (all)
                 reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
