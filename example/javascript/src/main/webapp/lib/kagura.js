@@ -75,12 +75,14 @@ function loadReportList() {
         url: server_base + "rest/auth/reports/" + token,
         success: function (msg)
         {
-            loadReportListData(msg);
+            if (!msg.isArray)
+            {
+                loadReportListData(msg);
+            } else {
+                ajaxFail(null, null, msg.error);
+            }
         }
-    }).fail(function (jqXHR, textStatus, errorThrown)
-        {
-            alert(errorThrown);
-        });
+    }).fail(ajaxFail);
 };
 function loadReportListData(data)
 {
@@ -95,7 +97,7 @@ function loadReportListData(data)
     });
 }
 function resetDisplay() {
-    $('#kaguraMain,#reportContactUs,#kaguraAbout,#reportMain').addClass("hidden");
+    $('#kaguraMain,#kaguraContactUs,#kaguraAbout,#reportMain').addClass("hidden");
 }
 function resetReportConfig()
 {
@@ -119,7 +121,10 @@ function loadReport(reportId)
     reportMain.removeClass("hidden");
     spinner.spin(document.getElementById('reportMain'));
     $.ajax({
-        type: "GET",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
+        }),
         url: server_base + "rest/report/" + token + "/" + reportId + "/details",
         success: function (msg)
         {
@@ -175,9 +180,40 @@ function loadReport(reportId)
                 var paramId = param.id + "Param";
                 label.prop("for", paramId);
                 var input = template.find("input");
-                input.val(param.value);
-                input.prop("placeholder", param.placeholder);
-                input.prop("id", paramId);
+                if ("number" == param.type.toLowerCase())
+                {
+                    input.prop("id", paramId);
+                    input.prop("type", "number");
+                    input.val(param.value);
+                    input.prop("placeholder", param.placeholder);
+                } else if ("boolean" == param.type.toLowerCase())
+                {
+                    var options = "<option value='' "+(param.value == "" ? "selected" : "")+">Select one</option>" +
+                        "<option value='true' "+(param.value == "true" ? "selected" : "")+">Yes</option>" +
+                        "<option value='false' "+(param.value == "false" ? "selected" : "")+">No</option>";
+                    input.replaceWith("<select id='"+paramId+"'>"+options+"</select>");
+                } else if ("combo" == param.type.toLowerCase())
+                {
+                    var options = "<option value='' "+(param.value == "" ? "selected" : "")+">Select one</option>";
+                    param.values.forEach(function (value)
+                    {
+                        options = options + "<option value='"+value+"' "+(param.value == value ? "selected" : "")+">"+value+"</option>";
+                    });
+                    input.replaceWith("<select id='"+paramId+"'>"+options+"</select>");
+                } else if ("manycombo" == param.type.toLowerCase())
+                {
+                    var options = "<option value='' "+(param.value.length == 0 ? "selected" : "")+">Select one</option>";
+                    param.values.forEach(function (value)
+                    {
+                        options = options + "<option value='"+value+"' "+(param.value.contains(value) ? "selected" : "")+">"+value+"</option>";
+                    });
+                    input.replaceWith("<select id='"+paramId+"'>"+options+"</select>");
+                } else //if ("string" == param.type.toLowerCase())
+                {
+                    input.prop("id", paramId);
+                    input.val(param.value);
+                    input.prop("placeholder", param.placeholder);
+                }
                 var help = template.find("p[name='help']");
                 help.text(param.help);
                 template.insertBefore('#runReportButton');
@@ -186,10 +222,7 @@ function loadReport(reportId)
             pageNumber = 1;
             curReport = reportId;
         }
-    }).fail(function (jqXHR, textStatus, errorThrown)
-        {
-            alert(errorThrown);
-        });
+    }).fail(ajaxFail);
 }
 function displayMain()
 {
@@ -246,10 +279,7 @@ function runReport()
             });
             spinner.stop();
         }
-    }).fail(function (jqXHR, textStatus, errorThrown)
-        {
-            alert(errorThrown);
-        });
+    }).fail(ajaxFail);
 }
 
 function prevPage()
@@ -262,4 +292,24 @@ function nextPage()
 {
     pageNumber = pageNumber + 1;
     runReport();
+}
+
+function logout()
+{
+    setCookie("token", "",1);
+    window.location = server_base + "index.jsp";
+}
+
+function ajaxFail(jqXHR, textStatus, errorThrown)
+{
+    if (errorThrown == "Not Found")
+    {
+        alert("Can not find reporting backend, please ensure report server is running.");
+    } else if (errorThrown == "Authentication failure")
+    {
+        alert("Session expired.");
+        logout();
+    } else {
+        alert(errorThrown);
+    }
 }

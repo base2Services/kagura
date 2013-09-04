@@ -35,6 +35,7 @@
                         </li>
                         <li><a href="#" onclick="displayAbout();">About</a></li>
                         <li><a href="#" onclick="displayContactUs();">Contact</a></li>
+                        <li><a href="#" onclick="logout();">Logout</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -88,11 +89,11 @@
                 </div>
             </div>
         </div>
-        <div class="hidden" id="reportAbout">
+        <div class="hidden" id="kaguraAbout">
             <h1>About Us</h1>
-            <p>Just a reporting framework.</p>
+            <p>Just a simple flexible reporting framework.</p>
         </div>
-        <div class="hidden" id="reportContactUs">
+        <div class="hidden" id="kaguraContactUs">
             <h1>Contact Us</h1>
             <p>.</p>
         </div>
