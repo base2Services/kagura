@@ -56,8 +56,8 @@ public class ReportBean {
     }
 
     public Map<String, Object> getReportDetails(String reportName, boolean full) {
-        ReportConfig reportConfig = getReportConfig(reportName);
         Map<String, Object> result = null;
+        ReportConfig reportConfig = getReportConfig(reportName, result);
         if (reportConfig != null)
         {
             result = new HashMap<String, Object>();
@@ -88,11 +88,12 @@ public class ReportBean {
         exchange.getOut().setBody(result);
     }
 
-    private ReportConfig getReportConfig(String reportName) {
+    private ReportConfig getReportConfig(String reportName, Map<String, Object> result) {
         ReportsConfig reportsConfig = getReportsConfig();
         ReportConfig reportConfig = reportsConfig.getReports().get(reportName);
         if (reportConfig == null)
             return null;
+        result.put("errors", reportsConfig.getErrors());
         return reportConfig;
     }
 
@@ -120,6 +121,7 @@ public class ReportBean {
         List<Map<String, Object>> rows = reportConnector.getRows();
         result.put("columns",columns);
         result.put("rows",rows);
+        result.put("errors", reportConnector.getErrors());
         return result;
     }
 
