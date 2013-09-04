@@ -18,7 +18,7 @@ var opts = {
 };
 var spinner = new Spinner(opts);
 var token;
-var pageNumber = 1;
+var pageNumber = 0;
 var curReport;
 
 function loginSpin() {
@@ -227,7 +227,7 @@ function loadReport(reportId)
                 template.insertBefore('#runReportButton');
             });
             spinner.stop();
-            pageNumber = 1;
+            pageNumber = 0;
             curReport = reportId;
         }
     }).fail(ajaxFail);
@@ -249,7 +249,7 @@ function displayAbout()
 }
 function exportReport(fileType, all)
 {
-    var values = "page=" + pageNumber;
+    var values = "";
     if (all)
     {
         values = values + "&allpages=true";
@@ -275,7 +275,7 @@ function runReport()
     resetReport();
     spinner.stop();
     spinner.spin(document.getElementById('reportMain'));
-    $('#reportPageNumber').text(pageNumber);
+    $('#reportPageNumber').text(pageNumber+1);
     var values = "page=" + pageNumber;
     var encParams = buildParameters();
     resetReport();
@@ -304,7 +304,7 @@ function runReport()
 
 function prevPage()
 {
-    pageNumber = Math.max(pageNumber - 1, 1);
+    pageNumber = Math.max(pageNumber - 1, 0);
     runReport();
 }
 
