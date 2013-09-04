@@ -189,6 +189,7 @@ function loadReport(reportId)
                 {
                     input.prop("id", paramId);
                     input.prop("type", "number");
+                    input.prop("step", "any");
                     input.val(param.value);
                     input.prop("placeholder", param.placeholder);
                     input.addClass("parameterFieldInput");
