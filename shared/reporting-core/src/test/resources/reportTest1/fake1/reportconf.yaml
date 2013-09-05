@@ -22,5 +22,5 @@ rows:
     Description: String
 extraOptions:
   diplayPriority: 1
-  image: resources/assets/img/features/feature-1.png
+  image: fake1.png
   reportName: "Fake sample 1"

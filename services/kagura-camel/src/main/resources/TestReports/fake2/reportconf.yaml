@@ -38,7 +38,7 @@ columns:
     styleType: numbers
 extraOptions:
   displayPriority: 2
-  image: fake.png
+  image: fake2.png
   reportName: "Fake sample 2"
 rows:
   - test2: 899

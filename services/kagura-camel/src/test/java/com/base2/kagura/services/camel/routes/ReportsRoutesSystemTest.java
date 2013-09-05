@@ -34,7 +34,7 @@ public class ReportsRoutesSystemTest extends CamelSpringTestSupport {
         String token = login.jsonPath().get("token");
         expect()
                 .body("extra.displayPriority", equalTo("1"))
-                .body("extra.image", equalTo("fake.png"))
+                .body("extra.image", equalTo("fake1.png"))
                 .body("extra.reportName", equalTo("Fake sample 1"))
                 .body("reportId", equalTo("fake1"))
                 .when().get("http://localhost:8432/report/{1}/fake1/details", token);

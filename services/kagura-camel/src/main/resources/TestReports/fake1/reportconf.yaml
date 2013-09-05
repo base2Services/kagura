@@ -24,6 +24,6 @@ rows:
     test1: String
 extraOptions:
   displayPriority: 1
-  image: fake.png
+  image: fake1.png
   reportName: "Fake sample 1"
   description: "Here be a report; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at semper ante. Curabitur tincidunt lacinia lacinia. Ut sagittis augue diam, sit amet mattis enim accumsan sit amet. Vivamus cursus tortor commodo, vehicula lectus nec, venenatis elit. Vestibulum quis tortor odio. Praesent pellentesque laoreet sem a sagittis."
