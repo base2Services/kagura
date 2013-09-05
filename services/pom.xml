@@ -23,6 +23,7 @@
         <rest-assured.version>1.8.1</rest-assured.version>
         <groovy.version>2.1.2</groovy.version>
         <guava-osgi.version>11.0.0</guava-osgi.version>
+        <snakeyaml.version>1.13-SNAPSHOT</snakeyaml.version>
     </properties>
 
     <dependencyManagement>
@@ -308,6 +309,12 @@
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
