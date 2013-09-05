@@ -1,11 +1,16 @@
 package com.base2.kagura.services.camel.kagura;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-import java.net.URISyntaxException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -18,20 +23,45 @@ public class ServerBean implements ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     public ServerBean() {
-        URL dir_url = ServerBean.class.getResource("/TestReports");
-        try {
-            configPath = dir_url.toURI().toString();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
     }
 
     public String getConfigPath() {
-        return configPath;
+        if (new File(configPath).exists())
+            return configPath;
+        return ServerBean.class.getResource(configPath).getFile();
     }
 
+    @Value("${com.base2.kagura.reportloc:/TestReports/}")
     public void setConfigPath(String configPath) {
         this.configPath = configPath;
+    }
+
+    public InputStream openFile(String file)
+    {
+        if (!new File(file).exists()) {
+            URL dir_url = ServerBean.class.getResource(file);
+            if (dir_url != null)
+            {
+                try {
+                    return dir_url.openStream();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                return new URL(file).openStream();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            return FileUtils.openInputStream(new File(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

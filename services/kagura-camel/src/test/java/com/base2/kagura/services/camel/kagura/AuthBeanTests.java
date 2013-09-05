@@ -24,7 +24,7 @@ public class AuthBeanTests {
         authBean.setServerBean(serverBean);
         List<Group> groups = authBean.getGroups();
         Assert.assertNotNull(groups);
-        Assert.assertThat("Incorrect number of groups returned", groups, hasSize(1));
+        Assert.assertThat("Incorrect number of groups returned", groups, hasSize(2));
         Assert.assertEquals("test reports", groups.get(0).getGroupname());
         Assert.assertThat(groups.get(0).getReports(), contains("fake1"));
     }
@@ -41,7 +41,7 @@ public class AuthBeanTests {
         Assert.assertThat("Incorrect number of users returned", users, hasSize(2));
         Assert.assertThat(users, contains(
                 allOf(hasProperty("username", equalTo("testuser")), hasProperty("password", equalTo("testuserpass")), hasProperty("groups", hasSize(1)), hasProperty("groups", contains("test reports"))),
-                allOf(hasProperty("username", equalTo("testuser2")), hasProperty("password", equalTo("testuserpass2")), hasProperty("groups", hasSize(1)), hasProperty("groups", contains("test reports")))
+                allOf(hasProperty("username", equalTo("tu2")), hasProperty("password", equalTo("tup2")), hasProperty("groups", hasSize(1)), hasProperty("groups", contains("test reports2")))
         ));
     }
 }

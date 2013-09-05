@@ -3,9 +3,12 @@ package com.base2.kagura.core.reporting.view.report.configmodel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.io.PatternFilenameFilter;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,11 +48,8 @@ public class ReportsConfig {
     }
 
     public static ReportsConfig getConfig(String report_directory) throws URISyntaxException, MalformedURLException {
-        return getConfig(new URL(report_directory));
-    }
-    public static ReportsConfig getConfig(URL report_directory) throws URISyntaxException, MalformedURLException {
         ReportsConfig result = new ReportsConfig();
-        File file = new File(report_directory.toURI());
+        File file = new File(report_directory);
         if (file == null || !file.exists()) {
             result.errors.add("Couldn't open report directory, doesn't exist.");
             return result;
@@ -65,27 +65,12 @@ public class ReportsConfig {
             try {
                 if (report.isDirectory())
                 {
-                    FilenameFilter configYamlFilter = new PatternFilenameFilter("reportconf.yaml");
+                    FilenameFilter configYamlFilter = new PatternFilenameFilter("^reportconf.(yaml|json)$");
                     File[] selectYaml = report.listFiles(configYamlFilter);
                     if (selectYaml != null && selectYaml.length == 1)
                     {
                         File selectedYaml = selectYaml[0];
-                        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-                        ReportConfig reportConfig = mapper.readValue(selectedYaml, ReportConfig.class);
-                        reportConfig.setReportId(report.getName());
-                        result.getReports().put(report.getName(), reportConfig);
-                        continue;
-                    }
-                    FilenameFilter configJsonFilter = new PatternFilenameFilter("reportconf.json");
-                    File[] selectJson = report.listFiles(configJsonFilter);
-                    if (selectJson != null && selectJson.length == 1)
-                    {
-                        File selectedJson = selectJson[0];
-                        ObjectMapper mapper = new ObjectMapper();
-                        ReportConfig reportConfig = mapper.readValue(selectedJson, ReportConfig.class);
-                        reportConfig.setReportId(report.getName());
-                        result.getReports().put(report.getName(), reportConfig);
-                        continue;
+                        if (loadReport(result, FileUtils.openInputStream(selectedYaml), report.getName())) continue;
                     }
                 }
             } catch (Exception e) {
@@ -95,5 +80,28 @@ public class ReportsConfig {
             }
         }
         return result;
+    }
+
+    public static ReportsConfig getConfig(URI report_directory, List<String> reportIDs) throws URISyntaxException, MalformedURLException {
+        ReportsConfig result = new ReportsConfig();
+        for (String reportID : reportIDs)
+        {
+            try {
+                if (loadReport(result, report_directory.resolve(reportID).toURL().openStream(), reportID)) continue;
+            } catch (Exception e) {
+                result.errors.add("Error in report " + reportID + ": " + e.getMessage());
+                e.printStackTrace();
+                continue;
+            }
+        }
+        return result;
+    }
+
+    private static boolean loadReport(ReportsConfig result, InputStream report, String reportName) throws IOException {
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        ReportConfig reportConfig = mapper.readValue(report, ReportConfig.class);
+        reportConfig.setReportId(reportName);
+        result.getReports().put(reportName, reportConfig);
+        return true;
     }
 }

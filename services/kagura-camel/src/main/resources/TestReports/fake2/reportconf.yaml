@@ -40,6 +40,7 @@ extraOptions:
   displayPriority: 2
   image: fake2.png
   reportName: "Fake sample 2"
+  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris orci elit, laoreet a erat et, hendrerit sagittis lectus. Proin egestas lacus in nulla pretium, pulvinar consequat nibh lacinia. Quisque vel leo quis eros fermentum posuere hendrerit in leo. Donec commodo, est dignissim sagittis gravida, sapien elit rutrum felis, sit amet tristique dui libero sit amet elit. Vivamus ultricies ligula et gravida viverra. Integer sodales leo volutpat, viverra nunc at, mattis mi. Fusce tincidunt justo mollis lacus imperdiet lacinia. Phasellus commodo vitae sapien et adipiscing. Morbi convallis odio nec mi hendrerit auctor. Vestibulum eu tellus mauris."
 rows:
   - test2: 899
     test1: "Unique Visitors"

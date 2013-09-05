@@ -15,12 +15,7 @@ public class TestUtils {
     public static String getResourcePath(String path)
     {
         URL dir_url = ClassLoader.getSystemResource(path);
-        try {
-            return dir_url.toURI().toString();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return dir_url.getFile();
     }
 
     public static AbstractApplicationContext buildContext() {

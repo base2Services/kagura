@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -139,15 +140,8 @@ public class AuthBean {
     public List<Group> getGroups()
     {
         String filename = FilenameUtils.concat(serverBean.getConfigPath(), "groups.yaml");
-        File selectedYaml = null;
-        try {
-            selectedYaml = new File(new URI(filename));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            LOG.error("Can not find: {}", filename);
-            return null;
-        }
-        if (!selectedYaml.exists())
+        InputStream selectedYaml = serverBean.openFile(filename);
+        if (selectedYaml == null)
         {
             LOG.error("Can not find: {}", filename);
             return null;
@@ -166,15 +160,8 @@ public class AuthBean {
     public List<User> getUsers()
     {
         String filename = FilenameUtils.concat(serverBean.getConfigPath(), "users.yaml");
-        File selectedYaml = null;
-        try {
-            selectedYaml = new File(new URI(filename));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            LOG.error("Can not find: {}", filename);
-            return null;
-        }
-        if (!selectedYaml.exists())
+        InputStream selectedYaml = serverBean.openFile(filename);
+        if (selectedYaml == null)
         {
             LOG.error("Can not find: {}", filename);
             return null;
