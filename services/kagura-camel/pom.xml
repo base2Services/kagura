@@ -13,11 +13,12 @@
 
 	<dependencies>
         <!-- java -->
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-            <version>1.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>javax.persistence</groupId>-->
+            <!--<artifactId>persistence-api</artifactId>-->
+            <!--<version>1.0</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <!-- Apache commons -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -196,11 +197,6 @@
 			</exclusions>
 		</dependency>
         <!-- Object mappers / converters -->
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.dataformat</groupId>-->
-            <!--<artifactId>jackson-dataformat-yaml</artifactId>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -219,6 +215,11 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
         </dependency>
 
     </dependencies>
