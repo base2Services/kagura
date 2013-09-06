@@ -25,35 +25,35 @@ Kagura comprises of 2 components,
 
 1. Compile the whole project, from the root directory run:
 
-    mvn clean package install
+        mvn clean package install
 
 Then start two shells; and each one change them to one of both the directories below:
 
-Shell 1:
+####Shell 1:
 
     cd example/javascript
 
-Shell 2:
+####Shell 2:
 
     cd services/
 
 ##For the maven approach:
-Shell 1:
+####Shell 1:
 
     mvn clean package org.mortbay.jetty:jetty-maven-plugin:8.1.12.v20130726:run-exploded
 
-Shell 2:
+####Shell 2:
 
     cd kagura-camel
     mvn org.apache.camel:camel-maven-plugin:2.9.0:run
 
 ##For running via their respective containers:
 
-Shell 1:
+####Shell 1:
 
     -TBA use maven approach
 
-Shell 2:
+####Shell 2:
 
     cd kagura-assembly/target
     tar xzf kagura-assembly-1.0-SNAPSHOT.tar.gz
