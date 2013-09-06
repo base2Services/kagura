@@ -51,7 +51,7 @@ Then start two shells; and each one change them to one of both the directories b
 
 ####Shell 1:
 
-    -TBA use maven approach
+    Deploy WAR file to Tomcat, Jboss or any other java applications server.
 
 ####Shell 2:
 
