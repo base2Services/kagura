@@ -129,6 +129,7 @@ function loadReport(reportId)
             if (msg.error)
             {
                 ajaxFail(null, null, msg.error);
+                return;
             }
             if (msg.extra.reportName)
             {
@@ -207,6 +208,37 @@ function loadReport(reportId)
                         options = options + "<option value='"+value+"' "+(param.value == value ? "selected" : "")+">"+value+"</option>";
                     });
                     input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\">"+options+"</select>");
+                } else if ("datetime" == param.type.toLowerCase())
+                {
+                    input.replaceWith('    <div id="'+paramId+'" class="input-append date">' +
+                        '<input type="text" class="parameterFieldInput" placeholder="'+param.placeholder+'" />' +
+                            '<span class="add-on">' +
+                                '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
+                            '</span>' +
+                        '</div>' +
+                        '<script type="text/javascript">' +
+                            '$(function() {' +
+                                '$("#'+paramId+'").datetimepicker({' +
+                                    "        format: 'yyyy-MM-dd hh:mm:ss' " +
+                                '});' +
+                            '});' +
+                        '</script>');
+                } else if ("date" == param.type.toLowerCase())
+                {
+                    input.replaceWith('    <div id="'+paramId+'" class="input-append date">' +
+                        '<input type="text" class="parameterFieldInput" placeholder="'+param.placeholder+'" />' +
+                            '<span class="add-on">' +
+                                '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
+                            '</span>' +
+                        '</div>' +
+                        '<script type="text/javascript">' +
+                            '$(function() {' +
+                                '$("#'+paramId+'").datetimepicker({' +
+                                    "        format: 'yyyy-MM-dd', " +
+                                    '        pickTime: false'+
+                                '});' +
+                            '});' +
+                        '</script>');
                 } else if ("manycombo" == param.type.toLowerCase())
                 {
                     var options = "<option value='' "+(param.value == null || param.value.length == 0 ? "selected" : "")+">Select one</option>";
@@ -284,6 +316,11 @@ function runReport()
         url: server_base + "rest/report/" + token + "/" + curReport + "/run?" + values + "&parameters=" + encParams,
         success: function (msg)
         {
+            if (msg.error)
+            {
+                ajaxFail(null, null, msg.error);
+                return;
+            }
             var reportTableBody = $("#reportTableBody");
             var templateRow = reportTableBody.find("tr.hidden");
             msg.rows.forEach(function (row)

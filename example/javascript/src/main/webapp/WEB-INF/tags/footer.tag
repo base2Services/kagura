@@ -5,3 +5,4 @@
 <script src="${pageContext.request.contextPath}/lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/lib/cookies.js"></script>
 <script src="${pageContext.request.contextPath}/lib/kagura.js"></script>
+<script src="${pageContext.request.contextPath}/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>

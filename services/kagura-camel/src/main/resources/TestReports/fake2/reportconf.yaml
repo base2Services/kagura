@@ -31,6 +31,16 @@ paramConfig:
       - c1
       - v1
       - v2
+  - type: Date
+    name: "Enter a date"
+    help: "Just enter a date"
+    placeholder: "No Value"
+    value:
+  - type: DateTime
+    name: "Enter a date time"
+    help: "Just enter a date time"
+    placeholder: "No Value"
+    value:
 columns:
   - name: test1
     styleType: text

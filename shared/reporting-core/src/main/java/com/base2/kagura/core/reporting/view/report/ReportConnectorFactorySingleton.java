@@ -20,8 +20,6 @@ import java.net.URISyntaxException;
 //@Named
 public class ReportConnectorFactorySingleton implements Serializable {
 
-//    @Inject
-//    @Config(value = "medimail.report.directory", defaultValue = "/opt/base2/medimail/releases/current/reportconfig/")
     java.lang.String report_directory;
 
     public ReportConnector getConnector(String name)

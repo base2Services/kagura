@@ -1,5 +1,8 @@
 package com.base2.kagura.services.camel.kagura;
 
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.DateTimeConverter;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 
 /**
  * @author aubels
@@ -23,6 +27,9 @@ public class ServerBean implements ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     public ServerBean() {
+        DateTimeConverter dtConverter = new DateConverter(null);
+        dtConverter.setPatterns(new String[] {"yyyy-MM-dd", "yyyy-MM-dd hh:mm:ss"});
+        ConvertUtils.register(dtConverter, Date.class);
     }
 
     public String getConfigPath() {

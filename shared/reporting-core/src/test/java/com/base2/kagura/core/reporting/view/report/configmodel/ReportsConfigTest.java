@@ -24,10 +24,12 @@ public class ReportsConfigTest {
         URL reportDirectory = this.getClass().getResource("/reportTest1/");
         ReportsConfig actual = ReportsConfig.getConfig(reportDirectory.getFile());
         Assert.assertThat(actual.getErrors(), Matchers.emptyCollectionOf(String.class));
+        Assert.assertThat(actual.getReports().get("fake1"), IsInstanceOf.instanceOf(FakeReportConfig.class));
         Assert.assertThat(actual.getReports().get("TestJDBCSQL"), IsInstanceOf.instanceOf(JDBCReportConfig.class));
         Assert.assertThat(actual.getReports().get("TestJNDISQL"), IsInstanceOf.instanceOf(JNDIReportConfig.class));
         Assert.assertThat(actual.getReports().get("TestJNDISQL"), IsInstanceOf.instanceOf(JNDIReportConfig.class));
         Assert.assertThat(((JNDIReportConfig)actual.getReports().get("TestJNDISQL")).getJndi(), Is.is("java:/testDS"));
         Assert.assertThat(((JDBCReportConfig)actual.getReports().get("TestJDBCSQL")).getJdbc(), Is.is("jdbc:mysql://localhost:3306/test"));
+        Assert.assertThat(actual.getErrors(), Matchers.empty());
     }
 }

@@ -7,6 +7,7 @@
 <link href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/lib/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/lib/kagura.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
 <script src="${pageContext.request.contextPath}/lib/html5shiv.js"></script>

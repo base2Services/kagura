@@ -9,6 +9,8 @@ import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
+import org.apache.commons.beanutils.ConversionException;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,32 +112,40 @@ public class ReportBean {
         Map<String, Object> result = new HashMap<String, Object>();
         ReportConnector reportConnector = getConnector(reportId);
         reportConnector.setPage(page);
+        List<String> errors = new ArrayList<String>();
         if (all)
             reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
         else
             reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
-        insertParameters(parameters, reportConnector);
+        insertParameters(parameters, reportConnector, errors);
         reportConnector.run();
+        errors.addAll(reportConnector.getErrors());
         List<ColumnDef> columns = reportConnector.getColumns();
         List<Map<String, Object>> rows = reportConnector.getRows();
         result.put("columns",columns);
         result.put("rows",rows);
-        result.put("errors", reportConnector.getErrors());
+        result.put("errors", errors);
         return result;
     }
 
-    private void insertParameters(Parameters parameters, ReportConnector reportConnector) {
+    private void insertParameters(Parameters parameters, ReportConnector reportConnector, List<String> errors) {
         for (ParamConfig paramConfig : reportConnector.getParameterConfig())
         {
             if (parameters.getParameters().containsKey(paramConfig.getId()))
             {
                 Object o = parameters.getParameters().get(paramConfig.getId());
                 try {
-                    BeanUtils.setProperty(paramConfig, "value", o);
+                    if (o != null && StringUtils.isNotBlank(o.toString()))
+                        BeanUtils.setProperty(paramConfig, "value", o);
+                    else
+                        BeanUtils.setProperty(paramConfig, "value", null);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
+                } catch (ConversionException e){
+                    e.printStackTrace();
+                    errors.add("Could not convert parameter: " + paramConfig.getId() + " value " + o);
                 }
             }
         }
@@ -151,7 +162,9 @@ public class ReportBean {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ReportConnector reportConnector = getConnector(reportId);
         try {
-            insertParameters(parameters, reportConnector);
+
+            List<String> errors = new ArrayList<String>();
+            insertParameters(parameters, reportConnector, errors);
             reportConnector.setPage(page);
             if (all)
                 reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);

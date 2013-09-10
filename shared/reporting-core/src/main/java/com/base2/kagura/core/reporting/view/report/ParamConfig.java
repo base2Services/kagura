@@ -25,7 +25,9 @@ import java.util.regex.Pattern;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = MultiParamConfig.class, name = "ManyCombo"),
         @JsonSubTypes.Type(value = SingleParamConfig.class, name = ""),
-        @JsonSubTypes.Type(value = BooleanParamConfig.class, name = "Boolean")
+        @JsonSubTypes.Type(value = BooleanParamConfig.class, name = "Boolean"),
+        @JsonSubTypes.Type(value = DateParamConfig.class, name = "Date"),
+        @JsonSubTypes.Type(value = DateTimeParamConfig.class, name = "DateTime"),
 })
 public abstract class ParamConfig {
     String name;
@@ -76,6 +78,14 @@ public abstract class ParamConfig {
 
     public static ParamConfig Boolean(String name) {
         return new BooleanParamConfig(name, "Boolean","","");
+    }
+
+    public static ParamConfig DateTime(String name) {
+        return new DateTimeParamConfig(name, "DateTime","","");
+    }
+
+    public static ParamConfig Date(String name) {
+        return new DateTimeParamConfig(name, "Date","","");
     }
 
     public String getName() {
