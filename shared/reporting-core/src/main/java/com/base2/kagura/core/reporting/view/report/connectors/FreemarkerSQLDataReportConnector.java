@@ -6,6 +6,8 @@ import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerWhere;
 import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerWhereClause;
 import freemarker.core.Environment;
 import freemarker.template.*;
+import org.apache.commons.beanutils.BeanUtilsBean2;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -84,12 +86,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         {
             for (ParamConfig paramConfig : parameterConfig)
             {
-                if (paramConfig instanceof SingleParamConfig)
-                    params.put(paramConfig.getId(), ((SingleParamConfig)paramConfig).getValue());
-                if (paramConfig instanceof MultiParamConfig)
-                    params.put(paramConfig.getId(), ((MultiParamConfig)paramConfig).getValue());
-                if (paramConfig instanceof BooleanParamConfig)
-                    params.put(paramConfig.getId(), ((BooleanParamConfig)paramConfig).getValue());
+                params.put(paramConfig.getId(), PropertyUtils.getProperty(paramConfig, "value"));
             }
         }
         Map methods = new HashMap();
