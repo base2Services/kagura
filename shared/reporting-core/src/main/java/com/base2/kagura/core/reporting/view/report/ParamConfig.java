@@ -1,5 +1,6 @@
 package com.base2.kagura.core.reporting.view.report;
 
+import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +24,7 @@ import java.util.regex.Pattern;
         visible = true
 )
 @JsonSubTypes({
+        @JsonSubTypes.Type(value = SqlParamConfig.class, name = "SQL"),
         @JsonSubTypes.Type(value = MultiParamConfig.class, name = "ManyCombo"),
         @JsonSubTypes.Type(value = SingleParamConfig.class, name = ""),
         @JsonSubTypes.Type(value = BooleanParamConfig.class, name = "Boolean"),
@@ -86,6 +88,10 @@ public abstract class ParamConfig {
 
     public static ParamConfig Date(String name) {
         return new DateTimeParamConfig(name, "Date","","");
+    }
+
+    public static ParamConfig SQL(String name, ReportConfig reportConfig) {
+        return new SqlParamConfig(name, "Combo","","", reportConfig);
     }
 
     public String getName() {
