@@ -226,6 +226,12 @@
             <artifactId>snakeyaml</artifactId>
         </dependency>
 
+        <!-- Database connectors -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
     </dependencies>
 
 	<build>
@@ -257,6 +263,7 @@
                         <Bundle-Activator>com.base2.kagura.services.camel.Activator</Bundle-Activator>
                         <Export-Package>com.base2.kagura.services*;version=${project.version}</Export-Package>
                         <Import-Package>javax.servlet, javax.servlet.http, *</Import-Package>
+                        <DynamicImport-Package>com.mysql.jdbc;com.mysql.jdbc.*</DynamicImport-Package>
                     </instructions>
                 </configuration>
             </plugin>

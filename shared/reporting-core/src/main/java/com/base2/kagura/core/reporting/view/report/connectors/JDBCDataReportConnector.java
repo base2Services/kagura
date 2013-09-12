@@ -24,6 +24,14 @@ public class JDBCDataReportConnector extends FreemarkerSQLDataReportConnector {
         if (StringUtils.isNotBlank(reportConfig.getPassword()))
             connectionProps.put("password", reportConfig.getPassword());
         try {
+            if (StringUtils.isNotBlank(reportConfig.getClassLoaderPath()))
+                try
+                {
+                    Class.forName(reportConfig.getClassLoaderPath());
+                } catch (ClassNotFoundException e) {
+                    errors.add(e.getMessage());
+                    e.printStackTrace();
+                }
             connection = DriverManager.getConnection(reportConfig.getJdbc(), connectionProps);
         } catch (SQLException e) {
             errors.add(e.getMessage());

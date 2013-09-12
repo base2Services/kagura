@@ -14,6 +14,7 @@ public class JDBCReportConfig extends FreeMarkerSQLReportConfig {
     String jdbc;
     String username;
     String password;
+    private String classLoaderPath;
 
     @Override
     public ReportConnector getReportConnector() {
@@ -42,5 +43,13 @@ public class JDBCReportConfig extends FreeMarkerSQLReportConfig {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getClassLoaderPath() {
+        return classLoaderPath;
+    }
+
+    public void setClassLoaderPath(String classLoaderPath) {
+        this.classLoaderPath = classLoaderPath;
     }
 }
