@@ -41,7 +41,10 @@ public class SqlParamConfig extends SingleParamConfig {
             @Override
             public Object transform(Object input) {
                 Map<String, Object> map = (Map<String, Object>)input;
-                return map.get(selectedColumn);
+                if (map.size() == 1)
+                    return map.values().iterator().next();
+                else
+                    return map.get(selectedColumn);
             }
         });
     }
