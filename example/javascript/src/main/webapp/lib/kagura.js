@@ -206,7 +206,7 @@ function loadReport(reportId)
                             "<option value='true' "+(param.value == "true" ? "selected" : "")+">Yes</option>" +
                             "<option value='false' "+(param.value == "false" ? "selected" : "")+">No</option>";
                         input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\">"+options+"</select>");
-                    } else if ("combo" == param.type.toLowerCase())
+                    } else if ("combo" == param.type.toLowerCase() || "sql" == param.type.toLowerCase())
                     {
                         var options = "<option value='' "+(param.value == "" ? "selected" : "")+">Select one</option>";
                         param.values.forEach(function (value)
