@@ -1,5 +1,7 @@
 package com.base2.kagura.core.reporting.view.report;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created with IntelliJ IDEA.
  * User: aubels
@@ -9,6 +11,7 @@ package com.base2.kagura.core.reporting.view.report;
  */
 public class ColumnDef {
     private String name;
+    private String label;
     private String styleType;
 
     public ColumnDef() {
@@ -41,5 +44,13 @@ public class ColumnDef {
 
     public static ColumnDef Text(String name) {
         return new ColumnDef(name, "text");
+    }
+
+    public String getLabel() {
+        return StringUtils.defaultString(label,name);
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }
