@@ -134,10 +134,14 @@ function loadReport(reportId)
             if (msg.extra.reportName)
             {
                 $("#reportTitle").text(msg.extra.reportName);
+            } else {
+                $("#reportTitle").text(reportId);
             }
             if (msg.extra.description)
             {
                 $("#reportDescription").text(msg.extra.description);
+            } else {
+                $("#reportDescription").text("");
             }
             var reportImage = $("#reportImage");
             if (msg.extra.image)
