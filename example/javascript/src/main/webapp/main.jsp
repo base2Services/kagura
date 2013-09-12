@@ -61,7 +61,7 @@
                         <p name="helpText"></p>
                         <span name="paramId" class="hidden"></span>
                     </div>
-                    <button id="runReportButton" class="btn btn-primary" type="button" onclick="runReport();">Run report</button>
+                    <button id="runReportButton" class="btn btn-primary" type="button" onclick="rerunReport();">Run report</button>
                 </div>
                 <div class="span8" id="reportPanel">
                     <table class="table table-hover" id="reportTable">

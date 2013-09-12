@@ -309,6 +309,11 @@ function buildParameters() {
     var encParams = encodeURIComponent(JSON.stringify(params));
     return encParams;
 }
+function rerunReport()
+{
+    pageNumber = 0;
+    runReport();
+}
 function runReport()
 {
     resetReport();
