@@ -129,23 +129,26 @@ public class ReportBean {
     }
 
     private void insertParameters(Parameters parameters, ReportConnector reportConnector, List<String> errors) {
-        for (ParamConfig paramConfig : reportConnector.getParameterConfig())
+        if (reportConnector.getParameterConfig() != null)
         {
-            if (parameters.getParameters().containsKey(paramConfig.getId()))
+            for (ParamConfig paramConfig : reportConnector.getParameterConfig())
             {
-                Object o = parameters.getParameters().get(paramConfig.getId());
-                try {
-                    if (o != null && StringUtils.isNotBlank(o.toString()))
-                        BeanUtils.setProperty(paramConfig, "value", o);
-                    else
-                        BeanUtils.setProperty(paramConfig, "value", null);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (ConversionException e){
-                    e.printStackTrace();
-                    errors.add("Could not convert parameter: " + paramConfig.getId() + " value " + o);
+                if (parameters.getParameters().containsKey(paramConfig.getId()))
+                {
+                    Object o = parameters.getParameters().get(paramConfig.getId());
+                    try {
+                        if (o != null && StringUtils.isNotBlank(o.toString()))
+                            BeanUtils.setProperty(paramConfig, "value", o);
+                        else
+                            BeanUtils.setProperty(paramConfig, "value", null);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (ConversionException e){
+                        e.printStackTrace();
+                        errors.add("Could not convert parameter: " + paramConfig.getId() + " value " + o);
+                    }
                 }
             }
         }

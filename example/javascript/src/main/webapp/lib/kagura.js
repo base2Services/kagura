@@ -173,91 +173,94 @@ function loadReport(reportId)
             });
             var paramPanel = $('#paramPanel');
             var inputParamFieldTemplate = $('#inputParamFieldTemplate');
-            msg.params.forEach(function (param)
+            if (msg.params)
             {
-                var template = inputParamFieldTemplate.clone();
-                template.removeAttr("id");
-                template.removeClass("hidden");
-                template.addClass("parameterField");
-                var label = template.find("label");
-                label.text(param.name);
-                var paramIdField = template.find("span[name='paramId']");
-                paramIdField.text(param.id);
-                var paramId = param.id + "Param";
-                label.prop("for", paramId);
-                var input = template.find("input");
-                if ("number" == param.type.toLowerCase())
+                msg.params.forEach(function (param)
                 {
-                    input.prop("id", paramId);
-                    input.prop("type", "number");
-                    input.prop("step", "any");
-                    input.val(param.value);
-                    input.prop("placeholder", param.placeholder);
-                    input.addClass("parameterFieldInput");
-                } else if ("boolean" == param.type.toLowerCase())
-                {
-                    var options = "<option value='' "+(param.value == "" ? "selected" : "")+">Select one</option>" +
-                        "<option value='true' "+(param.value == "true" ? "selected" : "")+">Yes</option>" +
-                        "<option value='false' "+(param.value == "false" ? "selected" : "")+">No</option>";
-                    input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\">"+options+"</select>");
-                } else if ("combo" == param.type.toLowerCase())
-                {
-                    var options = "<option value='' "+(param.value == "" ? "selected" : "")+">Select one</option>";
-                    param.values.forEach(function (value)
+                    var template = inputParamFieldTemplate.clone();
+                    template.removeAttr("id");
+                    template.removeClass("hidden");
+                    template.addClass("parameterField");
+                    var label = template.find("label");
+                    label.text(param.name);
+                    var paramIdField = template.find("span[name='paramId']");
+                    paramIdField.text(param.id);
+                    var paramId = param.id + "Param";
+                    label.prop("for", paramId);
+                    var input = template.find("input");
+                    if ("number" == param.type.toLowerCase())
                     {
-                        options = options + "<option value='"+value+"' "+(param.value == value ? "selected" : "")+">"+value+"</option>";
-                    });
-                    input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\">"+options+"</select>");
-                } else if ("datetime" == param.type.toLowerCase())
-                {
-                    input.replaceWith('    <div id="'+paramId+'" class="input-append date">' +
-                        '<input type="text" class="parameterFieldInput" placeholder="'+param.placeholder+'" />' +
-                            '<span class="add-on">' +
-                                '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
-                            '</span>' +
-                        '</div>' +
-                        '<script type="text/javascript">' +
-                            '$(function() {' +
-                                '$("#'+paramId+'").datetimepicker({' +
-                                    "        format: 'yyyy-MM-dd hh:mm:ss' " +
-                                '});' +
-                            '});' +
-                        '</script>');
-                } else if ("date" == param.type.toLowerCase())
-                {
-                    input.replaceWith('    <div id="'+paramId+'" class="input-append date">' +
-                        '<input type="text" class="parameterFieldInput" placeholder="'+param.placeholder+'" />' +
-                            '<span class="add-on">' +
-                                '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
-                            '</span>' +
-                        '</div>' +
-                        '<script type="text/javascript">' +
-                            '$(function() {' +
-                                '$("#'+paramId+'").datetimepicker({' +
-                                    "        format: 'yyyy-MM-dd', " +
-                                    '        pickTime: false'+
-                                '});' +
-                            '});' +
-                        '</script>');
-                } else if ("manycombo" == param.type.toLowerCase())
-                {
-                    var options = "<option value='' "+(param.value == null || param.value.length == 0 ? "selected" : "")+">Select one</option>";
-                    param.values.forEach(function (value)
+                        input.prop("id", paramId);
+                        input.prop("type", "number");
+                        input.prop("step", "any");
+                        input.val(param.value);
+                        input.prop("placeholder", param.placeholder);
+                        input.addClass("parameterFieldInput");
+                    } else if ("boolean" == param.type.toLowerCase())
                     {
-                        options = options + "<option value='"+value+"' "+((param.value != null  && param.value.contains(value)) ? "selected" : "")+">"+value+"</option>";
-                    });
-                    input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\" multiple>"+options+"</select>");
-                } else //if ("string" == param.type.toLowerCase())
-                {
-                    input.prop("id", paramId);
-                    input.val(param.value);
-                    input.prop("placeholder", param.placeholder);
-                    input.addClass("parameterFieldInput");
-                }
-                var help = template.find("p[name='help']");
-                help.text(param.help);
-                template.insertBefore('#runReportButton');
-            });
+                        var options = "<option value='' "+(param.value == "" ? "selected" : "")+">Select one</option>" +
+                            "<option value='true' "+(param.value == "true" ? "selected" : "")+">Yes</option>" +
+                            "<option value='false' "+(param.value == "false" ? "selected" : "")+">No</option>";
+                        input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\">"+options+"</select>");
+                    } else if ("combo" == param.type.toLowerCase())
+                    {
+                        var options = "<option value='' "+(param.value == "" ? "selected" : "")+">Select one</option>";
+                        param.values.forEach(function (value)
+                        {
+                            options = options + "<option value='"+value+"' "+(param.value == value ? "selected" : "")+">"+value+"</option>";
+                        });
+                        input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\">"+options+"</select>");
+                    } else if ("datetime" == param.type.toLowerCase())
+                    {
+                        input.replaceWith('    <div id="'+paramId+'" class="input-append date">' +
+                            '<input type="text" class="parameterFieldInput" placeholder="'+param.placeholder+'" />' +
+                                '<span class="add-on">' +
+                                    '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
+                                '</span>' +
+                            '</div>' +
+                            '<script type="text/javascript">' +
+                                '$(function() {' +
+                                    '$("#'+paramId+'").datetimepicker({' +
+                                        "        format: 'yyyy-MM-dd hh:mm:ss' " +
+                                    '});' +
+                                '});' +
+                            '</script>');
+                    } else if ("date" == param.type.toLowerCase())
+                    {
+                        input.replaceWith('    <div id="'+paramId+'" class="input-append date">' +
+                            '<input type="text" class="parameterFieldInput" placeholder="'+param.placeholder+'" />' +
+                                '<span class="add-on">' +
+                                    '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
+                                '</span>' +
+                            '</div>' +
+                            '<script type="text/javascript">' +
+                                '$(function() {' +
+                                    '$("#'+paramId+'").datetimepicker({' +
+                                        "        format: 'yyyy-MM-dd', " +
+                                        '        pickTime: false'+
+                                    '});' +
+                                '});' +
+                            '</script>');
+                    } else if ("manycombo" == param.type.toLowerCase())
+                    {
+                        var options = "<option value='' "+(param.value == null || param.value.length == 0 ? "selected" : "")+">Select one</option>";
+                        param.values.forEach(function (value)
+                        {
+                            options = options + "<option value='"+value+"' "+((param.value != null  && param.value.contains(value)) ? "selected" : "")+">"+value+"</option>";
+                        });
+                        input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\" multiple>"+options+"</select>");
+                    } else //if ("string" == param.type.toLowerCase())
+                    {
+                        input.prop("id", paramId);
+                        input.val(param.value);
+                        input.prop("placeholder", param.placeholder);
+                        input.addClass("parameterFieldInput");
+                    }
+                    var help = template.find("p[name='help']");
+                    help.text(param.help);
+                    template.insertBefore('#runReportButton');
+                });
+            }
             spinner.stop();
             pageNumber = 0;
             curReport = reportId;
