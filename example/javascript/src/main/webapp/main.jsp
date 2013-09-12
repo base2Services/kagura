@@ -52,6 +52,7 @@
             <p>
                 <img src="" class="hidden" align="left" id="reportImage" />
                 <p id="reportDescription"></p>
+                <div id="reportErrors"></div>
             </p>
             <div class="row-fluid span12">
                 <div class="span4" id="paramPanel">

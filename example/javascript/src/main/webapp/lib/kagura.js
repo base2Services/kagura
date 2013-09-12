@@ -129,6 +129,7 @@ function loadReport(reportId)
             if (msg.error)
             {
                 ajaxFail(null, null, msg.error);
+                spinner.stop();
                 return;
             }
             if (msg.extra.reportName)
@@ -331,21 +332,37 @@ function runReport()
             if (msg.error)
             {
                 ajaxFail(null, null, msg.error);
+                spinner.stop();
                 return;
             }
             var reportTableBody = $("#reportTableBody");
             var templateRow = reportTableBody.find("tr.hidden");
-            msg.rows.forEach(function (row)
+            if (msg.errors)
             {
-                var rowInstance = templateRow.clone();
-                rowInstance.removeClass("hidden");
-                reportTableBody.append(rowInstance);
-                rowInstance.find("td.hidden").remove();
-                Object.keys(row).forEach(function (key)
+                msg.errors.forEach(function (error)
                 {
-                    rowInstance.find("td[name='"+key+"']").text(row[key]);
+                    var newDiv = $('<div></div>');
+                    newDiv.html('<div class="alert">' +
+                        '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>Warning!</strong> ' + error +
+                        '</div>');
+                    $('#reportErrors').append(newDiv);
                 })
-            });
+            }
+            if (msg.rows)
+            {
+                msg.rows.forEach(function (row)
+                {
+                    var rowInstance = templateRow.clone();
+                    rowInstance.removeClass("hidden");
+                    reportTableBody.append(rowInstance);
+                    rowInstance.find("td.hidden").remove();
+                    Object.keys(row).forEach(function (key)
+                    {
+                        rowInstance.find("td[name='"+key+"']").text(row[key]);
+                    })
+                });
+            }
             spinner.stop();
         }
     }).fail(ajaxFail);
