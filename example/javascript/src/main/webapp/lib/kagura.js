@@ -225,7 +225,7 @@ function loadReport(reportId)
             }
             if (msg.columns)
             {
-                addColumns(columns);
+                addColumns(msg.columns);
             }
             var paramPanel = $('#paramPanel');
             var inputParamFieldTemplate = $('#inputParamFieldTemplate');
