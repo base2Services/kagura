@@ -27,21 +27,21 @@ public class FreemarkerWhereClause implements TemplateDirectiveModel
 
     @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
-        if (params.size() != 1) {
+        if (params.size() > 1) {
             String message = "This directive doesn't allow multiple parameters.";
             errors.add(message);
             throw new TemplateModelException(message);
         }
-        if (!((Map.Entry)params.entrySet().toArray()[0]).getKey().equals("render"))
+        if (params.size() != 0 && !((Map.Entry)params.entrySet().toArray()[0]).getKey().equals("render"))
         {
             String message = "This directive only takes 'render'.";
             errors.add(message);
             throw new TemplateModelException(message);
         }
         Object renderParam = params.get("render");
-        if (renderParam == null) return;
-
-        if (renderParam instanceof TemplateBooleanModel)
+        if (renderParam == null && params.size() != 0) return;
+        if (params.size() == 0)
+        {} else if (renderParam instanceof TemplateBooleanModel)
         {
             TemplateBooleanModel render = (TemplateBooleanModel) renderParam;
             if (BooleanUtils.isNotTrue(render.getAsBoolean()))
