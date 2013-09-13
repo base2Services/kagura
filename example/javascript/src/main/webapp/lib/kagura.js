@@ -68,7 +68,7 @@ function doLogin()
                 alert(errorThrown);
             });
 }
-function loadReportList() {
+function loadReportListSimple() {
     token = getCookie("token");
     $.ajax({
         type: "GET",
@@ -84,17 +84,45 @@ function loadReportList() {
         }
     }).fail(ajaxFail);
 };
+function loadReportListDetailed() {
+    token = getCookie("token");
+    $.ajax({
+        type: "GET",
+        url: server_base + "rest/auth/reportsDetails/" + token + "/",
+        success: function (msg)
+        {
+            if (!msg.error)
+            {
+                loadReportListData(msg);
+            } else {
+                ajaxFail(null, null, msg.error);
+            }
+        }
+    }).fail(ajaxFail);
+};
 function loadReportListData(data)
 {
     var reportDDList = $("#reportDropdownList");
     reportDDList.find("li:not(.hidden)").remove();
-    data.forEach(function (report)
+    if (Array.isArray(data))
     {
-        var template = reportDDList.find("li.hidden").clone();
-        template.removeClass("hidden");
-        reportDDList.append(template);
-        template.html("<a href='#' onclick='loadReport(\""+report+"\")'>"+report+"</a>");
-    });
+        data.forEach(function (report)
+        {
+            var template = reportDDList.find("li.hidden").clone();
+            template.removeClass("hidden");
+            reportDDList.append(template);
+            template.html("<a href='#' onclick='loadReport(\""+report+"\")'>"+report+"</a>");
+        });
+    } else
+    {
+        Object.keys(data).forEach(function (reportId)
+        {
+            var template = reportDDList.find("li.hidden").clone();
+            template.removeClass("hidden");
+            reportDDList.append(template);
+            template.html("<a href='#' onclick='loadReport(\""+reportId+"\")'>"+data[reportId].extra.reportName+"</a>");
+        });
+    }
 }
 function resetDisplay() {
     $('#kaguraMain,#kaguraContactUs,#kaguraAbout,#reportMain').addClass("hidden");

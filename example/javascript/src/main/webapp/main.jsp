@@ -102,7 +102,7 @@
     </div> <!-- /container -->
     <t:footer />
     <script language="JavaScript">
-        loadReportList();
+        loadReportListDetailed();
     </script>
 </body>
 </html>

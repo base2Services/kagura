@@ -46,7 +46,7 @@ public class AuthRest {
     /**
      * Returns a list of reports
      * @param authToken Authentication token
-     * @return Returns a list of reports
+     * @return Returns a list of report ids
      */
     @Path("reports/{authToken}")
     @GET
@@ -56,7 +56,7 @@ public class AuthRest {
     /**
      * Returns a list of reports
      * @param authToken Authentication token
-     * @return Returns a list of reports
+     * @return Returns a map of reports
      */
     @Path("reportsDetails/{authToken}")
     @GET
