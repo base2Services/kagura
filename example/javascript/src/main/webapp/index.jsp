@@ -37,16 +37,21 @@
             margin-bottom: 15px;
             padding: 7px 9px;
         }
-        .transparent
+        .container
         {
-            opacity: .70;
+            background-color: rgba(255,255,255,0);
+        }
+        .hero-unit
+        {
+            background-color: rgba(255,255,255,.4);
+            padding-bottom: 150px;
         }
     </style>
 
 </head>
 
 <body>
-    <div class="container transparent">
+    <div class="container">
         <div class="hero-unit">
             <h1>Kagura</h1>
             <p>Reporting for your future</p>
