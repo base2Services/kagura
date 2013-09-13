@@ -139,15 +139,49 @@ function resetReportConfig()
     $('#reportTableBody>tr>td:not(.hidden)').remove();
     $('#paramPanel>div:not(.hidden)').remove();
 }
-function resetReport()
+function resetReportBody()
 {
     $('#reportTableBody>tr:not(.hidden)').remove();
+}
+function resetReport()
+{
+    $('#reportTableHeader>tr:not(.hidden)').remove();
+    $('#reportTableBody>tr:not(.hidden)').remove();
+    $('#reportTableBody>tr>td:not(.hidden)').remove();
+}
+
+function addColumns(columns)
+{
+    var reportTableHeader = $("#reportTableHeader");
+    var reportTableBody = $("#reportTableBody");
+    var templateTr = reportTableHeader.find("tr").clone();
+    templateTr.removeClass("hidden");
+    reportTableHeader.append(templateTr);
+    columns.forEach(function (column)
+    {
+        var templateTh = templateTr.find("th.hidden").clone();
+        templateTh.text(column.name);
+        templateTh.removeClass("hidden");
+        templateTr.append(templateTh);
+        var templateRow = reportTableBody.find("tr.hidden");
+        templateRow.removeClass("hidden");
+        var templateTd = templateRow.find("td.hidden").clone();
+        templateTd.removeClass("hidden");
+        templateRow.append(templateTd);
+        templateTd.attr("name", column.name);
+        if (column.styleType == "text")
+        {
+        } else if (column.styleType == "numbers")
+        {
+        }
+        templateRow.addClass("hidden");
+    });
 }
 function loadReport(reportId)
 {
     resetDisplay();
     resetReportConfig();
-    resetReport();
+    resetReportBody();
     $('#reportTitle').text(reportId);
     spinner.stop();
     var reportMain = $('#reportMain');
@@ -189,30 +223,10 @@ function loadReport(reportId)
             } else {
                 reportImage.addClass("hidden");
             }
-            var reportTableHeader = $("#reportTableHeader");
-            var reportTableBody = $("#reportTableBody");
-            var templateTr = reportTableHeader.find("tr").clone();
-            templateTr.removeClass("hidden");
-            reportTableHeader.append(templateTr);
-            msg.columns.forEach(function (column)
+            if (msg.columns)
             {
-                var templateTh = templateTr.find("th.hidden").clone();
-                templateTh.text(column.name);
-                templateTh.removeClass("hidden");
-                templateTr.append(templateTh);
-                var templateRow = reportTableBody.find("tr.hidden");
-                templateRow.removeClass("hidden");
-                var templateTd = templateRow.find("td.hidden").clone();
-                templateTd.removeClass("hidden");
-                templateRow.append(templateTd);
-                templateTd.attr("name", column.name);
-                if (column.styleType == "text")
-                {
-                } else if (column.styleType == "numbers")
-                {
-                }
-                templateRow.addClass("hidden");
-            });
+                addColumns(columns);
+            }
             var paramPanel = $('#paramPanel');
             var inputParamFieldTemplate = $('#inputParamFieldTemplate');
             if (msg.params)
@@ -364,13 +378,13 @@ function reportErrors(msg) {
 }
 function runReport()
 {
-    resetReport();
+    resetReportBody();
     spinner.stop();
     spinner.spin(document.getElementById('reportMain'));
     $('#reportPageNumber').text(pageNumber+1);
     var values = "page=" + pageNumber;
     var encParams = buildParameters();
-    resetReport();
+    resetReportBody();
     $.ajax({
         type: "GET",
         url: server_base + "rest/report/" + token + "/" + curReport + "/run?" + values + "&parameters=" + encParams,
@@ -387,6 +401,20 @@ function runReport()
             if (msg.errors)
             {
                 reportErrors(msg);
+            }
+            if (!msg.columns)
+            {
+                if (!msg.rows || msg.rows.length == 0)
+                {
+                    resetReportBody();
+                } else {
+                    resetReport();
+                    var columns = $.map(Object.keys(msg.rows[0]),function (x)
+                    {
+                        return { name : x, styleName : ""};
+                    });
+                    addColumns(columns);
+                }
             }
             if (msg.rows)
             {
