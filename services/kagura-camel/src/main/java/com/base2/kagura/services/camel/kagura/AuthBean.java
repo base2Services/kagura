@@ -192,7 +192,7 @@ public class AuthBean {
         AuthDetails authDetails = tokens.get(authToken);
         String username = authDetails.getUsername();
         Set<String> reports = getUserReports(username);
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = new LinkedHashMap<String, Object>();
         for (String reportName : reports)
         {
             result.put(reportName, reportsBean.getReportDetails(reportName, false));
@@ -201,7 +201,7 @@ public class AuthBean {
     }
 
     private Set<String> getUserReports(String username) {
-        Set<String> result = new HashSet<String>();
+        Set<String> result = new LinkedHashSet<String>();
         Map<String, User> userMap = getStringUserMap();
         Map<String, Group> groupMap = getStringGroupMap();
         User user = userMap.get(username);
