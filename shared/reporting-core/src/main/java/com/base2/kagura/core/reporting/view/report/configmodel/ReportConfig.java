@@ -31,6 +31,7 @@ public abstract class ReportConfig {
     List<ParamConfig> paramConfig;
     List<ColumnDef> columns;
     Map<String, String> extraOptions;
+    private Integer pageLimit;
 
     public List<ParamConfig> getParamConfig() {
         return paramConfig;
@@ -68,4 +69,11 @@ public abstract class ReportConfig {
         this.extraOptions = extraOptions;
     }
 
+    public Integer getPageLimit() {
+        return pageLimit;
+    }
+
+    public void setPageLimit(Integer pageLimit) {
+        this.pageLimit = pageLimit;
+    }
 }

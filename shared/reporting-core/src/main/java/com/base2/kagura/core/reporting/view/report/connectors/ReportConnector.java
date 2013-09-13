@@ -31,6 +31,10 @@ public abstract class ReportConnector implements Serializable {
         this.columns = reportConfig.getColumns();
         this.parameterConfig = reportConfig.getParamConfig();
         this.errors = new ArrayList<String>();
+        if (reportConfig.getPageLimit() != null)
+        {
+            this.pageLimit = reportConfig.getPageLimit();
+        }
     }
 
     public List<String> getErrors() {
