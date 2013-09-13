@@ -2,11 +2,11 @@ package com.base2.kagura.core.reporting.view.report.connectors;
 
 import com.base2.kagura.core.reporting.view.report.*;
 import com.base2.kagura.core.reporting.view.report.configmodel.FreeMarkerSQLReportConfig;
+import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerLimit;
 import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerWhere;
 import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerWhereClause;
 import freemarker.core.Environment;
 import freemarker.template.*;
-import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -52,7 +52,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
             String sql = freemarkerSQLResult.getSql();
             statement = connection.prepareStatement(sql);
             for(int i=0;i<freemarkerSQLResult.getParams().size();i++) {
-                statement.setObject(i+1, freemarkerSQLResult.getParams().get(i));
+                statement.setObject(i + 1, freemarkerSQLResult.getParams().get(i));
             }
             rows = resultSetToMap(statement.executeQuery());
         } catch (Exception ex) {
@@ -104,47 +104,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         final Boolean[] limitExists = {false};
         root.put("where", new FreemarkerWhere(errors));
         root.put("and", new FreemarkerWhereClause(errors));
-        root.put("limit", new TemplateDirectiveModel() {
-            @Override
-            public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
-                if (params.size() > 1)
-                {
-                    String message = "This directive doesn't allow multiple parameters.";
-                    errors.add(message);
-                    throw new TemplateModelException(message);
-                }
-                if (params.size() == 1 && !((Map.Entry)params.entrySet().toArray()[0]).getKey().equals("sql")) {
-                    String message = "This directive only takes 'sql', which you specify the type of engine, ie mysql, postgres, etc.";
-                    errors.add(message);
-                    throw new TemplateModelException(message);
-                }
-                Object sqlParam = params.get("sql");
-                String engine = "mysql";
-                if (sqlParam == null) { } else
-                if (sqlParam instanceof TemplateScalarModel)
-                {
-                    TemplateScalarModel engineParam = (TemplateScalarModel) sqlParam;
-                    engine = engineParam.getAsString();
-                } else {
-                    String message = "This directive only accepts string values for 'sql'.";
-                    errors.add(message);
-                    throw new TemplateModelException(message);
-                }
-                if (loopVars.length != 0) throw new TemplateModelException("This directive doesn't allow loop variables.");
-                limitExists[0] = true;
-                int limit = getPageLimit();
-                int offset = getPage() * limit;
-                if (engine.equalsIgnoreCase("mysql") || engine.equalsIgnoreCase("postgres"))
-                {
-                    env.getOut().write(" LIMIT " + limit + " OFFSET " + offset + " ");
-                } else
-                {
-                    String message = "Unknown SQL Engine " + engine + ".";
-                    errors.add(message);
-                    throw new TemplateModelException(message);
-                }
-            }
-        });
+        root.put("limit", new FreemarkerLimit(limitExists, errors, this));
 
         Template temp = null;
         StringWriter out = new StringWriter();
@@ -191,4 +151,5 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
     public void setRows(List<Map<String, Object>> rows) {
         this.rows = rows;
     }
+
 }
