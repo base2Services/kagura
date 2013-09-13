@@ -10,7 +10,7 @@
         body {
             padding-top: 40px;
             padding-bottom: 40px;
-            background-color: #f5f5f5;
+            background: #f5f5f5 url("loginback1.jpg") no-repeat fixed center bottom;
         }
 
         .form-signin {
@@ -37,12 +37,16 @@
             margin-bottom: 15px;
             padding: 7px 9px;
         }
+        .transparent
+        {
+            opacity: .70;
+        }
     </style>
 
 </head>
 
 <body>
-    <div class="container">
+    <div class="container transparent">
         <div class="hero-unit">
             <h1>Kagura</h1>
             <p>Reporting for your future</p>
