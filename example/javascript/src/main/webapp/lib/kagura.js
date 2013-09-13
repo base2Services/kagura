@@ -120,7 +120,12 @@ function loadReportListData(data)
             var template = reportDDList.find("li.hidden").clone();
             template.removeClass("hidden");
             reportDDList.append(template);
-            template.html("<a href='#' onclick='loadReport(\""+reportId+"\")'>"+data[reportId].extra.reportName+"</a>");
+            if (data[reportId].extra && data[reportId].extra.reportName)
+            {
+                template.html("<a href='#' onclick='loadReport(\""+reportId+"\")'>"+data[reportId].extra.reportName+"</a>");
+            } else {
+                template.html("<a href='#' onclick='loadReport(\""+reportId+"\")'>"+reportId+"</a>");
+            }
         });
     }
 }
