@@ -52,7 +52,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
             String sql = freemarkerSQLResult.getSql();
             statement = connection.prepareStatement(sql);
             for(int i=0;i<freemarkerSQLResult.getParams().size();i++) {
-                statement.setString(i+1, freemarkerSQLResult.getParams().get(i));
+                statement.setObject(i+1, freemarkerSQLResult.getParams().get(i));
             }
             rows = resultSetToMap(statement.executeQuery());
         } catch (Exception ex) {
@@ -73,6 +73,9 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
 
     protected FreemarkerSQLResult freemakerParams() throws Exception {
         Configuration cfg = new Configuration();
+        cfg.setDateFormat("yyyy-MM-dd");
+        cfg.setDateTimeFormat("yyyy-MM-dd hh:mm:ss");
+        cfg.setTimeFormat("hh:mm:ss");
         cfg.setObjectWrapper(new DefaultObjectWrapper());
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
@@ -81,7 +84,6 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         Map root = new HashMap();
         Map params = new HashMap();
         root.put("param", params);
-//        root.put("test", "");
         if (parameterConfig != null)
         {
             for (ParamConfig paramConfig : parameterConfig)
@@ -91,14 +93,11 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         }
         Map methods = new HashMap();
         root.put("method", methods);
-        final List<String> usedParams = new ArrayList<String>();
+        final List<Object> usedParams = new ArrayList<Object>();
         methods.put("value", new TemplateMethodModel() {
             @Override
             public Object exec(List arguments) throws TemplateModelException {
-                if (arguments.get(0) == null)
-                    usedParams.add(null);
-                else
-                    usedParams.add(arguments.get(0).toString());
+                usedParams.add(arguments.get(0));
                 return "?";
             }
         });

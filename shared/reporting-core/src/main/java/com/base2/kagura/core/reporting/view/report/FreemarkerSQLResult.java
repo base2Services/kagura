@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class FreemarkerSQLResult {
     String sql;
-    List<String> params;
+    List<Object> params;
 
-    public FreemarkerSQLResult(String sql, List<String> params) {
+    public FreemarkerSQLResult(String sql, List<Object> params) {
         this.sql = sql;
         this.params = params;
     }
@@ -26,11 +26,11 @@ public class FreemarkerSQLResult {
         this.sql = sql;
     }
 
-    public List<String> getParams() {
+    public List<Object> getParams() {
         return params;
     }
 
-    public void setParams(List<String> params) {
+    public void setParams(List<Object> params) {
         this.params = params;
     }
 }
