@@ -126,6 +126,10 @@ function loadReport(reportId)
         url: server_base + "rest/report/" + token + "/" + reportId + "/details",
         success: function (msg)
         {
+            if (msg.errors)
+            {
+                reportErrors(msg);
+            }
             if (msg.error)
             {
                 ajaxFail(null, null, msg.error);
@@ -315,6 +319,16 @@ function rerunReport()
     pageNumber = 0;
     runReport();
 }
+function reportErrors(msg) {
+    msg.errors.forEach(function (error) {
+        var newDiv = $('<div></div>');
+        newDiv.html('<div class="alert">' +
+            '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+            '<strong>Warning!</strong> ' + error +
+            '</div>');
+        $('#reportErrors').append(newDiv);
+    })
+}
 function runReport()
 {
     resetReport();
@@ -339,15 +353,7 @@ function runReport()
             var templateRow = reportTableBody.find("tr.hidden");
             if (msg.errors)
             {
-                msg.errors.forEach(function (error)
-                {
-                    var newDiv = $('<div></div>');
-                    newDiv.html('<div class="alert">' +
-                        '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                        '<strong>Warning!</strong> ' + error +
-                        '</div>');
-                    $('#reportErrors').append(newDiv);
-                })
+                reportErrors(msg);
             }
             if (msg.rows)
             {
