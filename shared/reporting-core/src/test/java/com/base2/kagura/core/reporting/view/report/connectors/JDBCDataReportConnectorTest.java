@@ -18,12 +18,15 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class JDBCDataReportConnectorTest {
+
+    public static final String JDBC = "jdbc:h2:test";
+
     @Test
     public void testFreemarker() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("Test ${param.test} <@limit />");
         reportConfig.setClassLoaderPath("org.h2.Driver");
-        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setJdbc(JDBC);
         reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
@@ -44,7 +47,7 @@ public class JDBCDataReportConnectorTest {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("SELECT * FROM table WHERE columnB=${method.value(param.test)} <@limit />");
         reportConfig.setClassLoaderPath("org.h2.Driver");
-        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setJdbc(JDBC);
         reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
@@ -65,7 +68,7 @@ public class JDBCDataReportConnectorTest {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("SELECT * FROM table WHERE <#if false>columnB=${method.value(param.test)}<#else>columnB is not null</#if> <@limit />");
         reportConfig.setClassLoaderPath("org.h2.Driver");
-        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setJdbc(JDBC);
         reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
@@ -86,7 +89,7 @@ public class JDBCDataReportConnectorTest {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("SELECT * FROM table <@where><@and render=true>columnB=${method.value(param.test)}</@and></@where> <@limit />");
         reportConfig.setClassLoaderPath("org.h2.Driver");
-        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setJdbc(JDBC);
         reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
@@ -112,7 +115,7 @@ public class JDBCDataReportConnectorTest {
                     "<@and render=param.test='ParameterOutput'>columnD=${method.value(param.test)}</@and>" +
                 "</@where> <@limit />");
         reportConfig.setClassLoaderPath("org.h2.Driver");
-        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setJdbc(JDBC);
         reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
@@ -133,7 +136,7 @@ public class JDBCDataReportConnectorTest {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("Test ${param.test}");
         reportConfig.setClassLoaderPath("org.h2.Driver");
-        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setJdbc(JDBC);
         reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
@@ -151,7 +154,7 @@ public class JDBCDataReportConnectorTest {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("Test ${param.test} <@limit />");
         reportConfig.setClassLoaderPath("org.h2.Driver");
-        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setJdbc(JDBC);
         reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
@@ -173,7 +176,7 @@ public class JDBCDataReportConnectorTest {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("Test ${param.test} <@limit />");
         reportConfig.setClassLoaderPath("org.h2.Driver");
-        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setJdbc(JDBC);
         reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
