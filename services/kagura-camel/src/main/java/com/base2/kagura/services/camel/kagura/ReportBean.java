@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.base2.kagura.services.camel.model.Parameters;
+
+import javax.ws.rs.DefaultValue;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -107,7 +109,7 @@ public class ReportBean {
             @Header("reportId") String reportId
             , @Header("page") int page
             , @Header("allpages") boolean all
-            , @Header("pageLimit") int pageLimit
+            , @Header("pageLimit") Integer pageLimit
             , @Header("parameters") Parameters parameters) throws AuthenticationException {
         Map<String, Object> result = new HashMap<String, Object>();
         ReportConnector reportConnector = getConnector(reportId);
@@ -116,7 +118,8 @@ public class ReportBean {
         if (all)
             reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
         else
-            reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
+            if (pageLimit != null && pageLimit > 0)
+                reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
         insertParameters(parameters, reportConnector, errors);
         reportConnector.run();
         errors.addAll(reportConnector.getErrors());
@@ -159,7 +162,7 @@ public class ReportBean {
             , @Header("page") int page
             , @Header("allpages") boolean all
             , @Header("filetype") String filetype
-            , @Header("pageLimit") int pageLimit
+            , @Header("pageLimit") Integer pageLimit
             , @Header("parameters") Parameters parameters) throws AuthenticationException {
         ReportExportBean reportExportBean = new ReportExportBean();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -172,7 +175,8 @@ public class ReportBean {
             if (all)
                 reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
             else
-                reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
+                if (pageLimit != null && pageLimit > 0)
+                    reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
             reportConnector.run();
             List<ColumnDef> columns = reportConnector.getColumns();
             List<Map<String, Object>> rows = reportConnector.getRows();
