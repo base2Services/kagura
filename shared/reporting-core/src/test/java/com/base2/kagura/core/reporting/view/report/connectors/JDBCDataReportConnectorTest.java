@@ -22,8 +22,9 @@ public class JDBCDataReportConnectorTest {
     public void testFreemarker() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("Test ${param.test} <@limit />");
-        reportConfig.setJdbc("jdbc:mysql://localhost:3306/test");
-        reportConfig.setUsername("root");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
         {{
@@ -42,8 +43,9 @@ public class JDBCDataReportConnectorTest {
     public void testFreemarkerParams() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("SELECT * FROM table WHERE columnB=${method.value(param.test)} <@limit />");
-        reportConfig.setJdbc("jdbc:mysql://localhost:3306/test");
-        reportConfig.setUsername("root");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
         {{
@@ -62,8 +64,9 @@ public class JDBCDataReportConnectorTest {
     public void testFreemarkerConditionalParams() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("SELECT * FROM table WHERE <#if false>columnB=${method.value(param.test)}<#else>columnB is not null</#if> <@limit />");
-        reportConfig.setJdbc("jdbc:mysql://localhost:3306/test");
-        reportConfig.setUsername("root");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
         {{
@@ -82,8 +85,9 @@ public class JDBCDataReportConnectorTest {
     public void testFreemarkerWhereExtensionWithWhereParams() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("SELECT * FROM table <@where><@and render=true>columnB=${method.value(param.test)}</@and></@where> <@limit />");
-        reportConfig.setJdbc("jdbc:mysql://localhost:3306/test");
-        reportConfig.setUsername("root");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
         {{
@@ -99,7 +103,6 @@ public class JDBCDataReportConnectorTest {
     }
 
     @Test
-    @Ignore("Not all machines have mysql configured with test.")
     public void testFreemarkerWhereExtensionWithComplicatedWhereParams() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("SELECT * FROM table " +
@@ -108,8 +111,9 @@ public class JDBCDataReportConnectorTest {
                     "<@and render=false>columnC=${method.value(param.test)}</@and>" +
                     "<@and render=param.test='ParameterOutput'>columnD=${method.value(param.test)}</@and>" +
                 "</@where> <@limit />");
-        reportConfig.setJdbc("jdbc:mysql://localhost:3306/test");
-        reportConfig.setUsername("root");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
         {{
@@ -128,8 +132,9 @@ public class JDBCDataReportConnectorTest {
     public void testFreemarkerRequiresLimit() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("Test ${param.test}");
-        reportConfig.setJdbc("jdbc:mysql://localhost:3306/test");
-        reportConfig.setUsername("root");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
         {{
@@ -145,8 +150,9 @@ public class JDBCDataReportConnectorTest {
     public void testFreemarkerAllowsPageChanges() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("Test ${param.test} <@limit />");
-        reportConfig.setJdbc("jdbc:mysql://localhost:3306/test");
-        reportConfig.setUsername("root");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
         {{
@@ -166,8 +172,9 @@ public class JDBCDataReportConnectorTest {
     public void testFreemarkerAllowsPageAndLimitChanges() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("Test ${param.test} <@limit />");
-        reportConfig.setJdbc("jdbc:mysql://localhost:3306/test");
-        reportConfig.setUsername("root");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc("jdbc:h2:");
+        reportConfig.setUsername("sa");
         reportConfig.setPassword("");
         reportConfig.setParamConfig(new ArrayList<ParamConfig>()
         {{
