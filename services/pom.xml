@@ -23,7 +23,7 @@
         <rest-assured.version>1.8.1</rest-assured.version>
         <groovy.version>2.1.2</groovy.version>
         <guava-osgi.version>11.0.0</guava-osgi.version>
-        <snakeyaml.version>1.13-SNAPSHOT</snakeyaml.version>
+        <snakeyaml.version>1.13</snakeyaml.version>
         <mysql.version>5.1.26</mysql.version>
     </properties>
 
