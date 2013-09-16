@@ -2,6 +2,9 @@ package com.base2.kagura.core.reporting.view.report;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created with IntelliJ IDEA.
  * User: aubels
@@ -12,14 +15,15 @@ import org.apache.commons.lang3.StringUtils;
 public class ColumnDef {
     private String name;
     private String label;
-    private String styleType;
+    private Map<String, Object> extraOptions;
 
     public ColumnDef() {
     }
 
     public ColumnDef(String name, String styleType) {
         this.name = name;
-        this.styleType = styleType;
+        this.extraOptions = new HashMap<String, Object>();
+        extraOptions.put("styleType", styleType);
     }
 
     public String getName() {
@@ -28,14 +32,6 @@ public class ColumnDef {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getStyleType() {
-        return styleType;
-    }
-
-    public void setStyleType(String styleType) {
-        this.styleType = styleType;
     }
 
     public static ColumnDef Number(String name) {
@@ -52,5 +48,13 @@ public class ColumnDef {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Map<String, Object> getExtraOptions() {
+        return extraOptions;
+    }
+
+    public void setExtraOptions(Map<String, Object> extraOptions) {
+        this.extraOptions = extraOptions;
     }
 }

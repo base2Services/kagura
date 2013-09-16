@@ -8,9 +8,11 @@ paramConfig:
     groovy: "result.addAll(Arrays.asList('1','2','3','4','5')); "
 columns:
   - name: test1
-    styleType: text
+    extraOptions:
+      styleType: text
   - name: test2
-    styleType: numbers
+    extraOptions:
+      styleType: numbers
 rows:
   - Number: 899
     Description: "Unique Visitors"

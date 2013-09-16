@@ -35,6 +35,8 @@ paramConfig:
       - v2
 columns:
   - name: test1
-    styleType: text
+    extraOptions:
+      styleType: text
   - name: test2
-    styleType: numbers
+    extraOptions:
+      styleType: numbers

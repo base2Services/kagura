@@ -17,9 +17,11 @@ paramConfig:
     value:
 columns:
   - name: test1
-    styleType: text
+    extraOptions:
+      styleType: text
   - name: test2
-    styleType: numbers
+    extraOptions:
+      styleType: numbers
 rows:
   - Number: 899
     Description: "Unique Visitors"

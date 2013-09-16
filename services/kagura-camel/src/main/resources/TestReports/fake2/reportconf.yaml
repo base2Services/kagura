@@ -43,9 +43,11 @@ paramConfig:
     value:
 columns:
   - name: test1
-    styleType: text
+    extraOptions:
+      styleType: text
   - name: test2
-    styleType: numbers
+    extraOptions:
+      styleType: numbers
 extraOptions:
   displayPriority: 2
   image: fake2.png

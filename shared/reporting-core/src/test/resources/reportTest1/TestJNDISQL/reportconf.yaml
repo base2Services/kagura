@@ -7,13 +7,17 @@ paramConfig:
     value:
 columns:
   - name: id
-    styleType: text
+    extraOptions:
+      styleType: text
   - name: enabled
-    styleType: text
+    extraOptions:
+      styleType: text
   - name: username
-    styleType: text
+    extraOptions:
+      styleType: text
   - name: version
-    styleType: text
+    extraOptions:
+      styleType: text
 jndi: "java:/testDS"
 sql: "SELECT id, active, username, version FROM User <#if param.User?has_content>WHERE username=${method.value(param.User)}</#if><@limit />;"
 extraOptions:

@@ -12,11 +12,14 @@ paramConfig:
     value:
 columns:
   - name: test1
-    styleType: text
+    extraOptions:
+      styleType: text
   - name: test2
-    styleType: numbers
+    extraOptions:
+      styleType: numbers
   - name: test3
-    styleType: numbers
+    extraOptions:
+      styleType: numbers
 rows:
   - test2: 899
     test1: "Unique Visitors"

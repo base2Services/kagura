@@ -33,8 +33,9 @@ public class ServerBean implements ApplicationContextAware {
     }
 
     public String getConfigPath() {
-        if (new File(configPath).exists())
-            return configPath;
+        File file = new File(configPath);
+        if (file.exists())
+            return file.getAbsolutePath() + "/";
         return ServerBean.class.getResource(configPath).getFile();
     }
 

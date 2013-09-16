@@ -48,11 +48,16 @@
         [
             {
                 "name": "test1",
-                "styleType": "text"
+                "extraOptions": {
+                    "styleType": "text"
+                }
+
             },
             {
                 "name": "test2",
-                "styleType": "number"
+                "extraOptions": {
+                    "styleType": "text"
+                }
             }
         ]
 }

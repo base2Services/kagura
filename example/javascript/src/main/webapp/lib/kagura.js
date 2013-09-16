@@ -169,10 +169,13 @@ function addColumns(columns)
         templateTd.removeClass("hidden");
         templateRow.append(templateTd);
         templateTd.attr("name", column.name);
-        if (column.styleType == "text")
+        if (column.extraOptions)
         {
-        } else if (column.styleType == "numbers")
-        {
+            if (column.extraOptions.styleType == "text")
+            {
+            } else if (column.extraOptions.styleType == "numbers")
+            {
+            }
         }
         templateRow.addClass("hidden");
     });
