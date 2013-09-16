@@ -193,6 +193,4 @@ public class JDBCDataReportConnectorTest {
         Assert.assertEquals(expected, actual.getSql());
         Assert.assertEquals(0, actual.getParams().size());
     }
-
-
 }
