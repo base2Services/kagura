@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
         @JsonSubTypes.Type(value = BooleanParamConfig.class, name = "Boolean"),
         @JsonSubTypes.Type(value = DateParamConfig.class, name = "Date"),
         @JsonSubTypes.Type(value = DateTimeParamConfig.class, name = "DateTime"),
+        @JsonSubTypes.Type(value = GroovyParamConfig.class, name = "Groovy"),
 })
 public abstract class ParamConfig {
     String name;

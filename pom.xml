@@ -23,6 +23,7 @@
         <commons-io.version>2.4</commons-io.version>
         <guava.version>14.0.1</guava.version>
         <commons-beanutils.version>1.8.3</commons-beanutils.version>
+        <groovy.version>2.1.2</groovy.version>
     </properties>
 
     <repositories>

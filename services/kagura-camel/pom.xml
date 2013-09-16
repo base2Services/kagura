@@ -170,12 +170,6 @@
             <artifactId>json-path</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <!-- Needs to be the same version that REST Assured depends on -->
-            <scope>test</scope>
-        </dependency>
 
         <!-- logging -->
 		<dependency>
@@ -230,6 +224,14 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!-- Scripting -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <!-- Needs to be the same version that REST Assured depends on -->
+            <!--<scope>test</scope>-->
         </dependency>
 
     </dependencies>

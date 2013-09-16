@@ -165,6 +165,13 @@
                 <version>${hamcrest.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!-- scripting -->
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <!-- Needs to be the same version that REST Assured depends on -->
+                <version>${groovy.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

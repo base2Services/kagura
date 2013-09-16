@@ -1,0 +1,22 @@
+type: "Fake"
+paramConfig:
+  - type: Groovy
+    name: "An anonymous string"
+    help: "Just put anything in"
+    placeholder: "asdfsdaef"
+    value:
+    groovy: "result.addAll(Arrays.asList('1','2','3','4','5')); "
+columns:
+  - name: test1
+    styleType: text
+  - name: test2
+    styleType: numbers
+rows:
+  - Number: 899
+    Description: "Unique Visitors"
+  - Number: 234
+    Description: String
+extraOptions:
+  diplayPriority: 1
+  image: fake1.png
+  reportName: "Fake sample 1"

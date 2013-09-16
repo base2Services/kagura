@@ -21,7 +21,6 @@
         <jackson.version>2.2.2</jackson.version>
         <cxf.version>2.7.5</cxf.version>
         <rest-assured.version>1.8.1</rest-assured.version>
-        <groovy.version>2.1.2</groovy.version>
         <guava-osgi.version>11.0.0</guava-osgi.version>
         <snakeyaml.version>1.13</snakeyaml.version>
         <mysql.version>5.1.26</mysql.version>
@@ -282,13 +281,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            <dependency>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
-                <!-- Needs to be the same version that REST Assured depends on -->
-                <version>${groovy.version}</version>
-                <scope>test</scope>
-            </dependency>
 
             <!-- JSON and YAML -->
             <dependency>
@@ -325,6 +317,14 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
+            </dependency>
+
+            <!-- scripting -->
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <!-- Needs to be the same version that REST Assured depends on -->
+                <version>${groovy.version}</version>
             </dependency>
 
         </dependencies>
