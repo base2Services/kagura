@@ -5,7 +5,7 @@ import com.base2.kagura.core.reporting.view.report.configmodel.FreeMarkerSQLRepo
 import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerLimit;
 import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerWhere;
 import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerWhereClause;
-import freemarker.core.Environment;
+import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
 import freemarker.template.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;

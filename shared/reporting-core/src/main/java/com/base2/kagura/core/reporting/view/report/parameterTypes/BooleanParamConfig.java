@@ -1,4 +1,4 @@
-package com.base2.kagura.core.reporting.view.report;
+package com.base2.kagura.core.reporting.view.report.parameterTypes;
 
 /**
  * Created with IntelliJ IDEA.

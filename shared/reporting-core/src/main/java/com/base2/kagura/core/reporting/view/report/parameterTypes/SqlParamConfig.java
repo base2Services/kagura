@@ -1,8 +1,7 @@
-package com.base2.kagura.core.reporting.view.report;
+package com.base2.kagura.core.reporting.view.report.parameterTypes;
 
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
 

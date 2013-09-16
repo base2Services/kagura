@@ -1,7 +1,7 @@
 package com.base2.kagura.core.reporting.view.report.connectors;
 
 import com.base2.kagura.core.reporting.view.report.ColumnDef;
-import com.base2.kagura.core.reporting.view.report.ParamConfig;
+import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 
 import java.io.Serializable;

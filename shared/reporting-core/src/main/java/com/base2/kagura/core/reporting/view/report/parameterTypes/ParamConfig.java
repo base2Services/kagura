@@ -1,4 +1,4 @@
-package com.base2.kagura.core.reporting.view.report;
+package com.base2.kagura.core.reporting.view.report.parameterTypes;
 
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 import com.fasterxml.jackson.annotation.JsonSubTypes;

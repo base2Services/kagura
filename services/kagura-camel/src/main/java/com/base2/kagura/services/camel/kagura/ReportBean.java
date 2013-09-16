@@ -2,7 +2,7 @@ package com.base2.kagura.services.camel.kagura;
 
 import com.base2.kagura.core.reporting.view.ReportExportBean;
 import com.base2.kagura.core.reporting.view.report.ColumnDef;
-import com.base2.kagura.core.reporting.view.report.ParamConfig;
+import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.base2.kagura.services.camel.model.Parameters;
 
-import javax.ws.rs.DefaultValue;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;

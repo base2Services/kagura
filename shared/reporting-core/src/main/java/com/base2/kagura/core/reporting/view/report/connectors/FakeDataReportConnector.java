@@ -1,7 +1,8 @@
 package com.base2.kagura.core.reporting.view.report.connectors;
 
-import com.base2.kagura.core.reporting.view.report.*;
 import com.base2.kagura.core.reporting.view.report.configmodel.FakeReportConfig;
+import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
+import com.base2.kagura.core.reporting.view.report.parameterTypes.SingleParamConfig;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -9,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;

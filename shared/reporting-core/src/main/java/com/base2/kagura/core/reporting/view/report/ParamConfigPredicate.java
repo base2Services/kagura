@@ -1,5 +1,6 @@
 package com.base2.kagura.core.reporting.view.report;
 
+import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
 import org.apache.commons.collections.Predicate;
 
 /**

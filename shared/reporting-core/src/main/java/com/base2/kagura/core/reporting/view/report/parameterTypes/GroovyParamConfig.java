@@ -1,12 +1,10 @@
-package com.base2.kagura.core.reporting.view.report;
+package com.base2.kagura.core.reporting.view.report.parameterTypes;
 
-import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.

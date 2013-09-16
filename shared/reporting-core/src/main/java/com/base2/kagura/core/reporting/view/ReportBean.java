@@ -1,7 +1,7 @@
 package com.base2.kagura.core.reporting.view;
 
 import com.base2.kagura.core.reporting.view.report.ColumnDef;
-import com.base2.kagura.core.reporting.view.report.ParamConfig;
+import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.reporting.view.report.ReportConnectorFactorySingleton;
 import com.base2.kagura.core.reporting.view.report.connectors.FakeDataReportConnector;
 import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;

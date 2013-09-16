@@ -1,8 +1,8 @@
 package com.base2.kagura.core.reporting.view.report.connectors;
 
 import com.base2.kagura.core.reporting.view.report.FreemarkerSQLResult;
-import com.base2.kagura.core.reporting.view.report.ParamConfig;
-import com.base2.kagura.core.reporting.view.report.SingleParamConfig;
+import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
+import com.base2.kagura.core.reporting.view.report.parameterTypes.SingleParamConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.JDBCReportConfig;
 import junit.framework.Assert;
 import org.junit.Test;
