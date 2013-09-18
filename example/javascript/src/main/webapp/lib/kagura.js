@@ -160,7 +160,10 @@ function addColumns(columns)
     columns.forEach(function (column)
     {
         var templateTh = templateTr.find("th.hidden").clone();
-        templateTh.text(column.name);
+        if (column.label)
+            templateTh.text(column.label);
+        else
+            templateTh.text(column.name);
         templateTh.removeClass("hidden");
         templateTr.append(templateTh);
         var templateRow = reportTableBody.find("tr.hidden");
