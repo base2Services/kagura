@@ -56,8 +56,8 @@ public class FreemarkerWhereClause implements TemplateDirectiveModel
             errors.add(message);
             throw new TemplateModelException(message);
         }
-        FreemarkerWhere freemarkerWhere = (FreemarkerWhere)env.getVariable("whereTag");
-        if (freemarkerWhere == null) {
+        WhereContext whereContext = (WhereContext)env.getCustomAttribute("whereTag");
+        if (whereContext == null) {
             String message = "Can not find parent where clause.";
             errors.add(message);
             throw new TemplateModelException(message);
@@ -65,7 +65,7 @@ public class FreemarkerWhereClause implements TemplateDirectiveModel
         StringWriter stringWriter = new StringWriter();
         body.render(stringWriter);
         outputBody = stringWriter.toString();
-        freemarkerWhere.addWhereClause(this);
+        whereContext.addWhereClause(this);
     }
 
     public String getOutputBody() {

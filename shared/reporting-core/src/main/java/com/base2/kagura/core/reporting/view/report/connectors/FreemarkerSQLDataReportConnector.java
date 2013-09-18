@@ -103,7 +103,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         });
         final Boolean[] limitExists = {false};
         root.put("where", new FreemarkerWhere(errors));
-        root.put("and", new FreemarkerWhereClause(errors));
+        root.put("clause", new FreemarkerWhereClause(errors));
         root.put("limit", new FreemarkerLimit(limitExists, errors, this));
 
         Template temp = null;

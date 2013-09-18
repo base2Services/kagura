@@ -87,7 +87,7 @@ public class JDBCDataReportConnectorTest {
     @Test
     public void testFreemarkerWhereExtensionWithWhereParams() throws Exception {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
-        reportConfig.setSql("SELECT * FROM table <@where><@and render=true>columnB=${method.value(param.test)}</@and></@where> <@limit />");
+        reportConfig.setSql("SELECT * FROM table <@where><@clause render=true>columnB=${method.value(param.test)}</@clause></@where> <@limit />");
         reportConfig.setClassLoaderPath("org.h2.Driver");
         reportConfig.setJdbc(JDBC);
         reportConfig.setUsername("sa");
@@ -110,9 +110,9 @@ public class JDBCDataReportConnectorTest {
         JDBCReportConfig reportConfig = new JDBCReportConfig();
         reportConfig.setSql("SELECT * FROM table " +
                 "<@where>" +
-                    "<@and render=true>columnB=${method.value(param.test)}</@and>" +
-                    "<@and render=false>columnC=${method.value(param.test)}</@and>" +
-                    "<@and render=param.test='ParameterOutput'>columnD=${method.value(param.test)}</@and>" +
+                    "<@clause render=true>columnB=${method.value(param.test)}</@clause>" +
+                    "<@clause render=false>columnC=${method.value(param.test)}</@clause>" +
+                    "<@clause render=param.test='ParameterOutput'>columnD=${method.value(param.test)}</@clause>" +
                 "</@where> <@limit />");
         reportConfig.setClassLoaderPath("org.h2.Driver");
         reportConfig.setJdbc(JDBC);
@@ -193,4 +193,71 @@ public class JDBCDataReportConnectorTest {
         Assert.assertEquals(expected, actual.getSql());
         Assert.assertEquals(0, actual.getParams().size());
     }
+
+    @Test
+    public void testFreemarkerWhereExtensionWithComplicatedWhereParamsWithOr() throws Exception {
+        JDBCReportConfig reportConfig = new JDBCReportConfig();
+        reportConfig.setSql("SELECT * FROM table " +
+                "<@where>" +
+                    "<@where type='or'>" +
+                        "<@clause render=true>columnB=${method.value(param.test)}</@clause>" +
+                        "<@clause render=false>columnC=${method.value(param.test)}</@clause>" +
+                    "</@where>" +
+                    "<@where>" +
+                        "<@clause render=false>columnE=${method.value(param.test)}</@clause>" +
+                        "<@clause render=false>columnF=${method.value(param.test)}</@clause>" +
+                    "</@where>" +
+                    "<@where type='and'>" +
+                        "<@clause render=true>columnG=${method.value(param.test)}</@clause>" +
+                        "<@clause render=true>columnH=${method.value(param.test)}</@clause>" +
+                    "</@where>" +
+                    "<@where type='or'>" +
+                        "<@clause render=true>columnJ=${method.value(param.test)}</@clause>" +
+                        "<@clause render=true>columnK=${method.value(param.test)}</@clause>" +
+                    "</@where>" +
+                    "<@clause render=param.test='ParameterOutput'>columnD=${method.value(param.test)}</@clause>" +
+                "</@where>" +
+                "<@limit />");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc(JDBC);
+        reportConfig.setUsername("sa");
+        reportConfig.setPassword("");
+        reportConfig.setParamConfig(new ArrayList<ParamConfig>()
+        {{
+                SingleParamConfig stringParam = (SingleParamConfig)ParamConfig.String("test");
+                stringParam.setValue("ParameterOutput");
+                add(stringParam);
+            }});
+        JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
+        String expected = "SELECT * FROM table  WHERE columnB=? AND columnG=? AND columnH=? AND (columnJ=? OR columnK=?) AND columnD=? LIMIT 20 OFFSET 0 ";
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams();
+        Assert.assertEquals(expected, actual.getSql());
+    }
+    @Test
+    public void testFreemarkerWhereExtensionWithComplicatedNestedWhereParams() throws Exception {
+        JDBCReportConfig reportConfig = new JDBCReportConfig();
+        reportConfig.setSql("SELECT * FROM table " +
+                "<@where>" +
+                    "<@where>" +
+                        "<@clause render=true>columnB=${method.value(param.test)}</@clause>" +
+                    "</@where>" +
+                "</@where>" +
+                "<@limit />");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc(JDBC);
+        reportConfig.setUsername("sa");
+        reportConfig.setPassword("");
+        reportConfig.setParamConfig(new ArrayList<ParamConfig>()
+        {{
+                SingleParamConfig stringParam = (SingleParamConfig)ParamConfig.String("test");
+                stringParam.setValue("ParameterOutput");
+                add(stringParam);
+            }});
+        JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
+        String expected = "SELECT * FROM table  WHERE columnB=? LIMIT 20 OFFSET 0 ";
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams();
+        Assert.assertEquals(expected, actual.getSql());
+        org.junit.Assert.assertArrayEquals(new Object[] {"ParameterOutput"}, actual.getParams().toArray());
+    }
+
 }
