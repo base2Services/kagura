@@ -272,11 +272,12 @@
 
             <!-- Camel plugin -->
             <plugin>
-                  <groupId>org.apache.camel</groupId>
-                  <artifactId>camel-maven-plugin</artifactId>
-                  <configuration>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-maven-plugin</artifactId>
+                <version>${camel.version}</version>
+                <configuration>
                     <applicationContextUri>run.xml</applicationContextUri>
-                  </configuration>
+                </configuration>
             </plugin>
         </plugins>
 	</build>

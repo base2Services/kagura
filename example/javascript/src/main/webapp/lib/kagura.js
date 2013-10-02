@@ -422,7 +422,10 @@ function callKagura(reportId, method, url, contentType)
             }
             if (msg.columns)
             {
-                addColumns(msg.columns);
+                if (reportId != curReport)
+                {
+                    addColumns(msg.columns);
+                }
             } else {
                 fixReportColumns(msg);
             }
