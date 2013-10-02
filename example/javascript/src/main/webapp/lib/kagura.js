@@ -183,6 +183,104 @@ function addColumns(columns)
         templateRow.addClass("hidden");
     });
 }
+function buildReportParameters(msg, inputParamFieldTemplate) {
+    var inputParamFieldTemplate = $('#inputParamFieldTemplate');
+    msg.params.forEach(function (param) {
+        var template = inputParamFieldTemplate.clone();
+        template.removeAttr("id");
+        template.removeClass("hidden");
+        template.addClass("parameterField");
+        var label = template.find("label");
+        label.text(param.name);
+        var paramIdField = template.find("span[name='paramId']");
+        paramIdField.text(param.id);
+        var paramId = param.id + "Param";
+        label.prop("for", paramId);
+        var input = template.find("input");
+        if ("number" == param.type.toLowerCase()) {
+            input.prop("id", paramId);
+            input.prop("type", "number");
+            input.prop("step", "any");
+            input.val(param.value);
+            input.prop("placeholder", param.placeholder);
+            input.addClass("parameterFieldInput");
+        } else if ("boolean" == param.type.toLowerCase()) {
+            var options = "<option value='' " + (param.value == "" ? "selected" : "") + ">Select one</option>" +
+                "<option value='true' " + (param.value == "true" ? "selected" : "") + ">Yes</option>" +
+                "<option value='false' " + (param.value == "false" ? "selected" : "") + ">No</option>";
+            input.replaceWith("<select id='" + paramId + "' class=\"parameterFieldInput\">" + options + "</select>");
+        } else if ("combo" == param.type.toLowerCase() || "sql" == param.type.toLowerCase()) {
+            var options = "<option value='' " + (param.value == "" ? "selected" : "") + ">Select one</option>";
+            param.values.forEach(function (value) {
+                options = options + "<option value='" + value + "' " + (param.value == value ? "selected" : "") + ">" + value + "</option>";
+            });
+            input.replaceWith("<select id='" + paramId + "' class=\"parameterFieldInput\">" + options + "</select>");
+        } else if ("datetime" == param.type.toLowerCase()) {
+            input.replaceWith('    <div id="' + paramId + '" class="input-append date">' +
+                '<input type="text" class="parameterFieldInput" placeholder="' + param.placeholder + '" />' +
+                '<span class="add-on">' +
+                '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
+                '</span>' +
+                '</div>' +
+                '<script type="text/javascript">' +
+                '$(function() {' +
+                '$("#' + paramId + '").datetimepicker({' +
+                "        format: 'yyyy-MM-dd hh:mm:ss' " +
+                '});' +
+                '});' +
+                '</script>');
+        } else if ("date" == param.type.toLowerCase()) {
+            input.replaceWith('    <div id="' + paramId + '" class="input-append date">' +
+                '<input type="text" class="parameterFieldInput" placeholder="' + param.placeholder + '" />' +
+                '<span class="add-on">' +
+                '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
+                '</span>' +
+                '</div>' +
+                '<script type="text/javascript">' +
+                '$(function() {' +
+                '$("#' + paramId + '").datetimepicker({' +
+                "        format: 'yyyy-MM-dd', " +
+                '        pickTime: false' +
+                '});' +
+                '});' +
+                '</script>');
+        } else if ("manycombo" == param.type.toLowerCase()) {
+            var options = "<option value='' " + (param.value == null || param.value.length == 0 ? "selected" : "") + ">Select one</option>";
+            param.values.forEach(function (value) {
+                options = options + "<option value='" + value + "' " + ((param.value != null && param.value.contains(value)) ? "selected" : "") + ">" + value + "</option>";
+            });
+            input.replaceWith("<select id='" + paramId + "' class=\"parameterFieldInput\" multiple>" + options + "</select>");
+        } else //if ("string" == param.type.toLowerCase())
+        {
+            input.prop("id", paramId);
+            input.val(param.value);
+            input.prop("placeholder", param.placeholder);
+            input.addClass("parameterFieldInput");
+        }
+        var help = template.find("p[name='help']");
+        help.text(param.help);
+        template.insertBefore('#runReportButton');
+    });
+}
+function processReportExtras(msg, reportId) {
+    if (msg.extra.reportName) {
+        $("#reportTitle").text(msg.extra.reportName);
+    } else {
+        $("#reportTitle").text(reportId);
+    }
+    if (msg.extra.description) {
+        $("#reportDescription").text(msg.extra.description);
+    } else {
+        $("#reportDescription").text("");
+    }
+    var reportImage = $("#reportImage");
+    if (msg.extra.image) {
+        reportImage.prop('src', msg.extra.image);
+        reportImage.removeClass("hidden");
+    } else {
+        reportImage.addClass("hidden");
+    }
+}
 function loadReport(reportId)
 {
     resetDisplay();
@@ -209,123 +307,24 @@ function loadReport(reportId)
                 spinner.stop();
                 return;
             }
-            if (msg.extra.reportName)
+            if (msg.extra)
             {
-                $("#reportTitle").text(msg.extra.reportName);
-            } else {
-                $("#reportTitle").text(reportId);
-            }
-            if (msg.extra.description)
-            {
-                $("#reportDescription").text(msg.extra.description);
-            } else {
-                $("#reportDescription").text("");
-            }
-            var reportImage = $("#reportImage");
-            if (msg.extra.image)
-            {
-                reportImage.prop('src', msg.extra.image);
-                reportImage.removeClass("hidden");
-            } else {
-                reportImage.addClass("hidden");
+                processReportExtras(msg, reportId);
             }
             if (msg.columns)
             {
                 addColumns(msg.columns);
             }
-            var paramPanel = $('#paramPanel');
-            var inputParamFieldTemplate = $('#inputParamFieldTemplate');
             if (msg.params)
             {
-                msg.params.forEach(function (param)
-                {
-                    var template = inputParamFieldTemplate.clone();
-                    template.removeAttr("id");
-                    template.removeClass("hidden");
-                    template.addClass("parameterField");
-                    var label = template.find("label");
-                    label.text(param.name);
-                    var paramIdField = template.find("span[name='paramId']");
-                    paramIdField.text(param.id);
-                    var paramId = param.id + "Param";
-                    label.prop("for", paramId);
-                    var input = template.find("input");
-                    if ("number" == param.type.toLowerCase())
-                    {
-                        input.prop("id", paramId);
-                        input.prop("type", "number");
-                        input.prop("step", "any");
-                        input.val(param.value);
-                        input.prop("placeholder", param.placeholder);
-                        input.addClass("parameterFieldInput");
-                    } else if ("boolean" == param.type.toLowerCase())
-                    {
-                        var options = "<option value='' "+(param.value == "" ? "selected" : "")+">Select one</option>" +
-                            "<option value='true' "+(param.value == "true" ? "selected" : "")+">Yes</option>" +
-                            "<option value='false' "+(param.value == "false" ? "selected" : "")+">No</option>";
-                        input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\">"+options+"</select>");
-                    } else if ("combo" == param.type.toLowerCase() || "sql" == param.type.toLowerCase())
-                    {
-                        var options = "<option value='' "+(param.value == "" ? "selected" : "")+">Select one</option>";
-                        param.values.forEach(function (value)
-                        {
-                            options = options + "<option value='"+value+"' "+(param.value == value ? "selected" : "")+">"+value+"</option>";
-                        });
-                        input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\">"+options+"</select>");
-                    } else if ("datetime" == param.type.toLowerCase())
-                    {
-                        input.replaceWith('    <div id="'+paramId+'" class="input-append date">' +
-                            '<input type="text" class="parameterFieldInput" placeholder="'+param.placeholder+'" />' +
-                                '<span class="add-on">' +
-                                    '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
-                                '</span>' +
-                            '</div>' +
-                            '<script type="text/javascript">' +
-                                '$(function() {' +
-                                    '$("#'+paramId+'").datetimepicker({' +
-                                        "        format: 'yyyy-MM-dd hh:mm:ss' " +
-                                    '});' +
-                                '});' +
-                            '</script>');
-                    } else if ("date" == param.type.toLowerCase())
-                    {
-                        input.replaceWith('    <div id="'+paramId+'" class="input-append date">' +
-                            '<input type="text" class="parameterFieldInput" placeholder="'+param.placeholder+'" />' +
-                                '<span class="add-on">' +
-                                    '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>' +
-                                '</span>' +
-                            '</div>' +
-                            '<script type="text/javascript">' +
-                                '$(function() {' +
-                                    '$("#'+paramId+'").datetimepicker({' +
-                                        "        format: 'yyyy-MM-dd', " +
-                                        '        pickTime: false'+
-                                    '});' +
-                                '});' +
-                            '</script>');
-                    } else if ("manycombo" == param.type.toLowerCase())
-                    {
-                        var options = "<option value='' "+(param.value == null || param.value.length == 0 ? "selected" : "")+">Select one</option>";
-                        param.values.forEach(function (value)
-                        {
-                            options = options + "<option value='"+value+"' "+((param.value != null  && param.value.contains(value)) ? "selected" : "")+">"+value+"</option>";
-                        });
-                        input.replaceWith("<select id='"+paramId+"' class=\"parameterFieldInput\" multiple>"+options+"</select>");
-                    } else //if ("string" == param.type.toLowerCase())
-                    {
-                        input.prop("id", paramId);
-                        input.val(param.value);
-                        input.prop("placeholder", param.placeholder);
-                        input.addClass("parameterFieldInput");
-                    }
-                    var help = template.find("p[name='help']");
-                    help.text(param.help);
-                    template.insertBefore('#runReportButton');
-                });
+                buildReportParameters(msg);
             }
             spinner.stop();
-            pageNumber = 0;
-            curReport = reportId;
+            if (reportId)
+            {
+                pageNumber = 0;
+                curReport = reportId;
+            }
         }
     }).fail(ajaxFail);
 }
@@ -353,11 +352,11 @@ function exportReport(fileType, all)
     } else {
         values = values + "&page=" + pageNumber;
     }
-    values = values + "&" + buildParameters();
+    values = values + "&" + buildRequestParameters();
     window.location.href = server_base + "rest/report/" + token + "/" + curReport + "/export."+fileType+"?" + values;
 }
 
-function buildParameters() {
+function buildRequestParameters() {
     var params = {};
     $('div.parameterField:not(.hidden)').each(function (index, divfield) {
         var param = $(divfield).find("span[name='paramId']").text();
@@ -382,6 +381,30 @@ function reportErrors(msg) {
         $('#reportErrors').append(newDiv);
     })
 }
+function populateReportRows(msg) {
+    var reportTableBody = $("#reportTableBody");
+    var templateRow = reportTableBody.find("tr.hidden");
+    msg.rows.forEach(function (row) {
+        var rowInstance = templateRow.clone();
+        rowInstance.removeClass("hidden");
+        reportTableBody.append(rowInstance);
+        rowInstance.find("td.hidden").remove();
+        Object.keys(row).forEach(function (key) {
+            rowInstance.find("td[name='" + key + "']").text(row[key]);
+        })
+    });
+}
+function fixReportColumns(msg) {
+    if (!msg.rows || msg.rows.length == 0) {
+        resetReportBody();
+    } else {
+        resetReport();
+        var columns = $.map(Object.keys(msg.rows[0]), function (x) {
+            return { name: x, styleName: ""};
+        });
+        addColumns(columns);
+    }
+}
 function runReport()
 {
     resetReportBody();
@@ -389,7 +412,7 @@ function runReport()
     spinner.spin(document.getElementById('reportMain'));
     $('#reportPageNumber').text(pageNumber+1);
     var values = "page=" + pageNumber;
-    var encParams = buildParameters();
+    var encParams = buildRequestParameters();
     resetReportBody();
     $.ajax({
         type: "GET",
@@ -402,39 +425,77 @@ function runReport()
                 spinner.stop();
                 return;
             }
-            var reportTableBody = $("#reportTableBody");
-            var templateRow = reportTableBody.find("tr.hidden");
             if (msg.errors)
             {
                 reportErrors(msg);
             }
             if (!msg.columns)
             {
-                if (!msg.rows || msg.rows.length == 0)
-                {
-                    resetReportBody();
-                } else {
-                    resetReport();
-                    var columns = $.map(Object.keys(msg.rows[0]),function (x)
-                    {
-                        return { name : x, styleName : ""};
-                    });
-                    addColumns(columns);
-                }
+                fixReportColumns(msg);
             }
             if (msg.rows)
             {
-                msg.rows.forEach(function (row)
-                {
-                    var rowInstance = templateRow.clone();
-                    rowInstance.removeClass("hidden");
-                    reportTableBody.append(rowInstance);
-                    rowInstance.find("td.hidden").remove();
-                    Object.keys(row).forEach(function (key)
-                    {
-                        rowInstance.find("td[name='"+key+"']").text(row[key]);
-                    })
-                });
+                populateReportRows(msg);
+            }
+            spinner.stop();
+        }
+    }).fail(ajaxFail);
+}
+function callKagura(reportId, method, url, contentType)
+{
+    // If we have changed report, reset everything.
+    if (reportId != curReport)
+    {
+        resetDisplay();
+        resetReportConfig();
+        $('#reportTitle').text(reportId);
+        var reportMain = $('#reportMain');
+        reportMain.removeClass("hidden");
+    } else {
+        resetReportBody();
+    }
+    spinner.stop();
+    spinner.spin(document.getElementById('reportMain'));
+    $('#reportPageNumber').text(pageNumber+1);
+    resetReportBody();
+    $.ajax({
+        type: method,
+        url: url,
+        contentType: contentType,
+        success: function (msg)
+        {
+            if (msg.error)
+            {
+                ajaxFail(null, null, msg.error);
+                spinner.stop();
+                return;
+            }
+            if (msg.errors)
+            {
+                reportErrors(msg);
+            }
+            if (msg.extra)
+            {
+                processReportExtras(msg, reportId);
+            }
+            if (msg.params)
+            {
+                buildReportParameters(msg);
+            }
+            if (msg.columns)
+            {
+                addColumns(msg.columns);
+            } else {
+                fixReportColumns(msg);
+            }
+            if (msg.rows)
+            {
+                populateReportRows(msg);
+            }
+            if (reportId != curReport)
+            {
+                pageNumber = 0;
+                curReport = reportId;
             }
             spinner.stop();
         }
