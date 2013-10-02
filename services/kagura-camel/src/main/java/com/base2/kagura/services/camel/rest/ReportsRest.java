@@ -22,7 +22,7 @@ public class ReportsRest {
     String authToken;
     /**
      *
-     * @return Returns a list of reports
+     * @return returns report details
      */
     @Path("details")
     @GET
@@ -31,12 +31,26 @@ public class ReportsRest {
 
     /**
      *
-     * @return Returns a list of reports
+     * @return report run output
      */
     @Path("run")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Object runReport(
+            @DefaultValue("false") @QueryParam("allpages") boolean allpages,
+            @DefaultValue("10") @QueryParam("pageLimit") int pageLimit,
+            @DefaultValue("0") @QueryParam("page") int page,
+            @DefaultValue("{}") @QueryParam("parameters") Parameters parameters
+    ){return null;}
+
+    /**
+     *
+     * @return the report details AND the results of a report run
+     */
+    @Path("detailsAndRun")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Object detailsAndRunReport(
             @DefaultValue("false") @QueryParam("allpages") boolean allpages,
             @DefaultValue("10") @QueryParam("pageLimit") int pageLimit,
             @DefaultValue("0") @QueryParam("page") int page,

@@ -59,6 +59,10 @@ public class ReportBean {
 
     public Map<String, Object> getReportDetails(String reportName, boolean full) {
         Map<String, Object> result = new HashMap<String, Object>();
+        return getReportDetails(reportName, full, result);
+    }
+
+    private Map<String, Object> getReportDetails(String reportName, boolean full, Map<String, Object> result) {
         ReportConfig reportConfig = getReportConfig(reportName, result);
         if (reportConfig != null)
         {
@@ -111,6 +115,33 @@ public class ReportBean {
             , @Header("pageLimit") Integer pageLimit
             , @Header("parameters") Parameters parameters) throws AuthenticationException {
         Map<String, Object> result = new HashMap<String, Object>();
+        ReportConnector reportConnector = getConnector(reportId);
+        reportConnector.setPage(page);
+        List<String> errors = new ArrayList<String>();
+        if (all)
+            reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
+        else
+            if (pageLimit != null && pageLimit > 0)
+                reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
+        insertParameters(parameters, reportConnector, errors);
+        reportConnector.run();
+        errors.addAll(reportConnector.getErrors());
+        List<ColumnDef> columns = reportConnector.getColumns();
+        List<Map<String, Object>> rows = reportConnector.getRows();
+        result.put("columns",columns);
+        result.put("rows",rows);
+        result.put("errors", errors);
+        return result;
+    }
+
+    public Map<String, Object> detailsAndRun(
+            @Header("reportId") String reportId
+            , @Header("page") int page
+            , @Header("allpages") boolean all
+            , @Header("pageLimit") Integer pageLimit
+            , @Header("parameters") Parameters parameters) throws AuthenticationException {
+        Map<String, Object> result = new HashMap<String, Object>();
+        getReportDetails(reportId, true, result);
         ReportConnector reportConnector = getConnector(reportId);
         reportConnector.setPage(page);
         List<String> errors = new ArrayList<String>();

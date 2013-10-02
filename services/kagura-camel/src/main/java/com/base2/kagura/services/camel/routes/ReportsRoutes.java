@@ -42,6 +42,11 @@ public class ReportsRoutes extends RouteBuilder {
                 .marshal().json(JsonLibrary.Jackson)
                 .routeId("rsRunReportRouteId");
 
+        from("direct:rs-detailsAndRunReport")
+                .beanRef("reportBean", "detailsAndRun")
+                .marshal().json(JsonLibrary.Jackson)
+                .routeId("rsDetailsAndRunReportRouteId");
+
         from("direct:rs-exportReport")
                 .beanRef("reportBean", "export")
                 .routeId("rsExportReportRouteId");

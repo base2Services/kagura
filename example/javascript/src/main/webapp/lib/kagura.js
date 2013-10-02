@@ -20,6 +20,7 @@ var spinner = new Spinner(opts);
 var token;
 var pageNumber = 0;
 var curReport;
+var callCount = 0;
 
 function loginSpin() {
     spinner.stop();
@@ -283,51 +284,12 @@ function processReportExtras(msg, reportId) {
 }
 function loadReport(reportId)
 {
-    resetDisplay();
-    resetReportConfig();
-    resetReportBody();
-    $('#reportTitle').text(reportId);
-    spinner.stop();
-    var reportMain = $('#reportMain');
-    reportMain.removeClass("hidden");
-    spinner.spin(document.getElementById('reportMain'));
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        url: server_base + "rest/report/" + token + "/" + reportId + "/details",
-        success: function (msg)
-        {
-            if (msg.errors)
-            {
-                reportErrors(msg);
-            }
-            if (msg.error)
-            {
-                ajaxFail(null, null, msg.error);
-                spinner.stop();
-                return;
-            }
-            if (msg.extra)
-            {
-                processReportExtras(msg, reportId);
-            }
-            if (msg.columns)
-            {
-                addColumns(msg.columns);
-            }
-            if (msg.params)
-            {
-                buildReportParameters(msg);
-            }
-            spinner.stop();
-            if (reportId)
-            {
-                pageNumber = 0;
-                curReport = reportId;
-            }
-        }
-    }).fail(ajaxFail);
+    var url = server_base + "rest/report/" + token + "/" + reportId + "/detailsAndRun";
+    var method = "GET";
+    var contentType = "application/json; charset=utf-8";
+    callKagura(reportId, method, url, contentType)
 }
+
 function displayMain()
 {
     resetDisplay();
@@ -407,40 +369,14 @@ function fixReportColumns(msg) {
 }
 function runReport()
 {
-    resetReportBody();
-    spinner.stop();
-    spinner.spin(document.getElementById('reportMain'));
-    $('#reportPageNumber').text(pageNumber+1);
     var values = "page=" + pageNumber;
     var encParams = buildRequestParameters();
-    resetReportBody();
-    $.ajax({
-        type: "GET",
-        url: server_base + "rest/report/" + token + "/" + curReport + "/run?" + values + "&parameters=" + encParams,
-        success: function (msg)
-        {
-            if (msg.error)
-            {
-                ajaxFail(null, null, msg.error);
-                spinner.stop();
-                return;
-            }
-            if (msg.errors)
-            {
-                reportErrors(msg);
-            }
-            if (!msg.columns)
-            {
-                fixReportColumns(msg);
-            }
-            if (msg.rows)
-            {
-                populateReportRows(msg);
-            }
-            spinner.stop();
-        }
-    }).fail(ajaxFail);
+    var url = server_base + "rest/report/" + token + "/" + curReport + "/run?" + values + "&parameters=" + encParams;
+    var method = "GET";
+    var contentType = null;
+    callKagura(curReport, method, url, contentType)
 }
+
 function callKagura(reportId, method, url, contentType)
 {
     // If we have changed report, reset everything.
@@ -458,12 +394,14 @@ function callKagura(reportId, method, url, contentType)
     spinner.spin(document.getElementById('reportMain'));
     $('#reportPageNumber').text(pageNumber+1);
     resetReportBody();
+    var myCall = ++callCount;
     $.ajax({
         type: method,
         url: url,
         contentType: contentType,
         success: function (msg)
         {
+            if (myCall != callCount) return; // Damn Double Clickers
             if (msg.error)
             {
                 ajaxFail(null, null, msg.error);
