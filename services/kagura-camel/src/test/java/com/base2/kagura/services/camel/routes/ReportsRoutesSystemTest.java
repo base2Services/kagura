@@ -41,6 +41,21 @@ public class ReportsRoutesSystemTest extends CamelSpringTestSupport {
     }
 
     @Test
+    public void reportDetailsAndRunTest()
+    {
+        ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
+        String token = login.jsonPath().get("token");
+        expect()
+                .body("extra.displayPriority", equalTo("1"))
+                .body("extra.image", equalTo("fake1.png"))
+                .body("extra.reportName", equalTo("Fake sample 1"))
+                .body("reportId", equalTo("fake1"))
+                .body("columns",hasSize(3))
+                .body("rows",hasSize(2))
+                .when().get("http://localhost:8432/report/{1}/fake1/detailsAndRun", token);
+    }
+
+    @Test
     public void reportDetailsNoRightsTest()
     {
         ResponseBody login = given().request().body("testuserpass").post("http://localhost:8432/auth/login/testuser").body();
