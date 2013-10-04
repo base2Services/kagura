@@ -1,5 +1,8 @@
 package com.base2.kagura.services.camel.kagura;
 
+import com.base2.kagura.core.reporting.view.authentication.AuthenticationProvider;
+import com.base2.kagura.core.reporting.view.authentication.model.FileAuthentication;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.DateTimeConverter;
@@ -8,14 +11,17 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @author aubels
@@ -23,7 +29,11 @@ import java.util.Date;
  */
 @Service()
 public class ServerBean implements ApplicationContextAware {
+    @Value("${com.base2.kagura.reportloc:/TestReports/}")
     private String configPath;
+    @Value("${com.base2.kagura.authtype:file}")
+    private String authType;
+
     private ApplicationContext applicationContext;
 
     public ServerBean() {
@@ -39,37 +49,19 @@ public class ServerBean implements ApplicationContextAware {
         return ServerBean.class.getResource(configPath).getFile();
     }
 
-    @Value("${com.base2.kagura.reportloc:/TestReports/}")
     public void setConfigPath(String configPath) {
         this.configPath = configPath;
     }
 
-    public InputStream openFile(String file)
+    @Bean
+    public AuthenticationProvider createAuthenticationProvider()
     {
-        if (!new File(file).exists()) {
-            URL dir_url = ServerBean.class.getResource(file);
-            if (dir_url != null)
-            {
-                try {
-                    return dir_url.openStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                return new URL(file).openStream();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        AuthenticationProvider authenticationProvider = null;
+        if ("file".equalsIgnoreCase(authType))
+        {
+            authenticationProvider = new FileAuthentication(getConfigPath());
         }
-        try {
-            return FileUtils.openInputStream(new File(file));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return authenticationProvider;
     }
 
     /**
