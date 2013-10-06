@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+    ">
+
+     <!-- Defined the server endpoint to create the cxf-rs consumer -->
+    <cxf:rsServer id="rsExampleRestAuthServer" address="http://0.0.0.0:${kagura.camel.rest.port:8432}/exampleAuthRest/"
+                  serviceClass="com.base2.kagura.services.exampleRestAuth.MyAuthImpl"
+                  loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
+    </cxf:rsServer>
+</beans>

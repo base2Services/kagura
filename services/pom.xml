@@ -16,14 +16,15 @@
 
     <properties>
         <karaf.version>2.3.1</karaf.version>
-        <camel.version>2.11.1</camel.version>
+        <camel.version>2.11.2</camel.version>
         <spring.version>3.1.4.RELEASE</spring.version>
         <jackson.version>2.2.2</jackson.version>
-        <cxf.version>2.7.5</cxf.version>
+        <cxf.version>2.7.6</cxf.version>
         <rest-assured.version>1.8.1</rest-assured.version>
         <guava-osgi.version>11.0.0</guava-osgi.version>
         <snakeyaml.version>1.13</snakeyaml.version>
         <mysql.version>5.1.26</mysql.version>
+        <org.osgi.version>4.3.1</org.osgi.version>
     </properties>
 
     <dependencyManagement>
@@ -48,6 +49,12 @@
             <dependency>
                 <groupId>com.base2.kagura.shared</groupId>
                 <artifactId>kagura-resources</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- Kagura example components -->
+            <dependency>
+                <groupId>com.base2.kagura.services</groupId>
+                <artifactId>example-authrest</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Commons -->
@@ -98,12 +105,22 @@
             <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>org.osgi.core</artifactId>
-                <version>4.3.0</version>
+                <version>${org.osgi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.compendium</artifactId>
+                <version>${org.osgi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.enterprise</artifactId>
+                <version>${org.osgi.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>org.apache.felix.framework</artifactId>
-                <version>4.0.3</version>
+                <version>4.2.1</version>
             </dependency>
             <!-- Camel -->
             <dependency>
@@ -172,6 +189,22 @@
                 <artifactId>cxf-bundle-jaxrs</artifactId>
                 <version>${cxf.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-core</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-transports-http-jetty</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+
             <!-- logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -334,6 +367,7 @@
         <module>kagura-camel</module>
         <module>kagura-features</module>
         <module>kagura-assembly</module>
+        <module>example-authrest</module>
     </modules>
 
 </project>

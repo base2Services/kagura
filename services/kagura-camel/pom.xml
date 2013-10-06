@@ -13,12 +13,12 @@
 
 	<dependencies>
         <!-- java -->
-        <!--<dependency>-->
-            <!--<groupId>javax.persistence</groupId>-->
-            <!--<artifactId>persistence-api</artifactId>-->
-            <!--<version>1.0</version>-->
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
             <!--<scope>provided</scope>-->
-        <!--</dependency>-->
+        </dependency>
         <!-- Apache commons -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -52,7 +52,7 @@
         <!-- OSGI -->
         <dependency>
             <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
+            <artifactId>org.osgi.compendium</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.felix</groupId>
@@ -90,9 +90,17 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-security-oauth2</artifactId>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.cxf</groupId>-->
+            <!--<artifactId>cxf-bundle-jaxrs</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-bundle-jaxrs</artifactId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-core</artifactId>
         </dependency>
 
         <!-- Spring -->
@@ -256,7 +264,7 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.3.7</version>
+                <version>${maven-bundle-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
@@ -264,7 +272,7 @@
                         <Bundle-Version>${project.version}</Bundle-Version>
                         <Bundle-Activator>com.base2.kagura.services.camel.Activator</Bundle-Activator>
                         <Export-Package>com.base2.kagura.services*;version=${project.version}</Export-Package>
-                        <Import-Package>javax.servlet, javax.servlet.http, *</Import-Package>
+                        <Import-Package>javax.servlet, javax.sql, javax.servlet.http, *</Import-Package>
                         <DynamicImport-Package>com.mysql.jdbc;com.mysql.jdbc.*</DynamicImport-Package>
                     </instructions>
                 </configuration>
