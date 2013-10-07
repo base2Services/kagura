@@ -51,4 +51,5 @@ public abstract class AuthenticationProvider {
         return userMap;
     }
 
+    public abstract void authenticateUser(String user, String pass) throws Exception;
 }

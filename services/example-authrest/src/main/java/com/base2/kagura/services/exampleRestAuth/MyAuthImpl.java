@@ -15,10 +15,55 @@
  */
 package com.base2.kagura.services.exampleRestAuth;
 
-public class MyAuthImpl implements MyAuth {
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.camel.Exchange;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.*;
+
+public class MyAuthImpl implements MyAuth {
     public String echo(String message) {
         return "Echo processed: " + message;
+    }
+
+    // Avoiding adding extra dependencies, so using hash map.
+    public Object users() {
+        return new ArrayList<Map<String, Object>>()
+        {{
+                add(new HashMap<String, Object>()
+                {{
+                    put("username","testUser1");
+                    put("groups", Arrays.asList("group1"));
+                    put("password","thisMechWillChange");
+                }});
+                add(new HashMap<String, Object>()
+                {{
+                    put("username","testUser2");
+                    put("groups", Arrays.asList("group2"));
+                    put("password","thisMechWillChange");
+                }});
+        }};
+    }
+
+    public Object groups() {
+        return new ArrayList<Map<String, Object>>()
+        {{
+                add(new HashMap<String, Object>()
+                {{
+                        put("groupname","group1");
+                        put("reports", Arrays.asList("fake1"));
+                    }});
+                add(new HashMap<String, Object>()
+                {{
+                        put("groupname","group2");
+                        put("reports", Arrays.asList("fake2"));
+                    }});
+            }};
     }
 
 }

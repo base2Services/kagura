@@ -38,6 +38,23 @@ public class RestAuthentication extends AuthenticationProvider {
     }
 
     @Override
+    public void authenticateUser(String user, String pass) throws Exception {
+        Map<String, User> userMap = getStringUserMap();
+        User matchUser = userMap.get(user);
+        if (matchUser == null)
+        {
+            LOG.info("User '{}' does not exist.", user);
+            throw new Exception("User was not logged in.");
+        }
+        if (!matchUser.getPassword().equals(pass))
+        {
+            LOG.info("User '{}' bad password entered.", user);
+            throw new Exception("User was not logged in.");
+        }
+    }
+
+
+    @Override
     public List<Group> getGroups() {
         String urlSuffix = "groups";
         InputStream selectedYaml = openUrl(urlSuffix);

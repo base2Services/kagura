@@ -14,9 +14,15 @@
     ">
 
     <camel:camelContext id="exampleRestAuthContext" >
+        <camel:dataFormats>
+            <camel:json id="dataFormatJacksonId" library="Jackson" />
+        </camel:dataFormats>
         <camel:route>
             <camel:from uri="cxfrs://bean://rsExampleRestAuthServer?bindingStyle=SimpleConsumer&amp;resourceClasses=com.base2.kagura.services.exampleRestAuth.MyAuthImpl"/>
-            <camel:to uri="bean:myAuth" />
+            <camel:recipientList>
+                <camel:simple>bean:myAuth?method=${header.operationName}</camel:simple>
+            </camel:recipientList>
+            <camel:marshal ref="dataFormatJacksonId" />
         </camel:route>
     </camel:camelContext>
 

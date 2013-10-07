@@ -49,17 +49,10 @@ public class AuthBean {
             LOG.info("User '{}' attempted to login with a blank username or password.", user);
             throw new AuthenticationException("User was not logged in.");
         }
-        Map<String, User> userMap = authenticationProvider.getStringUserMap();
-        User matchUser = userMap.get(user);
-        if (matchUser == null)
-        {
-            LOG.info("User '{}' does not exist.", user);
-            throw new AuthenticationException("User was not logged in.");
-        }
-        if (!matchUser.getPassword().equals(pass))
-        {
-            LOG.info("User '{}' bad password entered.", user);
-            throw new AuthenticationException("User was not logged in.");
+        try {
+            authenticationProvider.authenticateUser(user, pass);
+        } catch (Exception e) {
+            throw new AuthenticationException(e);
         }
         AuthDetails authDetails = new AuthDetails(user);
         tokens.put(authDetails.getToken().toString(), authDetails);

@@ -15,13 +15,25 @@
  */
 package com.base2.kagura.services.exampleRestAuth;
 
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.QueryParam;
+import org.apache.camel.Exchange;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.Map;
 
 public interface MyAuth {
 
-    @GET
+    @GET()
+    @Path("/echo")
     public String echo(@QueryParam("message") @DefaultValue("No message= found.") String message);
+
+    @GET()
+    @Path("/users")
+    public Object users();
+
+    @GET()
+    @Path("/groups")
+    public Object groups();
 
 }
