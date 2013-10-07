@@ -16,6 +16,6 @@
         </packageScan>
     </camelContext>
 
-    <ctx:component-scan base-package="com.base2.kagura.services.camel.kagura" />
+    <ctx:component-scan base-package="com.base2.kagura.services.camel" />
 
 </beans>

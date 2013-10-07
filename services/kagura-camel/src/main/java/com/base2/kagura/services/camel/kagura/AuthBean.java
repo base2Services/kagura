@@ -22,7 +22,7 @@ import java.util.*;
 public class AuthBean {
     private static final Logger LOG = LoggerFactory.getLogger(AuthBean.class);
     private Map<String, AuthDetails> tokens = new HashMap<String, AuthDetails>();
-    @Autowired
+    @Autowired()
     private AuthenticationProvider authenticationProvider;
     @Autowired
     private ServerBean serverBean;

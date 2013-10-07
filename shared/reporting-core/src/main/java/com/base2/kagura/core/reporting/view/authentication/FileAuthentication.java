@@ -1,6 +1,7 @@
-package com.base2.kagura.core.reporting.view.authentication.model;
+package com.base2.kagura.core.reporting.view.authentication;
 
-import com.base2.kagura.core.reporting.view.authentication.AuthenticationProvider;
+import com.base2.kagura.core.reporting.view.authentication.model.Group;
+import com.base2.kagura.core.reporting.view.authentication.model.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -16,7 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
-public class FileAuthentication implements AuthenticationProvider {
+public class FileAuthentication extends AuthenticationProvider {
     private static final Logger LOG = LoggerFactory.getLogger(FileAuthentication.class);
     private String configPath;
 
@@ -24,24 +25,7 @@ public class FileAuthentication implements AuthenticationProvider {
         this.configPath = configPath;
     }
 
-    @Override
-    public Map<String, User> getStringUserMap() {
-        List<User> users = getUsers();
-        Map<String, User> userMap = new HashMap<String, User>();
-        for (User each : users) {
-            userMap.put(each.getUsername(), each);
-        }
-        return userMap;
-    }
-
-    @Override
-    public Map<String, Group> getStringGroupMap() {
-        List<Group> users = getGroups();
-        Map<String, Group> userMap = new HashMap<String, Group>();
-        for (Group each : users) {
-            userMap.put(each.getGroupname(), each);
-        }
-        return userMap;
+    protected FileAuthentication() {
     }
 
     @Override

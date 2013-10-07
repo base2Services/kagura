@@ -1,12 +1,10 @@
 package com.base2.kagura.services.camel.kagura;
 
 import com.base2.kagura.core.reporting.view.authentication.AuthenticationProvider;
-import com.base2.kagura.core.reporting.view.authentication.model.FileAuthentication;
-import org.apache.commons.beanutils.BeanUtils;
+import com.base2.kagura.services.camel.authentication.FileAuthentication;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.DateTimeConverter;
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -15,13 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * @author aubels
@@ -53,14 +45,10 @@ public class ServerBean implements ApplicationContextAware {
         this.configPath = configPath;
     }
 
-    @Bean
-    public AuthenticationProvider createAuthenticationProvider()
+    @Bean()
+    public AuthenticationProvider authenticationProvider()
     {
-        AuthenticationProvider authenticationProvider = null;
-        if ("file".equalsIgnoreCase(authType))
-        {
-            authenticationProvider = new FileAuthentication(getConfigPath());
-        }
+        AuthenticationProvider authenticationProvider = (AuthenticationProvider) applicationContext.getBean(authType);
         return authenticationProvider;
     }
 
