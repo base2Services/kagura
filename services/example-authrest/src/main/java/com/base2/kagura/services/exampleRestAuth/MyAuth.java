@@ -15,12 +15,7 @@
  */
 package com.base2.kagura.services.exampleRestAuth;
 
-import org.apache.camel.Exchange;
-
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
-import java.util.Map;
 
 public interface MyAuth {
 
