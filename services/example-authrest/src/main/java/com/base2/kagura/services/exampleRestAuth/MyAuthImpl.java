@@ -26,35 +26,35 @@ public class MyAuthImpl implements MyAuth {
     public Object users() {
         return new ArrayList<Map<String, Object>>()
         {{
-                add(new HashMap<String, Object>()
-                {{
-                    put("username","testUser1");
-                    put("groups", Arrays.asList("group1"));
-                    put("password","thisMechWillChange");
-                }});
-                add(new HashMap<String, Object>()
-                {{
-                    put("username","testUser2");
-                    put("groups", Arrays.asList("group2"));
-                    put("password","thisMechWillChange");
-                }});
+            add(new HashMap<String, Object>()
+            {{
+                put("username","testUser1");
+                put("groups", Arrays.asList("group1"));
+                put("password","thisMechWillChange");
+            }});
+            add(new HashMap<String, Object>()
+            {{
+                put("username","testUser2");
+                put("groups", Arrays.asList("group2"));
+                put("password","thisMechWillChange");
+            }});
         }};
     }
 
     public Object groups() {
         return new ArrayList<Map<String, Object>>()
         {{
-                add(new HashMap<String, Object>()
-                {{
-                        put("groupname","group1");
-                        put("reports", Arrays.asList("fake1"));
-                    }});
-                add(new HashMap<String, Object>()
-                {{
-                        put("groupname","group2");
-                        put("reports", Arrays.asList("fake2"));
-                    }});
-            }};
+            add(new HashMap<String, Object>()
+            {{
+                    put("groupname","group1");
+                    put("reports", Arrays.asList("fake1"));
+                }});
+            add(new HashMap<String, Object>()
+            {{
+                    put("groupname","group2");
+                    put("reports", Arrays.asList("fake2"));
+                }});
+        }};
     }
 
 }
