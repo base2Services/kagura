@@ -95,6 +95,10 @@ public abstract class ParamConfig {
         return new SqlParamConfig(name, "Combo","","", reportConfig);
     }
 
+    public static ParamConfig Groovy(String name, String groovy) {
+        return new GroovyParamConfig(name, "Groovy","","", groovy);
+    }
+
     public String getName() {
         return name;
     }
