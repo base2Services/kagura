@@ -23,7 +23,7 @@ import java.util.Date;
 public class ServerBean implements ApplicationContextAware {
     @Value("${com.base2.kagura.reportloc:/TestReports/}")
     private String configPath;
-    @Value("${com.base2.kagura.authtype:file}")
+    @Value("${com.base2.kagura.authtype:fileAuthentication}")
     private String authType;
 
     private ApplicationContext applicationContext;
