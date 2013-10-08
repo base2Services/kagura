@@ -29,7 +29,7 @@ public abstract class AuthenticationProvider {
                 LOG.warn("Group '{}' does not exist.", group);
         }
         return result;
-    };
+    }
 
     public abstract List<User> getUsers();
 

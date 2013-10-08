@@ -27,7 +27,17 @@
         <maven-bundle-plugin.version>2.3.7</maven-bundle-plugin.version>
     </properties>
 
-    <repositories>
+<repositories>
+        <repository>
+            <id>public</id>
+            <url>http://maven.nuxeo.org/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>fusesource</id>
             <url>http://repo.fusesource.com/nexus/content/groups/public/</url>

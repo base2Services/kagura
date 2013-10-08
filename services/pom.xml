@@ -20,11 +20,13 @@
         <spring.version>3.1.4.RELEASE</spring.version>
         <jackson.version>2.2.2</jackson.version>
         <cxf.version>2.7.6</cxf.version>
+        <cxf-version>2.7.6</cxf-version>
         <rest-assured.version>1.8.1</rest-assured.version>
         <guava-osgi.version>11.0.0</guava-osgi.version>
         <snakeyaml.version>1.13</snakeyaml.version>
         <mysql.version>5.1.26</mysql.version>
         <org.osgi.version>4.3.1</org.osgi.version>
+        <jackson-jettison.version>1.3.3</jackson-jettison.version>
     </properties>
 
     <dependencyManagement>
@@ -204,6 +206,16 @@
                 <artifactId>cxf-rt-transports-http-jetty</artifactId>
                 <version>${cxf.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-bindings-object</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-extension-providers</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
 
             <!-- logging -->
             <dependency>
@@ -343,6 +355,23 @@
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
                 <version>${snakeyaml.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.jettison</groupId>
+                <artifactId>jackson</artifactId>
+                <version>${jackson-jettison.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jettison</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson-jettison.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.jettison</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-jettison.version}</version>
             </dependency>
 
             <!--Data sources-->

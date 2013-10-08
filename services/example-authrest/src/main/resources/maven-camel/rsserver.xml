@@ -10,9 +10,14 @@
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
     ">
 
-     <!-- Defined the server endpoint to create the cxf-rs consumer -->
+
+    <!-- Defined the server endpoint to create the cxf-rs consumer -->
     <cxf:rsServer id="rsExampleRestAuthServer" address="http://0.0.0.0:8432/exampleAuthRest/"
                   serviceClass="com.base2.kagura.services.exampleRestAuth.MyAuthImpl"
-                  loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
+                  loggingFeatureEnabled="true" loggingSizeLimit="20"  skipFaultLogging="true" >
+        <cxf:providers>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+        </cxf:providers>
     </cxf:rsServer>
+
 </beans>

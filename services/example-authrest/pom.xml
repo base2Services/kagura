@@ -30,6 +30,9 @@
     <artifactId>example-authrest</artifactId>
     <packaging>bundle</packaging>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <jackson-1.version>1.9.11</jackson-1.version>
+    </properties>
 
     <name>kagura-example-authrest</name>
     <description>An example Authentication REST service for Kagura</description>
@@ -42,23 +45,10 @@
             <version>1.0</version>
         </dependency>
 
-        <!-- Kagura -->
-        <!--<dependency>-->
-            <!--<groupId>com.base2.kagura.shared</groupId>-->
-            <!--<artifactId>kagura-resources</artifactId>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.base2.kagura.shared</groupId>-->
-            <!--<artifactId>reporting-core</artifactId>-->
-        <!--</dependency>-->
         <!-- Camel -->
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-spring</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -90,15 +80,15 @@
         <!-- CXF -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <artifactId>cxf-rt-rs-extension-providers</artifactId>
         </dependency>
+
+        <!-- JSON -->
+
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>1.9.0</version>
         </dependency>
 
     </dependencies>

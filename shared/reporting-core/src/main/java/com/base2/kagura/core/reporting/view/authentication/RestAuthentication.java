@@ -5,16 +5,22 @@ import com.base2.kagura.core.reporting.view.authentication.model.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections.Transformer;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.*;
 
 public class RestAuthentication extends AuthenticationProvider {
@@ -28,7 +34,7 @@ public class RestAuthentication extends AuthenticationProvider {
     protected RestAuthentication() {
     }
 
-    public InputStream openUrl(String suffix) {
+    public InputStream httpGet(String suffix) {
         try {
             return new URL(url + "/" + suffix).openStream();
         } catch (IOException e) {
@@ -37,8 +43,33 @@ public class RestAuthentication extends AuthenticationProvider {
         }
     }
 
+    public InputStream httpPost(String suffix, HashMap<String, String> values) {
+        try {
+            URL obj = new URL(url + "/" + suffix);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            con.setRequestMethod("POST");
+
+            String data = new ObjectMapper().writeValueAsString(values);
+
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(data);
+            wr.flush();
+            wr.close();
+
+            int responseCode = con.getResponseCode();
+            if (responseCode != 200) throw new Exception("Got error code: " + responseCode);
+            return con.getInputStream();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
-    public void authenticateUser(String user, String pass) throws Exception {
+    public void authenticateUser(final String user, final String pass) throws Exception {
         Map<String, User> userMap = getStringUserMap();
         User matchUser = userMap.get(user);
         if (matchUser == null)
@@ -46,18 +77,18 @@ public class RestAuthentication extends AuthenticationProvider {
             LOG.info("User '{}' does not exist.", user);
             throw new Exception("User was not logged in.");
         }
-        if (!matchUser.getPassword().equals(pass))
+        String result = IOUtils.toString(httpPost("login",new HashMap<String,String>(){{put("username",user);put("password",pass);}}));
+        if (!"\"ok\"".equals(result))
         {
-            LOG.info("User '{}' bad password entered.", user);
-            throw new Exception("User was not logged in.");
+            LOG.info("User '{}' {}.", user, result);
+            throw new Exception("User " + user + " " + result);
         }
     }
-
 
     @Override
     public List<Group> getGroups() {
         String urlSuffix = "groups";
-        InputStream selectedYaml = openUrl(urlSuffix);
+        InputStream selectedYaml = httpGet(urlSuffix);
         if (selectedYaml == null) {
             LOG.error("Can not find: {}", urlSuffix);
             return null;
@@ -93,7 +124,7 @@ public class RestAuthentication extends AuthenticationProvider {
     @Override
     public List<User> getUsers() {
         String urlSuffix = "users";
-        InputStream selectedYaml = openUrl(urlSuffix);
+        InputStream selectedYaml = httpGet(urlSuffix);
         if (selectedYaml == null) {
             LOG.error("Can not find: {}", urlSuffix);
             return null;

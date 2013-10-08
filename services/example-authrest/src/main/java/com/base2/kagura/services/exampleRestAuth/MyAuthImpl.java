@@ -57,4 +57,16 @@ public class MyAuthImpl implements MyAuth {
         }};
     }
 
+    public String login(Map<String,String> input) {
+        String username = input.get("username");
+        String password = input.get("password");
+        if (password == null) return "no password";
+        for (HashMap<String, Object> value : (List<HashMap<String, Object>>)users())
+        {
+            if (!username.equals(value.get("username"))) continue;
+            if (password.equals(value.get("password"))) return "ok";
+        }
+        return "unknown user";
+    }
+
 }
