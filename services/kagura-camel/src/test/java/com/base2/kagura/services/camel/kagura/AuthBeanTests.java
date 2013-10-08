@@ -21,7 +21,7 @@ public class AuthBeanTests {
         ServerBean serverBean = new ServerBean();
         serverBean.setConfigPath(TestUtils.getResourcePath("TestReports"));
         AuthBean authBean = new AuthBean();
-        authBean.setAuthenticationProvider(serverBean.createAuthenticationProvider());
+        authBean.setAuthenticationProvider(serverBean.authenticationProvider());
         authBean.setServerBean(serverBean);
         List<Group> groups = authBean.getGroups();
         Assert.assertNotNull(groups);
@@ -36,7 +36,7 @@ public class AuthBeanTests {
         ServerBean serverBean = new ServerBean();
         serverBean.setConfigPath(TestUtils.getResourcePath("TestReports"));
         AuthBean authBean = new AuthBean();
-        authBean.setAuthenticationProvider(serverBean.createAuthenticationProvider());
+        authBean.setAuthenticationProvider(serverBean.authenticationProvider());
         authBean.setServerBean(serverBean);
         List<User> users = authBean.getUsers();
         Assert.assertNotNull(users);
