@@ -1,0 +1,29 @@
+type: "Groovy"
+groovy: >
+  Map<String, Object> row;
+  for (String key : extra.keySet())
+  {
+    row = new HashMap<String, Object>();
+    row.put("test1",key);
+    row.put("test2",extra.get(key));
+    rows.add(row);
+  };
+  row = new HashMap<String, Object>();
+  row.put("test1","page");
+  row.put("test2",page);
+  rows.add(row);
+  row = new HashMap<String, Object>();
+  row.put("test1","pageLimit");
+  row.put("test2",pageLimit);
+  rows.add(row);
+paramConfig:
+  - type: String
+    name: "An anonymous string"
+    help: "Just put anything in"
+    placeholder: "asdfsdaef"
+    value:
+columns:
+  - name: test1
+  - name: test2
+extraOptions:
+  reportName: "Groovy test"

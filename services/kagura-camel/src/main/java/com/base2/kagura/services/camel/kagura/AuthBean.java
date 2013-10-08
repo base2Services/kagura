@@ -36,6 +36,7 @@ public class AuthBean {
             if( authDetails.getLoggedIn() && !authDetails.expired())
             {
                 authDetails.updateLastAccessed();
+                exchange.getIn().setHeader("authDetails",authDetails);
                 return;
             }
             LOG.info("Ticket was expired or logged out.");
@@ -59,6 +60,7 @@ public class AuthBean {
         Map<String, String> response = new HashMap<String, String>();
         response.put("error","");
         response.put("token",authDetails.getToken().toString());
+        exchange.getOut().setHeader("authDetails",authDetails);
         exchange.getOut().setBody(response);
     }
 
@@ -89,15 +91,22 @@ public class AuthBean {
         if (tokens.containsKey(authToken) && tokens.get(authToken).getLoggedIn())
         {
             tokens.remove(authToken);
+            exchange.getIn().removeHeader("authDetails");
             return;
         }
         throw new AuthenticationException("User is not logged in.");
     }
 
-    public void canAccessReport(@Header("authToken") String authToken, @Header("reportId") String reportId, Exchange exchange) throws AuthorizationException, AuthenticationException {
+    public void canAccessReport(
+            @Header("authToken") String authToken
+            , @Header("reportId") String reportId
+            , Exchange exchange) throws AuthorizationException, AuthenticationException {
         if (tokens.containsKey(authToken) && tokens.get(authToken).getLoggedIn())
         {
-            if (authenticationProvider.getUserReports(tokens.get(authToken).getUsername()).contains(reportId))
+            User user = authenticationProvider.getUser(tokens.get(authToken).getUsername());
+            Collection<String> reports = authenticationProvider.getUserReports(user);
+            exchange.getIn().setHeader("groups", user.getGroups());
+            if (reports.contains(reportId))
                 return;
             throw new AuthorizationException("User is not logged in.");
         }
@@ -173,7 +182,7 @@ public class AuthBean {
             this.lastAccessed = Calendar.getInstance().getTime();
         }
 
-        private Boolean getLoggedIn() {
+        public Boolean getLoggedIn() {
             return loggedIn;
         }
 
@@ -181,7 +190,7 @@ public class AuthBean {
             this.loggedIn = loggedIn;
         }
 
-        private String getUsername() {
+        public String getUsername() {
             return username;
         }
 

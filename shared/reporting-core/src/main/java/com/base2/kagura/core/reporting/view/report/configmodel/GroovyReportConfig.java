@@ -11,14 +11,14 @@ import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
  * To change this template use File | Settings | File Templates.
  */
 public class GroovyReportConfig extends ReportConfig {
-    String groovyScript;
+    String groovy;
 
-    public String getGroovyScript() {
-        return groovyScript;
+    public String getGroovy() {
+        return groovy;
     }
 
-    public void setGroovyScript(String groovyScript) {
-        this.groovyScript = groovyScript;
+    public void setGroovy(String groovy) {
+        this.groovy = groovy;
     }
 
     @Override

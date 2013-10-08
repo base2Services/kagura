@@ -39,7 +39,7 @@ paramConfig:
   - type: DateTime
     name: "Enter a date time"
     help: "Just enter a date time"
-    placeholder: "No Value"
+    placeholder: "No Date"
     value:
 columns:
   - name: test1

@@ -18,25 +18,29 @@ public class GroovyDataReportConnector extends ReportConnector {
     private List<Map<String, Object>> rows;
     private String groovyScript;
 
-    public GroovyDataReportConnector(Object reportParams) {
-        super(null);
-    }
-
     public GroovyDataReportConnector(GroovyReportConfig reportConfig) {
         super(reportConfig);
-        groovyScript = reportConfig.getGroovyScript();
+        groovyScript = reportConfig.getGroovy();
     }
 
     @Override
     public void run(Map<String, Object> extra) {
-        rows = new ArrayList<Map<String, Object>>();
-        GroovyShell groovyShell = new GroovyShell();
-        groovyShell.setProperty("rows", rows);
-        groovyShell.setProperty("columns", getColumns());
-        groovyShell.setProperty("page", getPage());
-        groovyShell.setProperty("pageLimit", getPageLimit());
-        groovyShell.setProperty("params", getParameterConfig());
-        groovyShell.evaluate(groovyScript);
+        try
+        {
+            rows = new ArrayList<Map<String, Object>>();
+            GroovyShell groovyShell = new GroovyShell();
+            groovyShell.setProperty("rows", rows);
+            groovyShell.setProperty("columns", getColumns());
+            groovyShell.setProperty("page", getPage());
+            groovyShell.setProperty("pageLimit", getPageLimit());
+            groovyShell.setProperty("params", getParameterConfig());
+            groovyShell.setProperty("extra", extra);
+            groovyShell.evaluate(groovyScript);
+        } catch (Exception ex)
+        {
+            ex.printStackTrace();
+            getErrors().add(ex.getMessage());
+        }
     }
 
     public List<Map<String, Object>> getRows() {

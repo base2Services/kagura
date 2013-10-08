@@ -18,10 +18,18 @@ public abstract class AuthenticationProvider {
 
     public Set<String> getUserReports(String username)
     {
-        Set<String> result = new LinkedHashSet<String>();
         Map<String, User> userMap = getStringUserMap();
-        Map<String, Group> groupMap = getStringGroupMap();
+        return getUserReports(username, userMap);
+    }
+
+    public Set<String> getUserReports(String username, Map<String, User> userMap) {
         User user = userMap.get(username);
+        return getUserReports(user);
+    }
+
+    public Set<String> getUserReports(User user) {
+        Set<String> result = new LinkedHashSet<String>();
+        Map<String, Group> groupMap = getStringGroupMap();
         for (String group : user.getGroups()) {
             if (groupMap.containsKey(group)) {
                 result.addAll(groupMap.get(group).getReports());
@@ -52,4 +60,10 @@ public abstract class AuthenticationProvider {
     }
 
     public abstract void authenticateUser(String user, String pass) throws Exception;
+
+    public User getUser(String username) {
+        Map<String, User> userMap = getStringUserMap();
+        User user = userMap.get(username);
+        return user;
+    }
 }
