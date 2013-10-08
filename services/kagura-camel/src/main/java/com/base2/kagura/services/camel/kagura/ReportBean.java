@@ -1,6 +1,6 @@
 package com.base2.kagura.services.camel.kagura;
 
-import com.base2.kagura.core.reporting.view.ReportExportBean;
+import com.base2.kagura.core.reporting.view.report.ExportHandler;
 import com.base2.kagura.core.reporting.view.report.ColumnDef;
 import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
@@ -194,7 +194,7 @@ public class ReportBean {
             , @Header("filetype") String filetype
             , @Header("pageLimit") Integer pageLimit
             , @Header("parameters") Parameters parameters) throws AuthenticationException {
-        ReportExportBean reportExportBean = new ReportExportBean();
+        ExportHandler exportHandler = new ExportHandler();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ReportConnector reportConnector = getConnector(reportId);
         try {
@@ -212,13 +212,13 @@ public class ReportBean {
             List<Map<String, Object>> rows = reportConnector.getRows();
             if (filetype.equalsIgnoreCase("pdf"))
             {
-                reportExportBean.generatePdf(out, rows, columns);
+                exportHandler.generatePdf(out, rows, columns);
             } else if (filetype.equalsIgnoreCase("csv"))
             {
-                reportExportBean.generateCsv(out, rows, columns);
+                exportHandler.generateCsv(out, rows, columns);
             } else if (filetype.equalsIgnoreCase("xls"))
             {
-                reportExportBean.generateXls(out, rows, columns);
+                exportHandler.generateXls(out, rows, columns);
             }
         } finally {
             try {
