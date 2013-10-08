@@ -24,6 +24,7 @@ import java.util.Map;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = JDBCReportConfig.class, name = "JDBC"),
         @JsonSubTypes.Type(value = JNDIReportConfig.class, name = "JNDI"),
+        @JsonSubTypes.Type(value = GroovyReportConfig.class, name = "Groovy"),
         @JsonSubTypes.Type(value = FakeReportConfig.class, name = "Fake")
 })
 public abstract class ReportConfig {

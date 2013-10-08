@@ -6,6 +6,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -35,7 +36,7 @@ public class SqlParamConfig extends SingleParamConfig {
     @Override
     public Collection<Object> getValues() {
         ReportConnector reportConnector = reportConfig.getReportConnector();
-        reportConnector.run();
+        reportConnector.run(new HashMap<String, Object>());
         return CollectionUtils.collect(reportConnector.getRows(), new Transformer() {
             @Override
             public Object transform(Object input) {

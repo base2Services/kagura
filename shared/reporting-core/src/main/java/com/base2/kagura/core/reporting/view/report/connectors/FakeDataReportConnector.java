@@ -38,7 +38,7 @@ public class FakeDataReportConnector extends ReportConnector {
     }
 
     @Override
-    public void run() {
+    public void run(Map<String, Object> extra) {
         rows = new ArrayList<Map<String, Object>>(data != null ? data : new ArrayList<Map<String, Object>>());
         if (parameterConfig != null)
         {

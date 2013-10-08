@@ -41,14 +41,14 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
     protected Connection connection;
 
     @Override
-    public void run() {
+    public void run(Map<String, Object> extra) {
         PreparedStatement statement = null;
         if (connection == null)
         {
             return;
         }
         try {
-            FreemarkerSQLResult freemarkerSQLResult = freemakerParams();
+            FreemarkerSQLResult freemarkerSQLResult = freemakerParams(extra);
             String sql = freemarkerSQLResult.getSql();
             statement = connection.prepareStatement(sql);
             for(int i=0;i<freemarkerSQLResult.getParams().size();i++) {
@@ -71,7 +71,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         }
     }
 
-    protected FreemarkerSQLResult freemakerParams() throws Exception {
+    protected FreemarkerSQLResult freemakerParams(Map<String, Object> extra) throws Exception {
         Configuration cfg = new Configuration();
         cfg.setDateFormat("yyyy-MM-dd");
         cfg.setDateTimeFormat("yyyy-MM-dd hh:mm:ss");
@@ -83,6 +83,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         // Create the root hash
         Map root = new HashMap();
         Map params = new HashMap();
+        root.put("extra", extra);
         root.put("param", params);
         if (parameterConfig != null)
         {

@@ -17,7 +17,6 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class ReportConnector implements Serializable {
-    public abstract void run();
     Integer page = 0;
     Integer pageLimit = 20;
     List<ColumnDef> columns;
@@ -25,6 +24,8 @@ public abstract class ReportConnector implements Serializable {
     protected List<String> errors;
 
     public abstract List<Map<String,Object>> getRows();
+
+    public abstract void run(Map<String, Object> extra);
 
     protected ReportConnector(ReportConfig reportConfig) {
         if (reportConfig == null) return;
