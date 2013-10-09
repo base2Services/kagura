@@ -106,6 +106,7 @@ public class AuthBean {
             User user = authenticationProvider.getUser(tokens.get(authToken).getUsername());
             Collection<String> reports = authenticationProvider.getUserReports(user);
             exchange.getIn().setHeader("groups", user.getGroups());
+            exchange.getIn().setHeader("userExtra", user.getExtraOptions());
             if (reports.contains(reportId))
                 return;
             throw new AuthorizationException("User is not logged in.");

@@ -113,7 +113,8 @@ public class ReportBean {
             , @Header("parameters") Parameters parameters
             , @Header("authDetails") AuthBean.AuthDetails authDetails
             , @Header("groups") Collection<String> groups
-        ) throws AuthenticationException {
+            , @Header("userExtra") Map<String, Object> userExtra
+    ) throws AuthenticationException {
         Map<String, Object> result = new HashMap<String, Object>();
         ReportConnector reportConnector = getConnector(reportId);
         reportConnector.setPage(page);
@@ -124,7 +125,7 @@ public class ReportBean {
             if (pageLimit != null && pageLimit > 0)
                 reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
         insertParameters(parameters, reportConnector, errors);
-        reportConnector.run(generateExtraRunOptions(authDetails,groups));
+        reportConnector.run(generateExtraRunOptions(authDetails,groups, userExtra));
         errors.addAll(reportConnector.getErrors());
         List<ColumnDef> columns = reportConnector.getColumns();
         List<Map<String, Object>> rows = reportConnector.getRows();
@@ -142,6 +143,7 @@ public class ReportBean {
             , @Header("parameters") Parameters parameters
             , @Header("authDetails") AuthBean.AuthDetails authDetails
             , @Header("groups") Collection<String> groups
+            , @Header("userExtra") Map<String, Object> userExtra
         ) throws AuthenticationException {
         Map<String, Object> result = new HashMap<String, Object>();
         getReportDetails(reportId, true, result);
@@ -154,7 +156,7 @@ public class ReportBean {
             if (pageLimit != null && pageLimit > 0)
                 reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
         insertParameters(parameters, reportConnector, errors);
-        reportConnector.run(generateExtraRunOptions(authDetails,groups));
+        reportConnector.run(generateExtraRunOptions(authDetails,groups, userExtra));
         errors.addAll(reportConnector.getErrors());
         List<ColumnDef> columns = reportConnector.getColumns();
         List<Map<String, Object>> rows = reportConnector.getRows();
@@ -164,11 +166,12 @@ public class ReportBean {
         return result;
     }
 
-    private Map<String, Object> generateExtraRunOptions(final AuthBean.AuthDetails authDetails, final Collection<String> groups) {
+    private Map<String, Object> generateExtraRunOptions(final AuthBean.AuthDetails authDetails, final Collection<String> groups, final Map<String, Object> userExtra) {
         return new HashMap<String, Object>()
         {{
              put("username", authDetails.getUsername());
              put("groups",groups);
+             put("userExtra",userExtra);
         }};
     }
 
@@ -207,7 +210,8 @@ public class ReportBean {
             , @Header("parameters") Parameters parameters
             , @Header("authDetails") AuthBean.AuthDetails authDetails
             , @Header("groups") Collection<String> groups
-        ) throws AuthenticationException {
+            , @Header("userExtra") Map<String, Object> userExtra
+    ) throws AuthenticationException {
         ExportHandler exportHandler = new ExportHandler();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ReportConnector reportConnector = getConnector(reportId);
@@ -220,7 +224,7 @@ public class ReportBean {
             else
                 if (pageLimit != null && pageLimit > 0)
                     reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
-            reportConnector.run(generateExtraRunOptions(authDetails,groups));
+            reportConnector.run(generateExtraRunOptions(authDetails,groups, userExtra));
             List<ColumnDef> columns = reportConnector.getColumns();
             List<Map<String, Object>> rows = reportConnector.getRows();
             if (filetype.equalsIgnoreCase("pdf"))

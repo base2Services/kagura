@@ -1,6 +1,7 @@
 package com.base2.kagura.core.reporting.view.authentication.model;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author aubels
@@ -10,6 +11,7 @@ public class User {
     private String username;
     private List<String> groups;
     private String password;
+    private Map<String, Object> extraOptions;
 
     public String getUsername() {
         return username;
@@ -33,5 +35,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Map<String, Object> getExtraOptions() {
+        return extraOptions;
+    }
+
+    public void setExtraOptions(Map<String, Object> extraOptions) {
+        this.extraOptions = extraOptions;
     }
 }
