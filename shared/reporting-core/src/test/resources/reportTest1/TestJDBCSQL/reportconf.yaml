@@ -27,5 +27,5 @@ username: root
 password:
 extraOptions:
   reportName: "JDBC Test SQL"
-  diplayPriority: 1
+  displayPriority: 1
   description: JDBC test stuff

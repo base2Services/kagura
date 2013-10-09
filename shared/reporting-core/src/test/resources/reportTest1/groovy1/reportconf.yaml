@@ -19,6 +19,6 @@ rows:
   - Number: 234
     Description: String
 extraOptions:
-  diplayPriority: 1
+  displayPriority: 1
   image: fake1.png
   reportName: "Fake sample 1"
