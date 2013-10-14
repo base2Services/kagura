@@ -1,4 +1,4 @@
-package com.base2.kagura.core.reporting.view.report;
+package com.base2.kagura.core.reporting.view.report.configmodel.parts;
 
 import org.apache.commons.lang3.StringUtils;
 

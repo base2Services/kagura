@@ -1,8 +1,8 @@
 package com.base2.kagura.core.reporting.view.report.connectors;
 
-import com.base2.kagura.core.reporting.view.report.*;
 import com.base2.kagura.core.reporting.view.report.configmodel.FreeMarkerSQLReportConfig;
 import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerLimit;
+import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerSQLResult;
 import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerWhere;
 import com.base2.kagura.core.reporting.view.report.freemarker.FreemarkerWhereClause;
 import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;

@@ -1,7 +1,7 @@
 package com.base2.kagura.services.camel.kagura;
 
-import com.base2.kagura.core.reporting.view.report.ExportHandler;
-import com.base2.kagura.core.reporting.view.report.ColumnDef;
+import com.base2.kagura.core.reporting.view.report.util.ExportHandler;
+import com.base2.kagura.core.reporting.view.report.configmodel.parts.ColumnDef;
 import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
 import com.base2.kagura.core.reporting.view.report.configmodel.ReportsConfig;

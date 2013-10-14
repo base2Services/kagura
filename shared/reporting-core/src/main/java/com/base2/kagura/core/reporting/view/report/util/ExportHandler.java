@@ -1,6 +1,6 @@
-package com.base2.kagura.core.reporting.view.report;
+package com.base2.kagura.core.reporting.view.report.util;
 
-import com.base2.kagura.core.reporting.view.report.ColumnDef;
+import com.base2.kagura.core.reporting.view.report.configmodel.parts.ColumnDef;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
