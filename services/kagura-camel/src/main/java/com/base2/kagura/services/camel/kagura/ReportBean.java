@@ -1,11 +1,11 @@
 package com.base2.kagura.services.camel.kagura;
 
-import com.base2.kagura.core.reporting.view.report.util.ExportHandler;
-import com.base2.kagura.core.reporting.view.report.configmodel.parts.ColumnDef;
-import com.base2.kagura.core.reporting.view.report.parameterTypes.ParamConfig;
-import com.base2.kagura.core.reporting.view.report.configmodel.ReportConfig;
-import com.base2.kagura.core.reporting.view.report.configmodel.ReportsConfig;
-import com.base2.kagura.core.reporting.view.report.connectors.ReportConnector;
+import com.base2.kagura.core.report.util.ExportHandler;
+import com.base2.kagura.core.report.configmodel.parts.ColumnDef;
+import com.base2.kagura.core.report.parameterTypes.ParamConfig;
+import com.base2.kagura.core.report.configmodel.ReportConfig;
+import com.base2.kagura.core.report.configmodel.ReportsConfig;
+import com.base2.kagura.core.report.connectors.ReportConnector;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;

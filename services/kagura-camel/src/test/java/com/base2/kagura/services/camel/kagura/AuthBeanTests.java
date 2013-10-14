@@ -1,7 +1,7 @@
 package com.base2.kagura.services.camel.kagura;
 
-import com.base2.kagura.core.reporting.view.authentication.model.Group;
-import com.base2.kagura.core.reporting.view.authentication.model.User;
+import com.base2.kagura.core.authentication.model.Group;
+import com.base2.kagura.core.authentication.model.User;
 import com.base2.kagura.services.camel.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;

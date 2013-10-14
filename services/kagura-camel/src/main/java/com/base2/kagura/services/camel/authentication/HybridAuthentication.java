@@ -1,8 +1,8 @@
 package com.base2.kagura.services.camel.authentication;
 
-import com.base2.kagura.core.reporting.view.authentication.AuthenticationProvider;
-import com.base2.kagura.core.reporting.view.authentication.model.Group;
-import com.base2.kagura.core.reporting.view.authentication.model.User;
+import com.base2.kagura.core.authentication.AuthenticationProvider;
+import com.base2.kagura.core.authentication.model.Group;
+import com.base2.kagura.core.authentication.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

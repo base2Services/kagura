@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  *         Date: 7/10/13
  */
 @Service()
-public class RestAuthentication extends com.base2.kagura.core.reporting.view.authentication.RestAuthentication {
+public class RestAuthentication extends com.base2.kagura.core.authentication.RestAuthentication {
     private static final Logger LOG = LoggerFactory.getLogger(RestAuthentication.class);
 
     public RestAuthentication() {

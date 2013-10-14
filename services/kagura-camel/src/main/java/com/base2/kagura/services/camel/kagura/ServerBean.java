@@ -1,7 +1,6 @@
 package com.base2.kagura.services.camel.kagura;
 
-import com.base2.kagura.core.reporting.view.authentication.AuthenticationProvider;
-import com.base2.kagura.services.camel.authentication.FileAuthentication;
+import com.base2.kagura.core.authentication.AuthenticationProvider;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.DateTimeConverter;
