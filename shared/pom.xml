@@ -29,6 +29,7 @@
         <joda-time.version>1.6</joda-time.version>
         <mail.version>1.5.0-b01</mail.version>
         <h2.version>1.3.173</h2.version>
+        <jgit.version>3.1.0.201310021548-r</jgit.version>
     </properties>
 
     <dependencyManagement>
@@ -197,6 +198,12 @@
                 <version>${log4j.version}</version>
             </dependency>
 
+            <!-- JGit -->
+            <dependency>
+                <groupId>org.eclipse.jgit</groupId>
+                <artifactId>org.eclipse.jgit</artifactId>
+                <version>${jgit.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

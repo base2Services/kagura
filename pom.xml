@@ -69,6 +69,12 @@
             <url>http://oss.sonatype.org/content/groups/public/</url>
         </repository>
 
+        <!-- JGit -->
+        <repository>
+            <id>jgit-repository</id>
+            <url>https://repo.eclipse.org/content/groups/releases/</url>
+        </repository>
+
     </repositories>
 
     <modules>
