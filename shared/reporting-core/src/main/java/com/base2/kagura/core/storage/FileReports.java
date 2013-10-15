@@ -28,20 +28,18 @@ public class FileReports extends AbstractReports<File> {
 
     @Override
     protected String loadReport(ReportsConfig result, File report) throws Exception {
+        if (report.isDirectory())
         {
-            if (report.isDirectory())
+            FilenameFilter configYamlFilter = new PatternFilenameFilter("^reportconf.(yaml|json)$");
+            File[] selectYaml = report.listFiles(configYamlFilter);
+            if (selectYaml != null && selectYaml.length == 1)
             {
-                FilenameFilter configYamlFilter = new PatternFilenameFilter("^reportconf.(yaml|json)$");
-                File[] selectYaml = report.listFiles(configYamlFilter);
-                if (selectYaml != null && selectYaml.length == 1)
-                {
-                    File selectedYaml = selectYaml[0];
-                    if (loadReport(result, FileUtils.openInputStream(selectedYaml), report.getName()))
-                        return report.getName();
-                }
+                File selectedYaml = selectYaml[0];
+                if (loadReport(result, FileUtils.openInputStream(selectedYaml), report.getName()))
+                    return report.getName();
             }
-            return report.getName();
         }
+        return report.getName();
     }
 
     @Override
