@@ -1,14 +1,5 @@
 package com.base2.kagura.core.report.configmodel;
 
-import com.base2.kagura.core.storage.AbstractReports;
-import com.google.common.io.PatternFilenameFilter;
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.FilenameFilter;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

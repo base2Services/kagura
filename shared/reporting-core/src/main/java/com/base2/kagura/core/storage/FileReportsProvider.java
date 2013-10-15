@@ -12,10 +12,10 @@ import java.io.IOException;
  * @author aubels
  *         Date: 15/10/13
  */
-public class FileReports extends AbstractReports<File> {
+public class FileReportsProvider extends ReportsProvider<File> {
     String reportDirectory;
 
-    public FileReports(String reportDirectory) {
+    public FileReportsProvider(String reportDirectory) {
         this.reportDirectory = reportDirectory;
     }
 
@@ -50,6 +50,8 @@ public class FileReports extends AbstractReports<File> {
     @Override
     protected File[] getReportList() {
         File file = new File(reportDirectory);
+        if (!file.exists())
+           file = new File(FileReportsProvider.class.getResource(reportDirectory).getFile());
         if (!file.exists()) {
             errors.add("Couldn't open report directory, doesn't exist.");
             return null;

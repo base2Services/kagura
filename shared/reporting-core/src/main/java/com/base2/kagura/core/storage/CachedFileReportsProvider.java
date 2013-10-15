@@ -5,7 +5,6 @@ import com.base2.kagura.core.report.configmodel.ReportsConfig;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +12,8 @@ import java.util.Map;
  * @author aubels
  *         Date: 15/10/13
  */
-public class CachedFileReports extends FileReports {
-    public CachedFileReports(String reportDirectory) {
+public class CachedFileReportsProvider extends FileReportsProvider {
+    public CachedFileReportsProvider(String reportDirectory) {
         super(reportDirectory);
     }
 

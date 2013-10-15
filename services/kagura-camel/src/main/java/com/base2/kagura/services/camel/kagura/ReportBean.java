@@ -6,7 +6,7 @@ import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.report.configmodel.ReportConfig;
 import com.base2.kagura.core.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.report.connectors.ReportConnector;
-import com.base2.kagura.core.storage.FileReports;
+import com.base2.kagura.core.storage.ReportsProvider;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
@@ -31,6 +31,9 @@ public class ReportBean {
     private static final Integer EXPORT_PAGE_LIMIT = 1000;
     private ServerBean serverBean;
     private static final Logger LOG = LoggerFactory.getLogger(ReportBean.class);
+    @Autowired()
+    private ReportsProvider<?> reportsProvider;
+
 
     private ReportConnector getConnector(String name)
     {
@@ -42,12 +45,11 @@ public class ReportBean {
     }
 
     private ReportsConfig getReportsConfig() {
-        LOG.info("Opening {}", serverBean.getConfigPath());
-        final FileReports fileReports = new FileReports(serverBean.getConfigPath());
-        if (fileReports.getErrors() != null)
-            for (String e : fileReports.getErrors())
+        final ReportsConfig reportsConfig = reportsProvider.getReportsConfig();
+        if (reportsProvider.getErrors() != null)
+            for (String e : reportsProvider.getErrors())
                 LOG.info("Report error: {}", e);
-        return fileReports.getReportsConfig();
+        return reportsConfig;
     }
 
     public Map<String, Object> getReportDetails(String reportName, boolean full) {

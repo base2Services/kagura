@@ -1,9 +1,12 @@
 package com.base2.kagura.services.camel.kagura;
 
 import com.base2.kagura.core.authentication.AuthenticationProvider;
+import com.base2.kagura.core.storage.ReportsProvider;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.DateTimeConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -20,10 +23,14 @@ import java.util.Date;
  */
 @Service()
 public class ServerBean implements ApplicationContextAware {
+    private static final Logger LOG = LoggerFactory.getLogger(ServerBean.class);
+
     @Value("${com.base2.kagura.reportloc:/TestReports/}")
     private String configPath;
     @Value("${com.base2.kagura.authtype:fileAuthentication}")
     private String authType;
+    @Value("${com.base2.kagura.reportStorage:fileReportsProvider}")
+    private String reportStorage;
 
     private ApplicationContext applicationContext;
 
@@ -33,13 +40,6 @@ public class ServerBean implements ApplicationContextAware {
         ConvertUtils.register(dtConverter, Date.class);
     }
 
-    public String getConfigPath() {
-        File file = new File(configPath);
-        if (file.exists())
-            return file.getAbsolutePath() + "/";
-        return ServerBean.class.getResource(configPath).getFile();
-    }
-
     public void setConfigPath(String configPath) {
         this.configPath = configPath;
     }
@@ -47,8 +47,31 @@ public class ServerBean implements ApplicationContextAware {
     @Bean()
     public AuthenticationProvider authenticationProvider()
     {
-        AuthenticationProvider authenticationProvider = (AuthenticationProvider) applicationContext.getBean(authType);
-        return authenticationProvider;
+        LOG.info("Loading Authentication provider: " + authType);
+        if (applicationContext == null)
+        {
+            LOG.info("No spring context can not load authentication provider");
+            return null;
+        }
+        final Object bean = applicationContext.getBean(authType);
+        if (bean == null)
+            LOG.info("Warning bean is null.");
+        return (AuthenticationProvider) bean;
+    }
+
+    @Bean()
+    public ReportsProvider<?> reportsProvider()
+    {
+        final Object bean = applicationContext.getBean(reportStorage);
+        if (applicationContext == null)
+        {
+            LOG.info("No spring context can not load reports provider");
+            return null;
+        }
+        LOG.info("Loading reports provider: " + reportStorage);
+        if (bean == null)
+            LOG.info("Warning bean is null.");
+        return (ReportsProvider<?>) bean;
     }
 
     /**
@@ -74,5 +97,21 @@ public class ServerBean implements ApplicationContextAware {
 
     public ApplicationContext getApplicationContext() {
         return applicationContext;
+    }
+
+    public String getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(String authType) {
+        this.authType = authType;
+    }
+
+    public String getReportStorage() {
+        return reportStorage;
+    }
+
+    public void setReportStorage(String reportStorage) {
+        this.reportStorage = reportStorage;
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
  * @author aubels
  *         Date: 15/10/13
  */
-public abstract class  AbstractReports<InternalType> {
+public abstract class ReportsProvider<InternalType> {
     protected List<String> errors = new ArrayList<String>();
 
     protected abstract String loadReport(ReportsConfig result, InternalType report) throws Exception;
@@ -40,6 +40,7 @@ public abstract class  AbstractReports<InternalType> {
     }
 
     public ReportsConfig getReportsConfig() {
+        resetErrors();
         ReportsConfig result = new ReportsConfig();
         InternalType[] reports = getReportList();
         if (reports == null)
@@ -67,5 +68,9 @@ public abstract class  AbstractReports<InternalType> {
 
     public void setErrors(List<String> errors) {
         this.errors = errors;
+    }
+
+    public void resetErrors() {
+        errors.clear();
     }
 }

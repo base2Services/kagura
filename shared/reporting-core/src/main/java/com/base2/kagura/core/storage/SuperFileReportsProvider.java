@@ -11,10 +11,10 @@ import java.io.IOException;
  * @author aubels
  *         Date: 15/10/13
  */
-public class SuperFileReports extends AbstractReports<File> {
+public class SuperFileReportsProvider extends ReportsProvider<File> {
     String superReportFile;
 
-    public SuperFileReports(String superReportFile) {
+    public SuperFileReportsProvider(String superReportFile) {
         this.superReportFile = superReportFile;
     }
 

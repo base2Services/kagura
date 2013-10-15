@@ -2,6 +2,7 @@ package com.base2.kagura.services.camel.kagura;
 
 import com.base2.kagura.core.authentication.model.Group;
 import com.base2.kagura.core.authentication.model.User;
+import com.base2.kagura.services.camel.authentication.FileAuthentication;
 import com.base2.kagura.services.camel.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,7 +22,9 @@ public class AuthBeanTests {
         ServerBean serverBean = new ServerBean();
         serverBean.setConfigPath(TestUtils.getResourcePath("TestReports"));
         AuthBean authBean = new AuthBean();
-        authBean.setAuthenticationProvider(serverBean.authenticationProvider());
+        final FileAuthentication authenticationProvider = new FileAuthentication();
+        authenticationProvider.setConfigPath(TestUtils.getResourcePath("TestReports"));
+        authBean.setAuthenticationProvider(authenticationProvider);
         authBean.setServerBean(serverBean);
         List<Group> groups = authBean.getGroups();
         Assert.assertNotNull(groups);
@@ -35,8 +38,10 @@ public class AuthBeanTests {
     {
         ServerBean serverBean = new ServerBean();
         serverBean.setConfigPath(TestUtils.getResourcePath("TestReports"));
+        final FileAuthentication authenticationProvider = new FileAuthentication();
+        authenticationProvider.setConfigPath(TestUtils.getResourcePath("TestReports"));
         AuthBean authBean = new AuthBean();
-        authBean.setAuthenticationProvider(serverBean.authenticationProvider());
+        authBean.setAuthenticationProvider(authenticationProvider);
         authBean.setServerBean(serverBean);
         List<User> users = authBean.getUsers();
         Assert.assertNotNull(users);

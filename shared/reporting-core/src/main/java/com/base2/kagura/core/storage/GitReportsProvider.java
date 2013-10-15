@@ -17,14 +17,14 @@ import java.io.FilenameFilter;
  * @author aubels
  *         Date: 15/10/13
  */
-public class GitReports extends AbstractReports<File> {
+public class GitReportsProvider extends ReportsProvider<File> {
     String gitRepository;
     String gitBranch;
     String username;
     String password;
     Git git;
 
-    public GitReports(String gitRepository, String gitBranch) {
+    public GitReportsProvider(String gitRepository, String gitBranch) {
         this.gitRepository = gitRepository;
         this.gitBranch = gitBranch;
         this.username = null;
