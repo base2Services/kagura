@@ -1,11 +1,12 @@
 package com.base2.kagura.services.camel.kagura;
 
-import com.base2.kagura.core.report.util.ExportHandler;
+import com.base2.kagura.core.ExportHandler;
 import com.base2.kagura.core.report.configmodel.parts.ColumnDef;
 import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.report.configmodel.ReportConfig;
 import com.base2.kagura.core.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.report.connectors.ReportConnector;
+import com.base2.kagura.core.storage.FileReports;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
@@ -19,8 +20,6 @@ import com.base2.kagura.services.camel.model.Parameters;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -44,14 +43,11 @@ public class ReportBean {
 
     private ReportsConfig getReportsConfig() {
         LOG.info("Opening {}", serverBean.getConfigPath());
-        try {
-            return ReportsConfig.getConfig(serverBean.getConfigPath());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        final FileReports fileReports = new FileReports(serverBean.getConfigPath());
+        if (fileReports.getErrors() != null)
+            for (String e : fileReports.getErrors())
+                LOG.info("Report error: {}", e);
+        return fileReports.getReportsConfig();
     }
 
     public Map<String, Object> getReportDetails(String reportName, boolean full) {

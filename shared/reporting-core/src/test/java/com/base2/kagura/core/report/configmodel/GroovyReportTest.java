@@ -1,8 +1,7 @@
 package com.base2.kagura.core.report.configmodel;
 
 
-import org.hamcrest.Matchers;
-import org.hamcrest.core.Is;
+import com.base2.kagura.core.storage.FileReports;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +21,7 @@ public class GroovyReportTest {
     @Test
     public void getReports2Test() throws URISyntaxException, MalformedURLException {
         URL reportDirectory = this.getClass().getResource("/reportTest1/");
-        ReportsConfig actual = ReportsConfig.getConfig(reportDirectory.getFile());
+        ReportsConfig actual = new FileReports(reportDirectory.getFile()).getReportsConfig();
         Assert.assertThat(actual.getReports().get("groovy2"), IsInstanceOf.instanceOf(GroovyReportConfig.class));
         ((GroovyReportConfig)actual.getReports().get("groovy2")).getGroovy();
     }

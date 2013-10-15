@@ -1,4 +1,4 @@
-package com.base2.kagura.core.report.util;
+package com.base2.kagura.core;
 
 import com.base2.kagura.core.report.configmodel.parts.ColumnDef;
 import com.itextpdf.text.*;
