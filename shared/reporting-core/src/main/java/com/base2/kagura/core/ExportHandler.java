@@ -77,13 +77,13 @@ public class ExportHandler implements Serializable {
         try {
             csvWriter = new CsvMapWriter(new OutputStreamWriter(out), CsvPreference.STANDARD_PREFERENCE);
             // the header elements are used to map the bean values to each column (names must match)
-            final String[] header = (String[])CollectionUtils.collect(columns, new Transformer() {
+            final String[] header = columns != null ? (String[])CollectionUtils.collect(columns, new Transformer() {
                 @Override
                 public Object transform(Object input) {
                     ColumnDef column = (ColumnDef)input;
                     return column.getName();
                 }
-            }).toArray(new String[0]);
+            }).toArray(new String[0]) : new String[] {};
             final CellProcessor[] processors = (CellProcessor[]) CollectionUtils.collect(columns, new Transformer() {
                 @Override
                 public Object transform(Object input) {
