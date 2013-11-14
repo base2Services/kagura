@@ -1,5 +1,6 @@
 package com.base2.kagura.core.report.connectors;
 
+import com.base2.kagura.core.report.configmodel.FreeMarkerSQLReportConfig;
 import com.base2.kagura.core.report.configmodel.JNDIReportConfig;
 
 import javax.naming.InitialContext;
@@ -17,14 +18,16 @@ import java.sql.SQLException;
 public class JNDIDataReportConnector extends FreemarkerSQLDataReportConnector {
 
     private DataSource datasource;
+    private String jndi;
 
     public JNDIDataReportConnector(JNDIReportConfig reportConfig) {
         super(reportConfig);
 
         try {
-            InitialContext initContext = new InitialContext();
-            datasource = (DataSource)initContext.lookup(reportConfig.getJndi());
-            connection = datasource.getConnection();
+            setJndi(reportConfig.getJndi());
+            getStartConnection();
+            connection.close();
+            connection = null;
         } catch (SQLException e) {
             errors.add(e.getMessage());
             e.printStackTrace();
@@ -32,5 +35,21 @@ public class JNDIDataReportConnector extends FreemarkerSQLDataReportConnector {
             errors.add(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void getStartConnection() throws NamingException, SQLException {
+        InitialContext initContext = new InitialContext();
+        if (datasource == null)
+            datasource = (DataSource) initContext.lookup(getJndi());
+        connection = datasource.getConnection();
+    }
+
+    public String getJndi() {
+        return jndi;
+    }
+
+    public void setJndi(String jndi) {
+        this.jndi = jndi;
     }
 }

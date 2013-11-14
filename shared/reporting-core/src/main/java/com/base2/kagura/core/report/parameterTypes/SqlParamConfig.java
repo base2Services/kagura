@@ -5,6 +5,7 @@ import com.base2.kagura.core.report.connectors.ReportConnector;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class SqlParamConfig extends SingleParamConfig {
     public Collection<Object> getValues() {
         ReportConnector reportConnector = reportConfig.getReportConnector();
         reportConnector.run(new HashMap<String, Object>());
+        if (reportConnector.getRows() == null) return new ArrayList<Object>();
         return CollectionUtils.collect(reportConnector.getRows(), new Transformer() {
             @Override
             public Object transform(Object input) {

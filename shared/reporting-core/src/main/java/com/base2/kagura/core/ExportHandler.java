@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,11 +52,27 @@ public class ExportHandler implements Serializable {
             Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD, BaseColor.BLACK);
 
             PdfPTable table = new PdfPTable(columns.size());
-            for (ColumnDef column : columns)
+            if (columns != null)
             {
-                PdfPCell c1 = new PdfPCell(new Phrase(column.getName(), headerFont));
-                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                table.addCell(c1);
+                for (ColumnDef column : columns)
+                {
+                    PdfPCell c1 = new PdfPCell(new Phrase(column.getName(), headerFont));
+                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    table.addCell(c1);
+                }
+            } else {
+                if (rows.size() > 0)
+                {
+                    columns = new ArrayList<ColumnDef>(CollectionUtils.collect(rows.get(0).keySet(), new Transformer() {
+                        @Override
+                        public Object transform(final Object input) {
+                            return new ColumnDef()
+                            {{
+                                    setName((String)input);
+                            }};
+                        }
+                    }));
+                }
             }
             table.setHeaderRows(1);
             for (Map<String, Object> row : rows)
@@ -119,10 +136,26 @@ public class ExportHandler implements Serializable {
             short rowc = 0;
             Row nrow = reportSheet.createRow(rowc++);
             short cellc = 0;
-            for (ColumnDef column : columns)
+            if (columns != null)
             {
-                Cell cell = nrow.createCell(cellc++);
-                cell.setCellValue(column.getName());
+                for (ColumnDef column : columns)
+                {
+                    Cell cell = nrow.createCell(cellc++);
+                    cell.setCellValue(column.getName());
+                }
+            } else {
+                if (rows.size() > 0)
+                {
+                    columns = new ArrayList<ColumnDef>(CollectionUtils.collect(rows.get(0).keySet(), new Transformer() {
+                        @Override
+                        public Object transform(final Object input) {
+                            return new ColumnDef()
+                            {{
+                                    setName((String)input);
+                                }};
+                        }
+                    }));
+                }
             }
             for (Map<String, Object> row : rows)
             {

@@ -1,6 +1,7 @@
 package com.base2.kagura.core.report.connectors;
 
 import com.base2.kagura.core.report.configmodel.FreeMarkerSQLReportConfig;
+import com.base2.kagura.core.report.configmodel.JNDIReportConfig;
 import com.base2.kagura.core.report.freemarker.FreemarkerLimit;
 import com.base2.kagura.core.report.freemarker.FreemarkerSQLResult;
 import com.base2.kagura.core.report.freemarker.FreemarkerWhere;
@@ -10,6 +11,7 @@ import freemarker.template.*;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -43,13 +45,10 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
     @Override
     public void run(Map<String, Object> extra) {
         PreparedStatement statement = null;
-        if (connection == null)
-        {
-            return;
-        }
         try {
             FreemarkerSQLResult freemarkerSQLResult = freemakerParams(extra);
             String sql = freemarkerSQLResult.getSql();
+            getStartConnection();
             statement = connection.prepareStatement(sql);
             for(int i=0;i<freemarkerSQLResult.getParams().size();i++) {
                 statement.setObject(i + 1, freemarkerSQLResult.getParams().get(i));
@@ -63,6 +62,11 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
                 {
                     statement.close();
                     statement = null;
+                }
+                if (connection != null && !connection.isClosed())
+                {
+                    connection.close();
+                    connection = null;
                 }
             } catch (SQLException e) {
                 errors.add(e.getMessage());
@@ -153,4 +157,5 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         this.rows = rows;
     }
 
+    protected abstract void getStartConnection() throws NamingException, SQLException;
 }
