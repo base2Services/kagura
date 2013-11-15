@@ -39,6 +39,18 @@ public class ExportHandler implements Serializable {
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, out);
+            if (columns == null && rows.size() > 0)
+            {
+                columns = new ArrayList<ColumnDef>(CollectionUtils.collect(rows.get(0).keySet(), new Transformer() {
+                    @Override
+                    public Object transform(final Object input) {
+                        return new ColumnDef()
+                        {{
+                                setName((String)input);
+                            }};
+                    }
+                }));
+            }
             if (columns.size() > 14)
                 document.setPageSize(PageSize.A1);
             else if (columns.size() > 10)
@@ -59,19 +71,6 @@ public class ExportHandler implements Serializable {
                     PdfPCell c1 = new PdfPCell(new Phrase(column.getName(), headerFont));
                     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                     table.addCell(c1);
-                }
-            } else {
-                if (rows.size() > 0)
-                {
-                    columns = new ArrayList<ColumnDef>(CollectionUtils.collect(rows.get(0).keySet(), new Transformer() {
-                        @Override
-                        public Object transform(final Object input) {
-                            return new ColumnDef()
-                            {{
-                                    setName((String)input);
-                            }};
-                        }
-                    }));
                 }
             }
             table.setHeaderRows(1);
