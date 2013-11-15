@@ -148,6 +148,7 @@ public class ExportHandler implements Serializable {
             short rowc = 0;
             Row nrow = reportSheet.createRow(rowc++);
             short cellc = 0;
+            if (rows == null) return;
             if (columns == null && rows.size() > 0)
             {
                 columns = new ArrayList<ColumnDef>(CollectionUtils.collect(rows.get(0).keySet(), new Transformer() {
