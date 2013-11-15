@@ -101,13 +101,13 @@ public class ExportHandler implements Serializable {
                     return column.getName();
                 }
             }).toArray(new String[0]) : new String[] {};
-            final CellProcessor[] processors = (CellProcessor[]) CollectionUtils.collect(columns, new Transformer() {
+            final CellProcessor[] processors = columns != null ? (CellProcessor[]) CollectionUtils.collect(columns, new Transformer() {
                 @Override
                 public Object transform(Object input) {
                     ColumnDef column = (ColumnDef)input;
                     return new Optional();
                 }
-            }).toArray(new CellProcessor[0]);
+            }).toArray(new CellProcessor[0]): new CellProcessor[] {};
             csvWriter.writeHeader(header);
             for (Map<String, Object> row : rows)
             {

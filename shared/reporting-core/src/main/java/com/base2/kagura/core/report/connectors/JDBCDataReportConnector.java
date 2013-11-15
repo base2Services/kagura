@@ -1,8 +1,6 @@
 package com.base2.kagura.core.report.connectors;
 
-import com.base2.kagura.core.report.configmodel.FreeMarkerSQLReportConfig;
 import com.base2.kagura.core.report.configmodel.JDBCReportConfig;
-import com.base2.kagura.core.report.configmodel.JNDIReportConfig;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.naming.NamingException;

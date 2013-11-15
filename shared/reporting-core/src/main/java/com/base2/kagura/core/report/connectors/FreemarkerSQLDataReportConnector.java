@@ -1,7 +1,6 @@
 package com.base2.kagura.core.report.connectors;
 
 import com.base2.kagura.core.report.configmodel.FreeMarkerSQLReportConfig;
-import com.base2.kagura.core.report.configmodel.JNDIReportConfig;
 import com.base2.kagura.core.report.freemarker.FreemarkerLimit;
 import com.base2.kagura.core.report.freemarker.FreemarkerSQLResult;
 import com.base2.kagura.core.report.freemarker.FreemarkerWhere;
