@@ -94,20 +94,33 @@ public class ExportHandler implements Serializable {
         try {
             csvWriter = new CsvMapWriter(new OutputStreamWriter(out), CsvPreference.STANDARD_PREFERENCE);
             // the header elements are used to map the bean values to each column (names must match)
-            final String[] header = columns != null ? (String[])CollectionUtils.collect(columns, new Transformer() {
-                @Override
-                public Object transform(Object input) {
-                    ColumnDef column = (ColumnDef)input;
-                    return column.getName();
-                }
-            }).toArray(new String[0]) : new String[] {};
-            final CellProcessor[] processors = columns != null ? (CellProcessor[]) CollectionUtils.collect(columns, new Transformer() {
-                @Override
-                public Object transform(Object input) {
-                    ColumnDef column = (ColumnDef)input;
-                    return new Optional();
-                }
-            }).toArray(new CellProcessor[0]): new CellProcessor[] {};
+            String[] header = new String[] {};
+            CellProcessor[] processors = new CellProcessor[] {};
+            if (columns != null)
+            {
+                header = (String[])CollectionUtils.collect(columns, new Transformer() {
+                    @Override
+                    public Object transform(Object input) {
+                        ColumnDef column = (ColumnDef)input;
+                        return column.getName();
+                    }
+                }).toArray(new String[0]) ;
+                processors = (CellProcessor[]) CollectionUtils.collect(columns, new Transformer() {
+                    @Override
+                    public Object transform(Object input) {
+                        return new Optional();
+                    }
+                }).toArray(new CellProcessor[0]);
+            } else if (rows.size() > 0)
+            {
+                header = new ArrayList<String>(rows.get(0).keySet()).toArray(new String[0]);
+                processors = (CellProcessor[]) CollectionUtils.collect(rows.get(0).keySet(), new Transformer() {
+                    @Override
+                    public Object transform(Object input) {
+                        return new Optional();
+                    }
+                }).toArray(new CellProcessor[0]);
+            }
             csvWriter.writeHeader(header);
             for (Map<String, Object> row : rows)
             {
@@ -136,25 +149,24 @@ public class ExportHandler implements Serializable {
             short rowc = 0;
             Row nrow = reportSheet.createRow(rowc++);
             short cellc = 0;
+            if (columns == null && rows.size() > 0)
+            {
+                columns = new ArrayList<ColumnDef>(CollectionUtils.collect(rows.get(0).keySet(), new Transformer() {
+                    @Override
+                    public Object transform(final Object input) {
+                        return new ColumnDef()
+                        {{
+                                setName((String)input);
+                            }};
+                    }
+                }));
+            }
             if (columns != null)
             {
                 for (ColumnDef column : columns)
                 {
                     Cell cell = nrow.createCell(cellc++);
                     cell.setCellValue(column.getName());
-                }
-            } else {
-                if (rows.size() > 0)
-                {
-                    columns = new ArrayList<ColumnDef>(CollectionUtils.collect(rows.get(0).keySet(), new Transformer() {
-                        @Override
-                        public Object transform(final Object input) {
-                            return new ColumnDef()
-                            {{
-                                    setName((String)input);
-                                }};
-                        }
-                    }));
                 }
             }
             for (Map<String, Object> row : rows)
