@@ -18,10 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -131,7 +128,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
             List<Map<String,Object>> beans = new ArrayList<Map<String,Object>>();
             int columnCount = rows.getMetaData().getColumnCount();
             while (rows.next()) {
-                Map<String,Object> bean = new HashMap<String, Object>();
+                LinkedHashMap<String,Object> bean = new LinkedHashMap<String, Object>();
                 beans.add(bean);
                 for (int i = 0; i < columnCount; i++) {
                     Object object = rows.getObject(i + 1);
