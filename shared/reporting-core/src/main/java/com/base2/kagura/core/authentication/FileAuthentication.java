@@ -82,6 +82,16 @@ public class FileAuthentication extends AuthenticationProvider {
     @Override
     public List<User> getUsers() {
         String filename = FilenameUtils.concat(configPath, "users.yaml");
+        if (filename == null)
+        {
+            final String basePath = FilenameUtils.concat(System.getProperty("user.dir"), configPath);
+            if (basePath == null)
+            {
+                LOG.error("Can not make directory using paths {}, {}", System.getProperty("user.dir"), configPath);
+                return null;
+            }
+            filename = FilenameUtils.concat(basePath, "users.yaml");
+        }
         InputStream selectedYaml = openFile(filename);
         if (selectedYaml == null) {
             LOG.error("Can not find: {}", filename);
