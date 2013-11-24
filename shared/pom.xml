@@ -198,12 +198,12 @@
                 <version>${log4j.version}</version>
             </dependency>
 
-            <!-- JGit -->
-            <dependency>
-                <groupId>org.eclipse.jgit</groupId>
-                <artifactId>org.eclipse.jgit</artifactId>
-                <version>${jgit.version}</version>
-            </dependency>
+            <!--&lt;!&ndash; JGit &ndash;&gt;-->
+            <!--<dependency>-->
+                <!--<groupId>org.eclipse.jgit</groupId>-->
+                <!--<artifactId>org.eclipse.jgit</artifactId>-->
+                <!--<version>${jgit.version}</version>-->
+            <!--</dependency>-->
         </dependencies>
     </dependencyManagement>
 </project>
