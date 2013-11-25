@@ -32,7 +32,8 @@ public abstract class ReportsProvider<InternalType> {
             reportConfig = mapper.readValue(report, ReportConfig.class);
         } catch (IOException e) {
             e.printStackTrace();
-            errors.add("Error parsing " + report + " ");
+            errors.add("Error parsing " + reportName + " " + e.getMessage());
+            return false;
         }
         reportConfig.setReportId(reportName);
         result.getReports().put(reportName, reportConfig);
@@ -54,13 +55,15 @@ public abstract class ReportsProvider<InternalType> {
             try {
                 name = loadReport(result, report);
             } catch (Exception e) {
-                errors.add("Error in report " + name + ": " + e.getMessage());
+                errors.add("Error in report " + reportToName(report) + ": " + e.getMessage());
                 e.printStackTrace();
                 continue;
             }
         }
         return result;
     }
+
+    protected abstract String reportToName(InternalType report);
 
     public List<String> getErrors() {
         return errors;

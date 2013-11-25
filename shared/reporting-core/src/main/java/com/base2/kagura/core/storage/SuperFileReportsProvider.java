@@ -49,4 +49,9 @@ public class SuperFileReportsProvider extends ReportsProvider<File> {
         return reportsConfig;
 
     }
+
+    @Override
+    protected String reportToName(File report) {
+        return null;
+    }
 }

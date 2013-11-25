@@ -58,4 +58,10 @@ public class FileReportsProvider extends ReportsProvider<File> {
         }
         return file.listFiles();
     }
+
+    @Override
+    protected String reportToName(File report) {
+        if (report == null) return "<null>";
+        return report.getName();
+    }
 }
