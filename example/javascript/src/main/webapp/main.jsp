@@ -75,17 +75,17 @@
                     </table>
                     <div class="span12">
                         <div class="span6">
-                            <a href="#" onclick="exportReport('csv', false);">CSV</a>
-                            <a href="#" onclick="exportReport('csv', true);">(all)</a>;
-                            <a href="#" onclick="exportReport('xls', false);">Excel</a>
-                            <a href="#" onclick="exportReport('xls', true);">(all)</a>;
-                            <a href="#" onclick="exportReport('pdf', false);">PDF</a>
-                            <a href="#" onclick="exportReport('pdf', true);">(all)</a>;
+                            <a href="#" onclick="exportReport('csv', false);return false;">CSV</a>
+                            <a href="#" onclick="exportReport('csv', true);return false;">(all)</a>;
+                            <a href="#" onclick="exportReport('xls', false);return false;">Excel</a>
+                            <a href="#" onclick="exportReport('xls', true);return false;">(all)</a>;
+                            <a href="#" onclick="exportReport('pdf', false);return false;">PDF</a>
+                            <a href="#" onclick="exportReport('pdf', true);return false;">(all)</a>;
                         </div>
                         <div class="span6" style="text-align: right;">
-                            <a href="#" onclick="prevPage();">&lt;&lt; Previous;</a>
+                            <a href="#" onclick="prevPage();return false;">&lt;&lt; Previous;</a>
                             Page <span id="reportPageNumber">1</span>
-                            <a href="#" onclick="nextPage();">;Next &gt;&gt;</a>
+                            <a href="#" onclick="nextPage();return false;">;Next &gt;&gt;</a>
                         </div>
                     </div>
                 </div>
@@ -103,6 +103,31 @@
     <t:footer />
     <script language="JavaScript">
         loadReportListDetailed();
+        if(window.location.hash) {
+            var storedHash = window.location.hash.substring(1);
+            if (storedHash.length > 0)
+            {
+                loadReport(storedHash);
+            }
+        }
+
+        if ("onhashchange" in window) { // event supported?
+            window.onhashchange = function () {
+                storedHash = window.location.hash.substring(1);
+                if (storedHash.length > 0)
+                {
+                    loadReport(storedHash);
+                }
+            }
+        } else { // event not supported:
+            var storedHash = window.location.hash;
+            window.setInterval(function () {
+                if (window.location.hash != storedHash) {
+                    storedHash = window.location.hash.substring(1);
+                    loadReport(storedHash);
+                }
+            }, 100);
+        }
     </script>
 </body>
 </html>

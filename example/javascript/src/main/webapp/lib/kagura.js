@@ -115,7 +115,7 @@ function loadReportListData(data)
             var template = reportDDList.find("li.hidden").clone();
             template.removeClass("hidden");
             reportDDList.append(template);
-            template.html("<a href='#' onclick='loadReport(\""+report+"\")'>"+report+"</a>");
+            template.html("<a href='#' onclick='loadReport(\""+report+"\");return false;'>"+report+"</a>");
         });
     } else
     {
@@ -126,9 +126,9 @@ function loadReportListData(data)
             reportDDList.append(template);
             if (data[reportId].extra && data[reportId].extra.reportName)
             {
-                template.html("<a href='#' onclick='loadReport(\""+reportId+"\")'>"+data[reportId].extra.reportName+"</a>");
+                template.html("<a href='#' onclick='loadReport(\""+reportId+"\");return false;'>"+data[reportId].extra.reportName+"</a>");
             } else {
-                template.html("<a href='#' onclick='loadReport(\""+reportId+"\")'>"+reportId+"</a>");
+                template.html("<a href='#' onclick='loadReport(\""+reportId+"\");return false;'>"+reportId+"</a>");
             }
         });
     }
@@ -290,6 +290,8 @@ function loadReport(reportId)
     var url = server_base + "rest/report/" + token + "/" + reportId + "/detailsAndRun";
     var method = "GET";
     var contentType = "application/json; charset=utf-8";
+    storedHash = reportId;
+    window.location.hash = "#" + reportId;
     if (reportId != curReport)
     {
         $(".alert").alert('close');
