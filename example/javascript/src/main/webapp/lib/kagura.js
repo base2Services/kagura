@@ -318,10 +318,8 @@ function loadReport(reportId)
     var contentType = "application/json; charset=utf-8";
     storedHash = reportId;
     window.location.hash = "#" + reportId;
-    if (reportId != curReport)
-    {
-        $(".alert").alert('close');
-    }
+    curReport = null;
+    $(".alert").alert('close');
     callKagura(reportId, method, url, contentType)
 }
 
