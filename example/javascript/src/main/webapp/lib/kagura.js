@@ -51,6 +51,7 @@ function doLogin()
         type: "POST",
         url: server_base + "rest/auth/login/" + user,
         data: password,
+        cache: false,
         contentType: "TEXT/PLAIN",
         success: function (msg)
         {
@@ -63,16 +64,17 @@ function doLogin()
                 gotoMain();
             }
         }
-        }).fail(function (jqXHR, textStatus, errorThrown)
-            {
-                loginUnspin();
-                alert(errorThrown);
-            });
+    }).fail(function (jqXHR, textStatus, errorThrown)
+    {
+        loginUnspin();
+        alert(errorThrown);
+    });
 }
 function loadReportListSimple() {
     token = getCookie("token");
     $.ajax({
         type: "GET",
+        cache: false,
         url: server_base + "rest/auth/reports/" + token,
         success: function (msg)
         {
@@ -89,6 +91,7 @@ function loadReportListDetailed() {
     token = getCookie("token");
     $.ajax({
         type: "GET",
+        cache: false,
         url: server_base + "rest/auth/reportsDetails/" + token + "/",
         success: function (msg)
         {
@@ -246,7 +249,7 @@ function buildReportParameters(msg, inputParamFieldTemplate) {
                 '});' +
                 '</script>');
         } else if ("manycombo" == param.type.toLowerCase()) {
-            var options = "<option value='' " + (param.value == null || param.value.length == 0 ? "selected" : "") + ">Select one</option>";
+            var options = "<option disabled='true' value=''>Select one or more</option>";
             param.values.forEach(function (value) {
                 options = options + "<option value='" + value + "' " + ((param.value != null && param.value.contains(value)) ? "selected" : "") + ">" + value + "</option>";
             });
@@ -287,6 +290,10 @@ function loadReport(reportId)
     var url = server_base + "rest/report/" + token + "/" + reportId + "/detailsAndRun";
     var method = "GET";
     var contentType = "application/json; charset=utf-8";
+    if (reportId != curReport)
+    {
+        $(".alert").alert('close');
+    }
     callKagura(reportId, method, url, contentType)
 }
 
@@ -314,7 +321,7 @@ function exportReport(fileType, all)
     } else {
         values = values + "&page=" + pageNumber;
     }
-    values = values + "&" + buildRequestParameters();
+    values = values + "&parameters=" + buildRequestParameters();
     window.location.href = server_base + "rest/report/" + token + "/" + curReport + "/export."+fileType+"?" + values;
 }
 
@@ -398,6 +405,7 @@ function callKagura(reportId, method, url, contentType)
     $.ajax({
         type: method,
         url: url,
+        cache: false,
         contentType: contentType,
         success: function (msg)
         {
