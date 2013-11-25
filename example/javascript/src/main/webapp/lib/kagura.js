@@ -109,7 +109,7 @@ function loadReportListData(data)
 {
     var reportDDList = $("#reportDropdownList");
     reportDDList.find("li:not(.hidden)").remove();
-    if (Array.isArray(data))
+    if (Array.isArray(data)) // If it is a simple list, just list it
     {
         data.forEach(function (report)
         {
@@ -118,19 +118,44 @@ function loadReportListData(data)
             reportDDList.append(template);
             template.html("<a href='#' onclick='loadReport(\""+report+"\");return false;'>"+report+"</a>");
         });
-    } else
+    } else // Otherwise complicated rendering.
     {
+        var directoryHash = new Array();
         Object.keys(data).forEach(function (reportId)
         {
             var template = reportDDList.find("li.hidden").clone();
             template.removeClass("hidden");
-            reportDDList.append(template);
+            if (data[reportId].extra && data[reportId].extra.directory)
+            {
+                if (!directoryHash[data[reportId].extra.directory])
+                {
+                    directoryHash[data[reportId].extra.directory] = new Array();
+                }
+                directoryHash[data[reportId].extra.directory].push(template);
+            } else {
+                reportDDList.append(template);
+            }
             if (data[reportId].extra && data[reportId].extra.reportName)
             {
                 template.html("<a href='#' onclick='reportTitle = this.text; loadReport(\""+reportId+"\");return false;'>"+data[reportId].extra.reportName+"</a>");
             } else {
                 template.html("<a href='#' onclick='loadReport(\""+reportId+"\");return false;'>"+reportId+"</a>");
             }
+        });
+        var dhKeys = Object.keys(directoryHash);
+        dhKeys.sort();
+        dhKeys.forEach(function (key)
+        {
+            var template = reportDDList.find("li.hidden").clone();
+            template.removeClass("hidden");
+            template.addClass("dropdown-submenu");
+            template.attr("role","menu");
+            template.append ('<a href="#">'+key+'</a>' +
+                '   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">' +
+                '   </ul>');
+            var templateUl = $('ul', template);
+            directoryHash[key].forEach(function (each){ templateUl.append(each);});
+            reportDDList.append(template);
         });
     }
 }
