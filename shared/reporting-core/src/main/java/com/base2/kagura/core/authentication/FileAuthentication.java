@@ -46,7 +46,13 @@ public class FileAuthentication extends AuthenticationProvider {
 
     @Override
     public List<Group> getGroups() {
-        String filename = FilenameUtils.concat(configPath, "groups.yaml");
+        final String filenameToAdd = "groups.yaml";
+        String filename = getFile(filenameToAdd);
+        if (filename == null)
+        {
+            LOG.error("Can not make directory using paths {}, {}", System.getProperty("user.dir"), configPath);
+            return null;
+        }
         InputStream selectedYaml = openFile(filename);
         if (selectedYaml == null) {
             LOG.error("Can not find: {}", filename);
@@ -81,16 +87,12 @@ public class FileAuthentication extends AuthenticationProvider {
 
     @Override
     public List<User> getUsers() {
-        String filename = FilenameUtils.concat(configPath, "users.yaml");
+        final String filenameToAdd = "users.yaml";
+        String filename = getFile(filenameToAdd);
         if (filename == null)
         {
-            final String basePath = FilenameUtils.concat(System.getProperty("user.dir"), configPath);
-            if (basePath == null)
-            {
-                LOG.error("Can not make directory using paths {}, {}", System.getProperty("user.dir"), configPath);
-                return null;
-            }
-            filename = FilenameUtils.concat(basePath, "users.yaml");
+            LOG.error("Can not make directory using paths {}, {}", System.getProperty("user.dir"), configPath);
+            return null;
         }
         InputStream selectedYaml = openFile(filename);
         if (selectedYaml == null) {
@@ -107,6 +109,19 @@ public class FileAuthentication extends AuthenticationProvider {
             e.printStackTrace();
         }
         return users;
+    }
+
+    private String getFile(String filenameToAdd) {
+        String filename = FilenameUtils.concat(configPath, filenameToAdd);
+        if (filename == null)
+        {
+            final String basePath = FilenameUtils.concat(System.getProperty("user.dir"), configPath);
+            if (basePath != null)
+            {
+                filename = FilenameUtils.concat(basePath, filenameToAdd);
+            }
+        }
+        return filename;
     }
 
     public InputStream openFile(String file)
