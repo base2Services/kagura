@@ -21,6 +21,7 @@ var token;
 var pageNumber = 0;
 var curReport;
 var callCount = 0;
+var reportTitle = null;
 
 function loginSpin() {
     spinner.stop();
@@ -126,7 +127,7 @@ function loadReportListData(data)
             reportDDList.append(template);
             if (data[reportId].extra && data[reportId].extra.reportName)
             {
-                template.html("<a href='#' onclick='loadReport(\""+reportId+"\");return false;'>"+data[reportId].extra.reportName+"</a>");
+                template.html("<a href='#' onclick='reportTitle = this.text; loadReport(\""+reportId+"\");return false;'>"+data[reportId].extra.reportName+"</a>");
             } else {
                 template.html("<a href='#' onclick='loadReport(\""+reportId+"\");return false;'>"+reportId+"</a>");
             }
@@ -393,7 +394,12 @@ function callKagura(reportId, method, url, contentType)
     {
         resetDisplay();
         resetReportConfig();
-        $('#reportTitle').text(reportId);
+        if (reportTitle != null)
+        {
+            $('#reportTitle').text(reportTitle);
+        } else {
+            $('#reportTitle').text(reportId);
+        }
         var reportMain = $('#reportMain');
         reportMain.removeClass("hidden");
     } else {
