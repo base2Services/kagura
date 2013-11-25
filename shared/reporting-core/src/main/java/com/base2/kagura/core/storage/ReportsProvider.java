@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -41,6 +43,10 @@ public abstract class ReportsProvider<InternalType> {
     }
 
     public ReportsConfig getReportsConfig() {
+        return getReportsConfig(null);
+    }
+
+    public ReportsConfig getReportsConfig(Collection<String> restrictToNamed) {
         resetErrors();
         ReportsConfig result = new ReportsConfig();
         InternalType[] reports = getReportList();
@@ -52,10 +58,12 @@ public abstract class ReportsProvider<InternalType> {
         for (InternalType report : reports)
         {
             String name = "Unknown";
+            final String named = reportToName(report);
+            if (restrictToNamed != null && !restrictToNamed.contains(named)) continue;
             try {
                 name = loadReport(result, report);
             } catch (Exception e) {
-                errors.add("Error in report " + reportToName(report) + ": " + e.getMessage());
+                errors.add("Error in report " + named + ": " + e.getMessage());
                 e.printStackTrace();
                 continue;
             }

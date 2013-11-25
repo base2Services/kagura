@@ -34,4 +34,7 @@ public class ReportsConfig {
         errors = new ArrayList<String>();
     }
 
+    public ReportConfig getReport(String reportName) {
+        return reports.get(reportName);
+    }
 }

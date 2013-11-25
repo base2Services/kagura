@@ -3,6 +3,8 @@ package com.base2.kagura.services.camel.kagura;
 import com.base2.kagura.core.authentication.AuthenticationProvider;
 import com.base2.kagura.core.authentication.model.Group;
 import com.base2.kagura.core.authentication.model.User;
+import com.base2.kagura.core.report.configmodel.ReportConfig;
+import com.base2.kagura.core.report.configmodel.ReportsConfig;
 import org.apache.camel.Body;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
@@ -130,9 +132,11 @@ public class AuthBean {
         String username = authDetails.getUsername();
         Set<String> reports = authenticationProvider.getUserReports(username);
         Map<String, Object> result = new LinkedHashMap<String, Object>();
+        ReportsConfig reportsConfig = reportsBean.getReportsConfig(reports);
         for (String reportName : reports)
         {
-            result.put(reportName, reportsBean.getReportDetails(reportName, false));
+            ReportConfig reportConfig = reportsConfig.getReport(reportName);
+            result.put(reportName, reportsBean.getReportDetails(reportName, false, reportConfig));
         }
         return result;
     }

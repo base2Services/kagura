@@ -6,6 +6,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author aubels
@@ -36,6 +38,10 @@ public class SuperFileReportsProvider extends ReportsProvider<File> {
         return null;
     }
 
+    @Override
+    public ReportsConfig getReportsConfig(Collection<String> restrictToNamed) {
+        return getReportsConfig();
+    }
     @Override
     public ReportsConfig getReportsConfig() {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());

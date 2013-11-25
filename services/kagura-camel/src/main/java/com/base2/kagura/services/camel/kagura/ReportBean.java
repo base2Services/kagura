@@ -37,28 +37,23 @@ public class ReportBean {
 
     private ReportConnector getConnector(String name)
     {
-        ReportsConfig reportsConfig = getReportsConfig();
+        ReportsConfig reportsConfig = getReportsConfig(Arrays.asList(name));
         ReportConfig reportConfig = reportsConfig.getReports().get(name);
         if (reportConfig == null)
             return null;
         return reportConfig.getReportConnector();
     }
 
-    private ReportsConfig getReportsConfig() {
-        final ReportsConfig reportsConfig = reportsProvider.getReportsConfig();
+    public ReportsConfig getReportsConfig(Collection<String> reports) {
+        final ReportsConfig reportsConfig = reportsProvider.getReportsConfig(reports);
         if (reportsProvider.getErrors() != null)
             for (String e : reportsProvider.getErrors())
                 LOG.info("Report error: {}", e);
         return reportsConfig;
     }
 
-    public Map<String, Object> getReportDetails(String reportName, boolean full) {
+    public Map<String, Object> getReportDetails(String reportName, boolean full, ReportConfig reportConfig) {
         Map<String, Object> result = new HashMap<String, Object>();
-        return getReportDetails(reportName, full, result);
-    }
-
-    private Map<String, Object> getReportDetails(String reportName, boolean full, Map<String, Object> result) {
-        ReportConfig reportConfig = getReportConfig(reportName, result);
         if (reportConfig != null)
         {
             result.put("reportId", reportName);
@@ -88,9 +83,9 @@ public class ReportBean {
         exchange.getOut().setBody(result);
     }
 
-    private ReportConfig getReportConfig(String reportName, Map<String, Object> result) {
-        ReportsConfig reportsConfig = getReportsConfig();
-        ReportConfig reportConfig = reportsConfig.getReports().get(reportName);
+    private ReportConfig getReportConfig(String reportName, Map<String, Object> result, Collection<String> reports) {
+        ReportsConfig reportsConfig = getReportsConfig(reports);
+        ReportConfig reportConfig = reportsConfig.getReport(reportName);
         if (reportConfig == null)
             return null;
         if (reportsConfig.getErrors() != null)
@@ -99,8 +94,9 @@ public class ReportBean {
     }
 
     public Map<String, Object> getReportsDetailed(@Header("reportId") String reportId, Exchange exchange) throws AuthenticationException {
-        Map<String, Object> result = getReportDetails(reportId, true);
-        return result;
+        Map<String, Object> result = new HashMap<String, Object>();
+        final ReportConfig reportConfig = getReportConfig(reportId, result, Arrays.asList(reportId));
+        return getReportDetails(reportId, true, reportConfig);
     }
 
     public Map<String, Object> run(
@@ -144,7 +140,8 @@ public class ReportBean {
             , @Header("userExtra") Map<String, Object> userExtra
         ) throws AuthenticationException {
         Map<String, Object> result = new HashMap<String, Object>();
-        getReportDetails(reportId, true, result);
+        final ReportConfig reportConfig = getReportConfig(reportId, result, Arrays.asList(reportId));
+        result.putAll(getReportDetails(reportId, true, reportConfig));
         ReportConnector reportConnector = getConnector(reportId);
         reportConnector.setPage(page);
         List<String> errors = new ArrayList<String>();
