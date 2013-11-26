@@ -26,16 +26,16 @@
                 <a class="brand" onclick="return false;" href="#">Kagura</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="#" onclick="displayMain();return false;">Home</a></li>
+                        <li class="active"><a href="#" onclick="displayMain();">Home</a></li>
                         <li>
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
                             <ul id="reportDropdownList" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                 <li class="hidden"></li>
                             </ul>
                         </li>
-                        <li><a href="#" onclick="displayAbout();return false;">About</a></li>
-                        <li><a href="#" onclick="displayContactUs();return false;">Contact</a></li>
-                        <li><a href="#" onclick="logout();return false;">Logout</a></li>
+                        <li><a href="#" onclick="displayAbout();">About</a></li>
+                        <li><a href="#" onclick="displayContactUs();">Contact</a></li>
+                        <li><a href="#" onclick="logout();">Logout</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
