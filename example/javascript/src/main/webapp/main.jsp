@@ -26,7 +26,7 @@
                 <a class="brand" href="#">Kagura</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="active"><a href="#" onclick="displayMain();">Home</a></li>
+                        <li class="active"><a href="#" onclick="displayMain();return false;">Home</a></li>
                         <li>
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
                             <ul id="reportDropdownList" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
