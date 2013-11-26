@@ -22,6 +22,7 @@ var pageNumber = 0;
 var curReport;
 var callCount = 0;
 var reportTitle = null;
+var storedHash;
 
 function loginSpin() {
     spinner.stop();
@@ -135,11 +136,12 @@ function loadReportListData(data)
             } else {
                 reportDDList.append(template);
             }
+            var andRun = data[reportId].extra.autorun == "no" ? "false" : "true";
             if (data[reportId].extra && data[reportId].extra.reportName)
             {
-                template.html("<a href='#' onclick='reportTitle = this.text; loadReport(\""+reportId+"\");return false;'>"+data[reportId].extra.reportName+"</a>");
+                template.html("<a href='#' onclick='reportTitle = this.text; loadReport(\""+reportId+"\", "+andRun+");return false;'>"+data[reportId].extra.reportName+"</a>");
             } else {
-                template.html("<a href='#' onclick='loadReport(\""+reportId+"\");return false;'>"+reportId+"</a>");
+                template.html("<a href='#' onclick='loadReport(\""+reportId+"\", "+andRun+");return false;'>"+reportId+"</a>");
             }
         });
         var dhKeys = Object.keys(directoryHash);
@@ -313,7 +315,15 @@ function processReportExtras(msg, reportId) {
 }
 function loadReport(reportId)
 {
-    var url = server_base + "rest/report/" + token + "/" + reportId + "/detailsAndRun";
+    loadReport(reportId, true);
+}
+function loadReport(reportId, andRun)
+{
+    var url = server_base + "rest/report/" + token + "/" + reportId + "/details";
+    if (andRun == true)
+    {
+        url = server_base + "rest/report/" + token + "/" + reportId + "/detailsAndRun";
+    }
     var method = "GET";
     var contentType = "application/json; charset=utf-8";
     storedHash = reportId;

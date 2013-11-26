@@ -104,7 +104,7 @@
     <script language="JavaScript">
         loadReportListDetailed();
         if(window.location.hash) {
-            var storedHash = window.location.hash.substring(1);
+            storedHash = window.location.hash.substring(1);
             if (storedHash.length > 0)
             {
                 loadReport(storedHash);
@@ -113,16 +113,17 @@
 
         if ("onhashchange" in window) { // event supported?
             window.onhashchange = function () {
-                storedHash = window.location.hash.substring(1);
-                if (storedHash.length > 0)
+
+                if (storedHash.length > 0 && storedHash != window.location.hash.substring(1))
                 {
+                    storedHash = window.location.hash.substring(1);
                     loadReport(storedHash);
                 }
             }
         } else { // event not supported:
-            var storedHash = window.location.hash;
+            storedHash = window.location.hash;
             window.setInterval(function () {
-                if (window.location.hash != storedHash) {
+                if (window.location.hash.substring(1) != storedHash) {
                     storedHash = window.location.hash.substring(1);
                     loadReport(storedHash);
                 }
