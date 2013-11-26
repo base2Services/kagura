@@ -23,7 +23,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="#">Kagura</a>
+                <a class="brand" onclick="return false;" href="#">Kagura</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <li class="active"><a href="#" onclick="displayMain();return false;">Home</a></li>
