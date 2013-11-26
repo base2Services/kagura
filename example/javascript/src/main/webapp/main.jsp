@@ -33,9 +33,9 @@
                                 <li class="hidden"></li>
                             </ul>
                         </li>
-                        <li><a href="#" onclick="displayAbout();">About</a></li>
-                        <li><a href="#" onclick="displayContactUs();">Contact</a></li>
-                        <li><a href="#" onclick="logout();">Logout</a></li>
+                        <li><a href="#" onclick="displayAbout();return false;">About</a></li>
+                        <li><a href="#" onclick="displayContactUs();return false;">Contact</a></li>
+                        <li><a href="#" onclick="logout();return false;">Logout</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
