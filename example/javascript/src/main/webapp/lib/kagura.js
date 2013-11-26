@@ -319,7 +319,7 @@ function loadReport(reportId)
 }
 function loadReport(reportId, andRun)
 {
-    if (reportId == null) { return; }
+    if (reportId == null || reportId == "") { return; }
     var url = server_base + "rest/report/" + token + "/" + reportId + "/details";
     if (andRun == true)
     {
