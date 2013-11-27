@@ -11,7 +11,7 @@
     ">
 
     <!-- Defined the server endpoint to create the cxf-rs consumer -->
-    <cxf:rsServer id="rsExampleRestAuthServer" address="http://0.0.0.0:${kagura.camel.rest.port:8432}/exampleAuthRest/"
+    <cxf:rsServer id="rsExampleRestAuthServer" address="http://${kagura.camel.rest.ip:0.0.0.0}:${kagura.camel.rest.port:8432}/exampleAuthRest/"
                   serviceClass="com.base2.kagura.services.exampleRestAuth.MyAuthImpl"
                   loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
         <cxf:providers>
