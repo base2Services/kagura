@@ -1,4 +1,4 @@
-package com.base2.kagura.services.camel.model;
+package com.base2.kagura.rest.model;
 
 import java.util.List;
 import java.util.Map;

@@ -12,19 +12,19 @@
 
      <!-- Defined the server endpoint to create the cxf-rs consumer -->
      <cxf:rsServer id="rsReportsServer" address="http://${kagura.camel.rest.ip:0.0.0.0}:${kagura.camel.rest.port:8432}/report/"
-                    serviceClass="com.base2.kagura.services.camel.rest.ReportsRest"
+                    serviceClass="com.base2.kagura.rest.ReportsRest"
                     loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
      </cxf:rsServer>
      <cxf:rsServer id="rsServer" address="http://${kagura.camel.rest.ip:0.0.0.0}:${kagura.camel.rest.port:8432}/server/"
-                    serviceClass="com.base2.kagura.services.camel.rest.ServerRest"
+                    serviceClass="com.base2.kagura.rest.ServerRest"
                     loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
      </cxf:rsServer>
      <cxf:rsServer id="rsAuthServer" address="http://${kagura.camel.rest.ip:0.0.0.0}:${kagura.camel.rest.port:8432}/auth/"
-                    serviceClass="com.base2.kagura.services.camel.rest.AuthRest"
+                    serviceClass="com.base2.kagura.rest.AuthRest"
                     loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
      </cxf:rsServer>
     <cxf:rsServer id="rsFaviconServer" address="http://${kagura.camel.rest.ip:0.0.0.0}:${kagura.camel.rest.port:8432}/favicon.ico"
-                  serviceClass="com.base2.kagura.services.camel.rest.FaviconRest"
+                  serviceClass="com.base2.kagura.rest.FaviconRest"
                   loggingFeatureEnabled="true" loggingSizeLimit="20" skipFaultLogging="true" >
     </cxf:rsServer>
 </beans>

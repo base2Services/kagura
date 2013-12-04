@@ -1,4 +1,4 @@
-package com.base2.kagura.services.camel.rest;
+package com.base2.kagura.rest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,7 +9,6 @@ import javax.ws.rs.core.MediaType;
  * @author aubels
  *         Date: 26/08/13
  */
-@Path("/")
 public class ServerRest {
     /**
      * Test command.

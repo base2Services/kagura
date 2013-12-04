@@ -49,6 +49,10 @@
             <groupId>com.base2.kagura.shared</groupId>
             <artifactId>reporting-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.base2.kagura.shared</groupId>
+            <artifactId>rest-api</artifactId>
+        </dependency>
         <!-- OSGI -->
         <dependency>
             <groupId>org.osgi</groupId>

@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.base2.kagura.services.camel.model.Parameters;
+import com.base2.kagura.rest.model.Parameters;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;

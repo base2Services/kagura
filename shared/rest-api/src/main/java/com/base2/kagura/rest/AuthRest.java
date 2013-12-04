@@ -1,4 +1,4 @@
-package com.base2.kagura.services.camel.rest;
+package com.base2.kagura.rest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -9,7 +9,6 @@ import java.util.Map;
  * @author aubels
  *         Date: 26/08/13
  */
-@Path("/")
 public class AuthRest {
     /**
      * Allows you to login and see reports
