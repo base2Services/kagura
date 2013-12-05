@@ -12,6 +12,7 @@
     <groupId>com.base2.kagura.shared</groupId>
     <artifactId>rest-api</artifactId>
     <packaging>bundle</packaging>
+    <name>Kagura-rest-api</name>
 
     <build>
         <plugins>

@@ -81,6 +81,7 @@
         <module>shared</module>
         <module>services</module>
         <module>example</module>
+        <module>war-rest</module>
     </modules>
 
     <build>

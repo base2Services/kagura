@@ -12,9 +12,9 @@ import javax.ws.rs.core.MediaType;
 @Path("{authToken}/{reportId}")
 public class ReportsRest {
     @PathParam("reportId")
-    String reportId;
+    protected String reportId;
     @PathParam("authToken")
-    String authToken;
+    protected String authToken;
     /**
      *
      * @return returns report details
@@ -33,7 +33,7 @@ public class ReportsRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Object runReport(
             @DefaultValue("false") @QueryParam("allpages")  boolean allpages,
-            @DefaultValue("10") @QueryParam("pageLimit")    int pageLimit,
+            @DefaultValue("10") @QueryParam("pageLimit")    Integer pageLimit,
             @DefaultValue("0") @QueryParam("page")          int page,
             @DefaultValue("{}") @QueryParam("parameters")   Parameters parameters
     ){return null;}
@@ -47,7 +47,7 @@ public class ReportsRest {
     @Produces(MediaType.APPLICATION_JSON)
     public Object detailsAndRunReport(
             @DefaultValue("false") @QueryParam("allpages")  boolean allpages,
-            @DefaultValue("10") @QueryParam("pageLimit")    int pageLimit,
+            @DefaultValue("10") @QueryParam("pageLimit")    Integer pageLimit,
             @DefaultValue("0") @QueryParam("page")          int page,
             @DefaultValue("{}") @QueryParam("parameters")   Parameters parameters
     ){return null;}
@@ -63,7 +63,7 @@ public class ReportsRest {
     public Object exportReport(
             @DefaultValue("false") @QueryParam("allpages")  boolean allpages,
             @DefaultValue("csv") @PathParam("filetype")     String filetype,
-            @DefaultValue("10") @QueryParam("pageLimit")    int pageLimit,
+            @DefaultValue("10") @QueryParam("pageLimit")    Integer pageLimit,
             @DefaultValue("0") @QueryParam("page")          int page,
             @DefaultValue("{}") @QueryParam("parameters")   Parameters parameters
     ){return null;}

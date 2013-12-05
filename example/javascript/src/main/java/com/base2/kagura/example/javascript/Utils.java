@@ -12,7 +12,7 @@ public class Utils {
     public static String serverPath(HttpServletRequest request)
     {
         try {
-            return new URL("http", request.getServerName(), request.getServerPort(), "/").toString();
+            return new URL("http", request.getServerName(), request.getServerPort(), "/" + (request.getContextPath() != null ? request.getContextPath() : "")).toString();
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return "error";
