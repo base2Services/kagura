@@ -1,0 +1,5 @@
+<openejb-jar>
+    <properties>
+        openejb.cxf.jax-rs.providers=org.codehaus.jackson.jaxrs.JacksonJsonProvider
+    </properties>
+</openejb-jar>

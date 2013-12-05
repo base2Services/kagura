@@ -4,6 +4,7 @@ import com.base2.kagura.rest.model.Parameters;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * @author aubels
@@ -22,7 +23,7 @@ public class ReportsRest {
     @Path("details")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Object reportDetails(){return null;}
+    public Response reportDetails(){return null;}
 
     /**
      *
@@ -31,7 +32,7 @@ public class ReportsRest {
     @Path("run")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Object runReport(
+    public Response runReport(
             @DefaultValue("false") @QueryParam("allpages")  boolean allpages,
             @DefaultValue("10") @QueryParam("pageLimit")    Integer pageLimit,
             @DefaultValue("0") @QueryParam("page")          int page,
@@ -45,7 +46,7 @@ public class ReportsRest {
     @Path("detailsAndRun")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Object detailsAndRunReport(
+    public Response detailsAndRunReport(
             @DefaultValue("false") @QueryParam("allpages")  boolean allpages,
             @DefaultValue("10") @QueryParam("pageLimit")    Integer pageLimit,
             @DefaultValue("0") @QueryParam("page")          int page,
@@ -60,7 +61,7 @@ public class ReportsRest {
     @Path("export.{filetype}")
     @GET
     @Produces("application/octet-stream")
-    public Object exportReport(
+    public Response exportReport(
             @DefaultValue("false") @QueryParam("allpages")  boolean allpages,
             @DefaultValue("csv") @PathParam("filetype")     String filetype,
             @DefaultValue("10") @QueryParam("pageLimit")    Integer pageLimit,

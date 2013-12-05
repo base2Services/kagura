@@ -2,6 +2,7 @@ package com.base2.kagura.rest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class AuthRest {
     @Path("reports/{authToken}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<String> getReports(@PathParam("authToken") String authToken){return null;}
+    public Response getReports(@PathParam("authToken") String authToken){return null;}
 
     /**
      * Returns a list of reports
@@ -60,6 +61,6 @@ public class AuthRest {
     @Path("reportsDetails/{authToken}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getReportsDetailed(@PathParam("authToken") String authToken){return null;}
+    public Response getReportsDetailed(@PathParam("authToken") String authToken){return null;}
 
 }

@@ -13,18 +13,17 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.DateTimeConverter;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author aubels
@@ -43,11 +42,33 @@ public class KaguraBean implements Serializable {
         ConvertUtils.register(dtConverter, Date.class);
     }}
 
+    public static <T> Response makeResponse(T input) {
+        try {
+//            return Response.ok(new GenericEntity<T>(input){}).build();
+            return Response.ok(new ObjectMapper().writeValueAsString(input)).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.serverError().build();
+        }
+    }
+
     @PostConstruct
     void init()
     {
         reportsProvider = new FileReportsProvider("/opt/base2/rio/rio-releases/current/reports");
     }
+
+    public ArrayList<String> getReportList() {
+        return new ArrayList<String>()
+        {{
+                add("Assets");
+                add("Meters");
+                add("RIOAllAssetsExports");
+                add("RIOAllMetersAndRecordingsExceptInitialLoad");
+                add("ScheduleSummary");
+            }};
+    }
+
 
     public Map<String, Object> noSuchReport(String reportName) {
         Map<String, Object> result = new HashMap<String, Object>();

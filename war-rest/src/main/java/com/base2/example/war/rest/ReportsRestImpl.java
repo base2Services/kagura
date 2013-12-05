@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -42,13 +43,13 @@ public class ReportsRestImpl extends ReportsRest {
     private KaguraBean kaguraBean;
 
     @Override
-    public Object reportDetails()
+    public Response reportDetails()
     {
-        return "Test";
+        return KaguraBean.makeResponse("Test");
     }
 
     @Override
-    public Object runReport(
+    public Response runReport(
             boolean allpages,
             Integer pageLimit,
             int page,
@@ -62,7 +63,7 @@ public class ReportsRestImpl extends ReportsRest {
             if (reportConnector == null)
             {
                 result.put("errors", new ArrayList<String>() {{ add("Report error."); }});
-                return result;
+                return KaguraBean.makeResponse(result);
             }
             reportConnector.setPage(page);
             List<String> errors = new ArrayList<String>();
@@ -85,11 +86,11 @@ public class ReportsRestImpl extends ReportsRest {
 //        } else {
 //            result.put("errors", new ArrayList<String>() {{ add("Not logged in."); }});
         }
-        return result;
+        return KaguraBean.makeResponse(result);
     }
 
     @Override
-    public Object detailsAndRunReport(
+    public Response detailsAndRunReport(
             boolean allpages,
             Integer pageLimit,
             int page,
@@ -103,7 +104,7 @@ public class ReportsRestImpl extends ReportsRest {
             if (reportConnector == null)
             {
                 result.put("errors", new ArrayList<String>() {{ add("Report error."); }});
-                return result;
+                return KaguraBean.makeResponse(result);
             }
             reportConnector.setPage(page);
             List<String> errors = new ArrayList<String>();
@@ -126,11 +127,11 @@ public class ReportsRestImpl extends ReportsRest {
 //        } else {
 //            result.put("errors", new ArrayList<String>() {{ add("Not logged in."); }});
         }
-        return result;
+        return KaguraBean.makeResponse(result);
     }
 
     @Override
-    public Object exportReport(
+    public Response exportReport(
             boolean allpages,
             String filetype,
             Integer pageLimit,
@@ -178,7 +179,7 @@ public class ReportsRestImpl extends ReportsRest {
                     err.printStackTrace();
                 }
             }
-            return new ByteArrayInputStream(out.toByteArray());
+            return KaguraBean.makeResponse(new ByteArrayInputStream(out.toByteArray()));
         } //else return null;
     }
 }

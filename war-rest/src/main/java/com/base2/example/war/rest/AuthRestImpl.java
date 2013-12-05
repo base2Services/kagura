@@ -7,11 +7,10 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author aubels
@@ -36,28 +35,20 @@ public class AuthRestImpl extends AuthRest implements Serializable
     public String logout(String authToken){return "N/A";}
 
     @Override
-    public List<String> getReports(String authToken)
+    public Response getReports(String authToken)
     {
-        return new ArrayList<String>()
-        {{
-			add("Assets");
-			add("Meters");
-			add("RIOAllAssetsExports");
-			add("RIOAllMetersAndRecordingsExceptInitialLoad");
-			add("ScheduleSummary");
-        }};
+        final ArrayList<String> reports = kaguraBean.getReportList();
+        return KaguraBean.makeResponse(reports);
     }
 
     @Override
-    public Map<String, Object> getReportsDetailed(final String authToken)
+    public Response getReportsDetailed(final String authToken)
     {
-        return new HashMap<String, Object>()
-        {{
-            for (String reportName : getReports(authToken))
-            {
+        return KaguraBean.makeResponse(new HashMap<String, Object>() {{
+            for (String reportName : kaguraBean.getReportList()) {
                 put(reportName, kaguraBean.getReportDetails(reportName, false));
             }
-        }};
+        }});
     }
 
 }
