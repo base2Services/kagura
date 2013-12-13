@@ -11,6 +11,8 @@ import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author aubels
@@ -35,20 +37,27 @@ public class AuthRestImpl extends AuthRest implements Serializable
     public String logout(String authToken){return "N/A";}
 
     @Override
-    public Response getReports(String authToken)
+    public List<String> getReports(String authToken)
     {
-        final ArrayList<String> reports = kaguraBean.getReportList();
-        return KaguraBean.makeResponse(reports);
+        return new ArrayList<String>()
+        {{
+			add("Assets");
+			add("Meters");
+			add("RIOAllAssetsExports");
+			add("RIOAllMetersAndRecordingsExceptInitialLoad");
+			add("ScheduleSummary");
+        }};
     }
 
     @Override
-    public Response getReportsDetailed(final String authToken)
+    public Map<String, Object> getReportsDetailed(final String authToken)
     {
-        return KaguraBean.makeResponse(new HashMap<String, Object>() {{
-            for (String reportName : kaguraBean.getReportList()) {
+        return new HashMap<String, Object>()
+        {{
+            for (String reportName : getReports(authToken))
+            {
                 put(reportName, kaguraBean.getReportDetails(reportName, false));
             }
-        }});
+        }};
     }
-
 }

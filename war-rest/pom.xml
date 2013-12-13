@@ -59,6 +59,7 @@
             <groupId>com.base2.kagura.example</groupId>
             <artifactId>kagura-example-javascript</artifactId>
             <version>${project.version}</version>
+            <scope>compile</scope>
             <type>war</type>
             <exclusions>
                 <exclusion>
@@ -89,41 +90,17 @@
             <version>${javaee-api.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.openejb</groupId>
-            <artifactId>openejb-core</artifactId>
-            <version>${openejb.version}</version>
-            <!--<scope>test</scope>-->
-        </dependency>
-        <dependency>
-            <groupId>org.apache.openejb</groupId>
-            <artifactId>openejb-cxf-rs</artifactId>
-            <version>${openejb.version}</version>
-            <!--<scope>test</scope>-->
-        </dependency>
-
         <dependency>
             <groupId>org.apache.myfaces.extensions.cdi.bundles</groupId>
             <artifactId>myfaces-extcdi-bundle-jsf20</artifactId>
             <version>${myfaces.codi.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
             <version>${myfaces2.version}</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson-core-asl.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>${jackson-core-asl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>

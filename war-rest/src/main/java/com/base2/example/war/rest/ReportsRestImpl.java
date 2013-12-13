@@ -43,13 +43,13 @@ public class ReportsRestImpl extends ReportsRest {
     private KaguraBean kaguraBean;
 
     @Override
-    public Response reportDetails()
+    public Object reportDetails()
     {
-        return KaguraBean.makeResponse("Test");
+        return "Test";
     }
 
     @Override
-    public Response runReport(
+    public Object runReport(
             boolean allpages,
             Integer pageLimit,
             int page,
@@ -63,7 +63,7 @@ public class ReportsRestImpl extends ReportsRest {
             if (reportConnector == null)
             {
                 result.put("errors", new ArrayList<String>() {{ add("Report error."); }});
-                return KaguraBean.makeResponse(result);
+                return result;
             }
             reportConnector.setPage(page);
             List<String> errors = new ArrayList<String>();
@@ -86,11 +86,11 @@ public class ReportsRestImpl extends ReportsRest {
 //        } else {
 //            result.put("errors", new ArrayList<String>() {{ add("Not logged in."); }});
         }
-        return KaguraBean.makeResponse(result);
+        return result;
     }
 
     @Override
-    public Response detailsAndRunReport(
+    public Object detailsAndRunReport(
             boolean allpages,
             Integer pageLimit,
             int page,
@@ -104,7 +104,7 @@ public class ReportsRestImpl extends ReportsRest {
             if (reportConnector == null)
             {
                 result.put("errors", new ArrayList<String>() {{ add("Report error."); }});
-                return KaguraBean.makeResponse(result);
+                return result;
             }
             reportConnector.setPage(page);
             List<String> errors = new ArrayList<String>();
@@ -127,11 +127,11 @@ public class ReportsRestImpl extends ReportsRest {
 //        } else {
 //            result.put("errors", new ArrayList<String>() {{ add("Not logged in."); }});
         }
-        return KaguraBean.makeResponse(result);
+        return result;
     }
 
     @Override
-    public Response exportReport(
+    public Object exportReport(
             boolean allpages,
             String filetype,
             Integer pageLimit,
@@ -179,7 +179,7 @@ public class ReportsRestImpl extends ReportsRest {
                     err.printStackTrace();
                 }
             }
-            return KaguraBean.makeResponse(new ByteArrayInputStream(out.toByteArray()));
+            return new ByteArrayInputStream(out.toByteArray());
         } //else return null;
     }
 }

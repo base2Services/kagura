@@ -5,6 +5,13 @@
        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/beans_1_0.xsd"
         >
     <!--<jaxrs:providers>-->
-        <!--   <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>-->
+        <!--   <bean class="org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider"/>-->
     <!--</jaxrs:providers>-->
+    <!--<jaxrs:providers>-->
+        <!--<bean class="org.apache.cxf.jaxrs.provider.JSONProvider">-->
+            <!--<property name="dropRootElement" value="true" />-->
+            <!--<property name="supportUnwrapped" value="true" />-->
+        <!--</bean>-->
+    <!--</jaxrs:providers>-->
+
 </beans>

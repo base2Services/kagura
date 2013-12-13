@@ -23,7 +23,7 @@ public class ReportsRest {
     @Path("details")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response reportDetails(){return null;}
+    public Object reportDetails(){return null;}
 
     /**
      *
@@ -32,7 +32,7 @@ public class ReportsRest {
     @Path("run")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response runReport(
+    public Object runReport(
             @DefaultValue("false") @QueryParam("allpages")  boolean allpages,
             @DefaultValue("10") @QueryParam("pageLimit")    Integer pageLimit,
             @DefaultValue("0") @QueryParam("page")          int page,
@@ -46,7 +46,7 @@ public class ReportsRest {
     @Path("detailsAndRun")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response detailsAndRunReport(
+    public Object detailsAndRunReport(
             @DefaultValue("false") @QueryParam("allpages")  boolean allpages,
             @DefaultValue("10") @QueryParam("pageLimit")    Integer pageLimit,
             @DefaultValue("0") @QueryParam("page")          int page,
@@ -61,7 +61,7 @@ public class ReportsRest {
     @Path("export.{filetype}")
     @GET
     @Produces("application/octet-stream")
-    public Response exportReport(
+    public Object exportReport(
             @DefaultValue("false") @QueryParam("allpages")  boolean allpages,
             @DefaultValue("csv") @PathParam("filetype")     String filetype,
             @DefaultValue("10") @QueryParam("pageLimit")    Integer pageLimit,

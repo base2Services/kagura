@@ -51,7 +51,7 @@ public class AuthRest {
     @Path("reports/{authToken}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReports(@PathParam("authToken") String authToken){return null;}
+    public List<String> getReports(@PathParam("authToken") String authToken){return null;}
 
     /**
      * Returns a list of reports
@@ -61,6 +61,6 @@ public class AuthRest {
     @Path("reportsDetails/{authToken}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getReportsDetailed(@PathParam("authToken") String authToken){return null;}
+    public Map<String, Object> getReportsDetailed(@PathParam("authToken") String authToken){return null;}
 
 }
