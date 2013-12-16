@@ -52,6 +52,8 @@
         <dependency>
             <groupId>com.base2.kagura.shared</groupId>
             <artifactId>rest-api</artifactId>
+            <type>bundle</type>
+            <version>${project.version}</version>
         </dependency>
         <!-- OSGI -->
         <dependency>
@@ -271,7 +273,7 @@
                         <Bundle-Version>${project.version}</Bundle-Version>
                         <Bundle-Activator>com.base2.kagura.services.camel.Activator</Bundle-Activator>
                         <Export-Package>com.base2.kagura.services*;version=${project.version}</Export-Package>
-                        <Import-Package>javax.servlet, javax.sql, javax.servlet.http, *</Import-Package>
+                        <Import-Package>javax.servlet, javax.sql, javax.servlet.http, com.base2.kagura.rest, *</Import-Package>
                         <DynamicImport-Package>com.mysql.jdbc;com.mysql.jdbc.*</DynamicImport-Package>
                     </instructions>
                 </configuration>

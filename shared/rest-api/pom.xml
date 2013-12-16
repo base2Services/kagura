@@ -26,9 +26,8 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Export-Package>com.base2.kagura.core*;version=${project.version}</Export-Package>
+                        <Export-Package>com.base2.kagura.rest*;version=${project.version}</Export-Package>
                         <Import-Package>*</Import-Package>
-                        <DynamicImport-Package>com.mysql.jdbc;com.mysql.jdbc.*</DynamicImport-Package>
                     </instructions>
                 </configuration>
             </plugin>
@@ -59,5 +58,6 @@
             <artifactId>reporting-core</artifactId>
         </dependency>
     </dependencies>
+
 
 </project>
