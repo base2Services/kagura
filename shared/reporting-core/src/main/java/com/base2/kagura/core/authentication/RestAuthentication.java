@@ -24,7 +24,7 @@ public class RestAuthentication extends AuthenticationProvider {
         this.url = url;
     }
 
-    protected RestAuthentication() {
+    public RestAuthentication() {
     }
 
     public InputStream httpGet(String suffix) {

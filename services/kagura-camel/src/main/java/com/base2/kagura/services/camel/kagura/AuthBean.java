@@ -5,6 +5,8 @@ import com.base2.kagura.core.authentication.model.Group;
 import com.base2.kagura.core.authentication.model.User;
 import com.base2.kagura.core.report.configmodel.ReportConfig;
 import com.base2.kagura.core.report.configmodel.ReportsConfig;
+import com.base2.kagura.rest.exceptions.AuthenticationException;
+import com.base2.kagura.rest.exceptions.AuthorizationException;
 import org.apache.camel.Body;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;

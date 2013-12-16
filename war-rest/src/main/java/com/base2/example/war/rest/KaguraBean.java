@@ -1,5 +1,8 @@
 package com.base2.example.war.rest;
 
+import com.base2.kagura.core.authentication.AuthenticationProvider;
+import com.base2.kagura.core.authentication.FileAuthentication;
+import com.base2.kagura.core.authentication.model.User;
 import com.base2.kagura.core.report.configmodel.ReportConfig;
 import com.base2.kagura.core.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.report.connectors.ReportConnector;
@@ -7,6 +10,8 @@ import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.storage.FileReportsProvider;
 import com.base2.kagura.core.storage.ReportsProvider;
 import com.base2.kagura.rest.model.Parameters;
+import com.base2.kagura.rest.model.ReportDetails;
+import com.base2.kagura.rest.model.ReportDetailsAndResults;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -19,9 +24,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -36,6 +38,8 @@ public class KaguraBean implements Serializable {
     private static final Logger LOG = LoggerFactory.getLogger(KaguraBean.class);
     static final int EXPORT_PAGE_LIMIT = 10000;
     ReportsProvider<?> reportsProvider;
+    AuthenticationProvider authenticationProvider;
+    User user;
 
     {{
         DateTimeConverter dtConverter = new DateConverter(null);
@@ -46,34 +50,36 @@ public class KaguraBean implements Serializable {
     @PostConstruct
     void init()
     {
-        reportsProvider = new FileReportsProvider("/opt/base2/rio/rio-releases/current/reports");
+        final String reportLoc = "/reports";
+        reportsProvider = new FileReportsProvider(reportLoc);
+        authenticationProvider = new FileAuthentication(reportLoc);
     }
 
-    public Map<String, Object> noSuchReport(String reportName) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("reportId", reportName);
-        result.put("error", "No such report");
+    public <T extends ReportDetails> T noSuchReport(String reportName, T result) {
+        result.setReportId(reportName);
+        final String error = "No such report";
+        result.setError(error);
         return result;
     }
 
-    public Map<String, Object> getReportDetails(String reportName, boolean full) {
-            Map<String, Object> result = new HashMap<String, Object>();
-            ReportConfig reportConfig = getReportConfig(reportName, result);
-            if (reportConfig != null)
+    public <T extends ReportDetails> T getReportDetails(String reportName, boolean full, T result) {
+        Map<String, Object> errors = new HashMap<String, Object>();
+        ReportConfig reportConfig = getReportConfig(reportName, errors);
+        if (reportConfig != null)
+        {
+            result.setReportId(reportName);
+            result.setExtra(reportConfig.getExtraOptions());
+            if (full)
             {
-                result.put("reportId", reportName);
-                result.put("extra", reportConfig.getExtraOptions());
-                if (full)
-                {
-                    result.put("params", reportConfig.getParamConfig());
-                    result.put("columns", reportConfig.getColumns());
-                }
+                result.setParams(reportConfig.getParamConfig());
+                result.setColumns(reportConfig.getColumns());
             }
-            else
-            {
-                result = noSuchReport(reportName);
-            }
-            return result;
+        }
+        else
+        {
+            result = noSuchReport(reportName, result);
+        }
+        return result;
     }
 
     public ReportConfig getReportConfig(String reportName, Map<String, Object> result) {
@@ -132,5 +138,35 @@ public class KaguraBean implements Serializable {
                 }
             }
         }
+    }
+
+    public void authenticateUser(String user, String pass) throws Exception {
+        authenticationProvider.authenticateUser(user, pass);
+    }
+
+    public User getUserModel(String username) {
+        return authenticationProvider.getUser(username);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set<String> getUserReports() {
+        if (user == null) return new HashSet<String>();
+        return authenticationProvider.getUserReports(user.getUsername());
+    }
+
+
+    public boolean userHasAccess(String reportId) {
+        return getUserReports().contains(reportId);
+    }
+
+    public ReportDetailsAndResults notLoggedIn(ReportDetailsAndResults result) {
+        return null;
     }
 }

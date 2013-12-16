@@ -1,6 +1,6 @@
 package com.base2.kagura.services.camel.routes;
 
-import com.base2.kagura.services.camel.kagura.AuthenticationException;
+import com.base2.kagura.rest.exceptions.AuthenticationException;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 

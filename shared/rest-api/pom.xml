@@ -50,7 +50,14 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.base2.kagura.shared</groupId>
+            <artifactId>reporting-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

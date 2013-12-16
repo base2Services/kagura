@@ -1,5 +1,8 @@
 package com.base2.kagura.rest;
 
+import com.base2.kagura.rest.model.AuthenticationResult;
+import com.base2.kagura.rest.model.ReportDetails;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -13,6 +16,8 @@ import java.util.Map;
 public class AuthRest {
     /**
      * Allows you to login and see reports
+     *
+     *
      * @param user username
      * @param password Password, plaintext for the mean time
      * @return Auth token in JSON tag "token", or a plain text error in JSON tag "error".
@@ -21,7 +26,7 @@ public class AuthRest {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    public String getAuthToken(@PathParam("user") String user, String password){return null;}
+    public AuthenticationResult getAuthToken(@PathParam("user") String user, String password){return null;}
 
     /**
      * Tests login status of token
@@ -61,6 +66,6 @@ public class AuthRest {
     @Path("reportsDetails/{authToken}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getReportsDetailed(@PathParam("authToken") String authToken){return null;}
+    public Map<String, ReportDetails> getReportsDetailed(@PathParam("authToken") String authToken){return null;}
 
 }

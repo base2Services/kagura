@@ -1,0 +1,32 @@
+type: "Fake"
+paramConfig:
+  - type: String
+    name: "An anonymous string"
+    help: "Just put anything in"
+    placeholder: "asdfsdaef"
+    value:
+  - type: Boolean
+    name: "Select one"
+    help: "Just select something"
+    placeholder: "No Value"
+    value:
+columns:
+  - name: test1
+    extraOptions:
+      styleType: text
+  - name: test2
+    extraOptions:
+      styleType: numbers
+  - name: test3
+    extraOptions:
+      styleType: numbers
+rows:
+  - test2: 899
+    test1: "Unique Visitors"
+  - test2: 234
+    test1: String
+extraOptions:
+  displayPriority: 1
+  image: fake1.png
+  reportName: "Fake sample 1"
+  description: "Here be a report; Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin at semper ante. Curabitur tincidunt lacinia lacinia. Ut sagittis augue diam, sit amet mattis enim accumsan sit amet. Vivamus cursus tortor commodo, vehicula lectus nec, venenatis elit. Vestibulum quis tortor odio. Praesent pellentesque laoreet sem a sagittis."

@@ -7,6 +7,7 @@ import com.base2.kagura.core.report.configmodel.ReportConfig;
 import com.base2.kagura.core.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.report.connectors.ReportConnector;
 import com.base2.kagura.core.storage.ReportsProvider;
+import com.base2.kagura.rest.exceptions.AuthenticationException;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;

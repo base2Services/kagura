@@ -1,4 +1,4 @@
-package com.base2.kagura.services.camel.kagura;
+package com.base2.kagura.rest.exceptions;
 
 /**
  * @author aubels
