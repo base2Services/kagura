@@ -449,6 +449,7 @@ function callKagura(reportId, method, url, contentType)
         url: url,
         cache: false,
         contentType: contentType,
+        timeout: 600000,
         success: function (msg)
         {
             if (myCall != callCount) return; // Damn Double Clickers
