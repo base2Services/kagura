@@ -46,25 +46,25 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
     public void run(Map<String, Object> extra) {
         PreparedStatement statement = null;
         try {
-            FreemarkerSQLResult freemarkerSQLResult = freemakerParams(extra, true, freemarkerSql);
-            FreemarkerSQLResult prefreemarkerSQLResult = freemakerParams(extra, false, presql);
-            FreemarkerSQLResult postfreemarkerSQLResult = freemakerParams(extra, false, postsql);
             getStartConnection();
-            if (StringUtils.isNotBlank(prefreemarkerSQLResult.getSql()))
+            if (StringUtils.isNotBlank(presql))
             {
+                FreemarkerSQLResult prefreemarkerSQLResult = freemakerParams(extra, false, presql);
                 statement = connection.prepareStatement(prefreemarkerSQLResult.getSql());
                 for(int i=0;i<prefreemarkerSQLResult.getParams().size();i++) {
                     statement.setObject(i + 1, prefreemarkerSQLResult.getParams().get(i));
                 }
                 statement.executeBatch();
             }
+            FreemarkerSQLResult freemarkerSQLResult = freemakerParams(extra, true, freemarkerSql);
             statement = connection.prepareStatement(freemarkerSQLResult.getSql());
             for(int i=0;i<freemarkerSQLResult.getParams().size();i++) {
                 statement.setObject(i + 1, freemarkerSQLResult.getParams().get(i));
             }
             rows = resultSetToMap(statement.executeQuery());
-            if (StringUtils.isNotBlank(postfreemarkerSQLResult.getSql()))
+            if (StringUtils.isNotBlank(postsql))
             {
+                FreemarkerSQLResult postfreemarkerSQLResult = freemakerParams(extra, false, postsql);
                 statement = connection.prepareStatement(postfreemarkerSQLResult.getSql());
                 for(int i=0;i<postfreemarkerSQLResult.getParams().size();i++) {
                     statement.setObject(i + 1, postfreemarkerSQLResult.getParams().get(i));
