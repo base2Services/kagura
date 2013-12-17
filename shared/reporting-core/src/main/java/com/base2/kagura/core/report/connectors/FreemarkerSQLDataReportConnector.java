@@ -29,11 +29,15 @@ import java.util.*;
  */
 public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
     private final String freemarkerSql;
+    private final String presql;
+    private final String postsql;
     private List<Map<String, Object>> rows;
 
     public FreemarkerSQLDataReportConnector(FreeMarkerSQLReportConfig reportConfig) {
         super(reportConfig);
         this.freemarkerSql = reportConfig.getSql();
+        this.postsql = reportConfig.getPostsqlsql();
+        this.presql = reportConfig.getPresqlsql();
     }
 
     protected Connection connection;
@@ -42,14 +46,31 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
     public void run(Map<String, Object> extra) {
         PreparedStatement statement = null;
         try {
-            FreemarkerSQLResult freemarkerSQLResult = freemakerParams(extra);
-            String sql = freemarkerSQLResult.getSql();
+            FreemarkerSQLResult freemarkerSQLResult = freemakerParams(extra, true, freemarkerSql);
+            FreemarkerSQLResult prefreemarkerSQLResult = freemakerParams(extra, false, presql);
+            FreemarkerSQLResult postfreemarkerSQLResult = freemakerParams(extra, false, postsql);
             getStartConnection();
-            statement = connection.prepareStatement(sql);
+            if (StringUtils.isNotBlank(prefreemarkerSQLResult.getSql()))
+            {
+                statement = connection.prepareStatement(prefreemarkerSQLResult.getSql());
+                for(int i=0;i<prefreemarkerSQLResult.getParams().size();i++) {
+                    statement.setObject(i + 1, prefreemarkerSQLResult.getParams().get(i));
+                }
+                statement.executeBatch();
+            }
+            statement = connection.prepareStatement(freemarkerSQLResult.getSql());
             for(int i=0;i<freemarkerSQLResult.getParams().size();i++) {
                 statement.setObject(i + 1, freemarkerSQLResult.getParams().get(i));
             }
             rows = resultSetToMap(statement.executeQuery());
+            if (StringUtils.isNotBlank(postfreemarkerSQLResult.getSql()))
+            {
+                statement = connection.prepareStatement(postfreemarkerSQLResult.getSql());
+                for(int i=0;i<postfreemarkerSQLResult.getParams().size();i++) {
+                    statement.setObject(i + 1, postfreemarkerSQLResult.getParams().get(i));
+                }
+                statement.executeBatch();
+            }
         } catch (Exception ex) {
             errors.add(ex.getMessage());
         } finally {
@@ -71,7 +92,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         }
     }
 
-    protected FreemarkerSQLResult freemakerParams(Map<String, Object> extra) throws Exception {
+    protected FreemarkerSQLResult freemakerParams(Map<String, Object> extra, boolean requireLimit, String sql) throws Exception {
         Configuration cfg = new Configuration();
         cfg.setDateFormat("yyyy-MM-dd");
         cfg.setDateTimeFormat("yyyy-MM-dd hh:mm:ss");
@@ -110,7 +131,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         Template temp = null;
         StringWriter out = new StringWriter();
         try {
-            temp = new Template(null, new StringReader(freemarkerSql), cfg);
+            temp = new Template(null, new StringReader(sql), cfg);
             temp.process(root, out);
         } catch (TemplateException e) {
             errors.add(e.getMessage());
@@ -119,7 +140,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
             errors.add(e.getMessage());
             e.printStackTrace();
         }
-        if (!limitExists[0]) throw new Exception("Could not find <@limit sql=mysql /> or <@limit sql=postgres /> tag on query.");
+        if (requireLimit && !limitExists[0]) throw new Exception("Could not find <@limit sql=mysql /> or <@limit sql=postgres /> tag on query.");
         return new FreemarkerSQLResult(out.toString(), usedParams);
     }
 

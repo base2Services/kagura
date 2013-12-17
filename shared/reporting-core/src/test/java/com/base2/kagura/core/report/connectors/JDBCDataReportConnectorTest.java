@@ -37,7 +37,7 @@ public class JDBCDataReportConnectorTest {
         }});
         JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
         String expected = "Test ParameterOutput  LIMIT 20 OFFSET 0 ";
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
         Assert.assertEquals(0, actual.getParams().size());
     }
@@ -58,7 +58,7 @@ public class JDBCDataReportConnectorTest {
         }});
         JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
         String expected = "SELECT * FROM table WHERE columnB=?  LIMIT 20 OFFSET 0 ";
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
         org.junit.Assert.assertArrayEquals(new Object[] {"ParameterOutput"}, actual.getParams().toArray());
     }
@@ -79,7 +79,7 @@ public class JDBCDataReportConnectorTest {
         }});
         JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
         String expected = "SELECT * FROM table WHERE columnB is not null  LIMIT 20 OFFSET 0 ";
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
         org.junit.Assert.assertArrayEquals(new Object[] {}, actual.getParams().toArray());
     }
@@ -100,7 +100,7 @@ public class JDBCDataReportConnectorTest {
         }});
         JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
         String expected = "SELECT * FROM table  WHERE columnB=?  LIMIT 20 OFFSET 0 ";
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
         org.junit.Assert.assertArrayEquals(new Object[] {"ParameterOutput"}, actual.getParams().toArray());
     }
@@ -126,7 +126,7 @@ public class JDBCDataReportConnectorTest {
         }});
         JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
         String expected = "SELECT * FROM table  WHERE columnB=? AND columnD=?  LIMIT 20 OFFSET 0 ";
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
         org.junit.Assert.assertArrayEquals(new Object[] {"ParameterOutput","ParameterOutput"}, actual.getParams().toArray());
     }
@@ -146,7 +146,7 @@ public class JDBCDataReportConnectorTest {
                 add(stringParam);
             }});
         JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
     }
 
     @Test
@@ -166,7 +166,7 @@ public class JDBCDataReportConnectorTest {
         JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
         jdbcDataReportConnector.setPage(1);
         String expected = "Test ParameterOutput  LIMIT 20 OFFSET 20 ";
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
         Assert.assertEquals(0, actual.getParams().size());
     }
@@ -189,7 +189,7 @@ public class JDBCDataReportConnectorTest {
         jdbcDataReportConnector.setPage(2);
         jdbcDataReportConnector.setPageLimit(35);
         String expected = "Test ParameterOutput  LIMIT 35 OFFSET 70 ";
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
         Assert.assertEquals(0, actual.getParams().size());
     }
@@ -230,7 +230,7 @@ public class JDBCDataReportConnectorTest {
             }});
         JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
         String expected = "SELECT * FROM table  WHERE columnB=? AND columnG=? AND columnH=? AND (columnJ=? OR columnK=?) AND columnD=? LIMIT 20 OFFSET 0 ";
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
     }
     @Test
@@ -255,7 +255,7 @@ public class JDBCDataReportConnectorTest {
             }});
         JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
         String expected = "SELECT * FROM table  WHERE columnB=? LIMIT 20 OFFSET 0 ";
-        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>());
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
         org.junit.Assert.assertArrayEquals(new Object[] {"ParameterOutput"}, actual.getParams().toArray());
     }

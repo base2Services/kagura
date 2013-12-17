@@ -9,6 +9,8 @@ package com.base2.kagura.core.report.configmodel;
  */
 public abstract class FreeMarkerSQLReportConfig extends ReportConfig {
     String sql;
+    String presqlsql;
+    String postsqlsql;
 
     public String getSql() {
         return sql;
@@ -16,5 +18,21 @@ public abstract class FreeMarkerSQLReportConfig extends ReportConfig {
 
     public void setSql(String sql) {
         this.sql = sql;
+    }
+
+    public String getPresqlsql() {
+        return presqlsql;
+    }
+
+    public void setPresqlsql(String presqlsql) {
+        this.presqlsql = presqlsql;
+    }
+
+    public String getPostsqlsql() {
+        return postsqlsql;
+    }
+
+    public void setPostsqlsql(String postsqlsql) {
+        this.postsqlsql = postsqlsql;
     }
 }
