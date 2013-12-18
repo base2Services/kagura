@@ -6,7 +6,11 @@ paramConfig:
     placeholder: "asdfsdaef"
     value:
     from:
-      groovy: "result.addAll(Arrays.asList('1','2','3','4','5')); "
+      list:
+        values:
+          - "option 1"
+          - "option 2"
+          - "option 3"
 columns:
   - name: test1
     extraOptions:

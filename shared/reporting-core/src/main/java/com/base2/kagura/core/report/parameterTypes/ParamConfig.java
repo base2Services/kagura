@@ -1,6 +1,8 @@
 package com.base2.kagura.core.report.parameterTypes;
 
-import com.base2.kagura.core.report.configmodel.ReportConfig;
+import com.base2.kagura.core.report.parameterTypes.datasources.OptionList;
+import com.base2.kagura.core.report.parameterTypes.datasources.Source;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -24,20 +26,18 @@ import java.util.regex.Pattern;
         visible = true
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = SqlParamConfig.class, name = "SQL"),
         @JsonSubTypes.Type(value = MultiParamConfig.class, name = "ManyCombo"),
         @JsonSubTypes.Type(value = SingleParamConfig.class, name = ""),
         @JsonSubTypes.Type(value = BooleanParamConfig.class, name = "Boolean"),
         @JsonSubTypes.Type(value = DateParamConfig.class, name = "Date"),
         @JsonSubTypes.Type(value = DateTimeParamConfig.class, name = "DateTime"),
-        @JsonSubTypes.Type(value = GroovyParamConfig.class, name = "Groovy"),
 })
 public abstract class ParamConfig {
     String name;
     String type;
     String help;
     String placeholder;
-    private Collection<Object> values;
+    private Source from;
     private String id;
 
     public ParamConfig() {
@@ -48,13 +48,13 @@ public abstract class ParamConfig {
         this.type = type;
         this.help = help;
         this.placeholder = placeholder;
-        this.values = Arrays.asList(new Object[0]);
+        this.from = new OptionList( Arrays.asList(new Object[0]));
     }
 
     public ParamConfig(String name, String type, Collection values) {
         this.name = name;
         this.type = type;
-        this.values = values;
+        this.from = new OptionList(values);
         this.help = "";
         this.placeholder = "";
     }
@@ -91,13 +91,13 @@ public abstract class ParamConfig {
         return new DateTimeParamConfig(name, "Date","","");
     }
 
-    public static ParamConfig SQL(String name, ReportConfig reportConfig) {
-        return new SqlParamConfig(name, "Combo","","", reportConfig);
-    }
-
-    public static ParamConfig Groovy(String name, String groovy) {
-        return new GroovyParamConfig(name, "Groovy","","", groovy);
-    }
+//    public static ParamConfig SQL(String name, ReportConfig reportConfig) {
+//        return new SqlParamConfig(name, "Combo","","", reportConfig);
+//    }
+//
+//    public static ParamConfig Groovy(String name, String groovy) {
+//        return new GroovyParamConfig(name, "Groovy","","", groovy);
+//    }
 
     public String getName() {
         return name;
@@ -141,12 +141,9 @@ public abstract class ParamConfig {
                 '}';
     }
 
+    @JsonIgnore
     public Collection<Object> getValues() {
-        return values;
-    }
-
-    public void setValues(Collection<Object> values) {
-        this.values = values;
+        return from.getValues();
     }
 
     public String getId() {
@@ -156,5 +153,13 @@ public abstract class ParamConfig {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+//    public Source getData() {
+//        return data;
+//    }
+
+    public void setFrom(Source from) {
+        this.from = from;
     }
 }

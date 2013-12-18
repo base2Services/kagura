@@ -6,7 +6,13 @@ paramConfig:
     placeholder: "asdfsdaef"
     value:
     from:
-      groovy: "result.addAll(Arrays.asList('1','2','3','4','5')); "
+      sql:
+        report:
+          type: "JDBC"
+          jdbc: "jdbc:mysql://localhost:3306/test"
+          sql: "SELECT id, email, enabled, username, version FROM User <#if param.User?has_content>WHERE username=${method.value(param.User)}</#if><@limit />;"
+          username: root
+          password:
 columns:
   - name: test1
     extraOptions:
