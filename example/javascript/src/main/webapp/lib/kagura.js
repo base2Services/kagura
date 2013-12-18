@@ -241,11 +241,14 @@ function buildReportParameters(msg, inputParamFieldTemplate) {
                 "<option value='true' " + (param.value == "true" ? "selected" : "") + ">Yes</option>" +
                 "<option value='false' " + (param.value == "false" ? "selected" : "") + ">No</option>";
             input.replaceWith("<select id='" + paramId + "' class=\"parameterFieldInput\">" + options + "</select>");
-        } else if ("combo" == param.type.toLowerCase() || "sql" == param.type.toLowerCase()) {
+        } else if ("combo" == param.type.toLowerCase()) {
             var options = "<option value='' " + (param.value == "" ? "selected" : "") + ">Select one</option>";
-            param.values.forEach(function (value) {
-                options = options + "<option value='" + value + "' " + (param.value == value ? "selected" : "") + ">" + value + "</option>";
-            });
+            if (param.values)
+            {
+                param.values.forEach(function (value) {
+                    options = options + "<option value='" + value + "' " + (param.value == value ? "selected" : "") + ">" + value + "</option>";
+                });
+            }
             input.replaceWith("<select id='" + paramId + "' class=\"parameterFieldInput\">" + options + "</select>");
         } else if ("datetime" == param.type.toLowerCase()) {
             input.replaceWith('    <div id="' + paramId + '" class="input-append date">' +
@@ -278,9 +281,12 @@ function buildReportParameters(msg, inputParamFieldTemplate) {
                 '</script>');
         } else if ("manycombo" == param.type.toLowerCase()) {
             var options = "<option disabled='true' value=''>Select one or more</option>";
-            param.values.forEach(function (value) {
+            if (param.values)
+            {
+                param.values.forEach(function (value) {
                 options = options + "<option value='" + value + "' " + ((param.value != null && param.value.contains(value)) ? "selected" : "") + ">" + value + "</option>";
-            });
+                });
+            }
             input.replaceWith("<select id='" + paramId + "' class=\"parameterFieldInput\" multiple>" + options + "</select>");
         } else //if ("string" == param.type.toLowerCase())
         {

@@ -9,10 +9,12 @@ paramConfig:
     name: "Select one"
     help: "Just put anything in"
     placeholder: "asdfsdaef"
-    values:
-      - 2012
-      - 2013
-      - 2014
+    from:
+      list:
+        values:
+          - 2012
+          - 2013
+          - 2014
   - type: Boolean
     name: "Select yes no"
     help: "Just select something"
@@ -27,10 +29,12 @@ paramConfig:
     name: "Select many"
     help: "You can select more than 1"
     placeholder: "asdfsdaef"
-    values:
-      - c1
-      - v1
-      - v2
+    from:
+      list:
+        values:
+          - c1
+          - v1
+          - v2
   - type: Date
     name: "Enter a date"
     help: "Just enter a date"

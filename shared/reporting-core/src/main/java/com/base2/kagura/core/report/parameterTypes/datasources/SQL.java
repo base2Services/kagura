@@ -3,7 +3,6 @@ package com.base2.kagura.core.report.parameterTypes.datasources;
 import com.base2.kagura.core.report.configmodel.ReportConfig;
 import com.base2.kagura.core.report.connectors.ReportConnector;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonRootName;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
 
@@ -16,7 +15,6 @@ import java.util.Map;
  * @author aubels
  *         Date: 17/12/2013
  */
-@JsonRootName("sql")
 public class SQL extends Source {
     private ReportConfig report;
 
@@ -52,7 +50,6 @@ public class SQL extends Source {
     }
 
     public SQL(ReportConfig report, String selectedColumn) {
-
         this.report = report;
         this.selectedColumn = selectedColumn;
     }

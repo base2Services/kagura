@@ -2,7 +2,6 @@ package com.base2.kagura.core.report.parameterTypes;
 
 import com.base2.kagura.core.report.parameterTypes.datasources.OptionList;
 import com.base2.kagura.core.report.parameterTypes.datasources.Source;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -91,14 +90,6 @@ public abstract class ParamConfig {
         return new DateTimeParamConfig(name, "Date","","");
     }
 
-//    public static ParamConfig SQL(String name, ReportConfig reportConfig) {
-//        return new SqlParamConfig(name, "Combo","","", reportConfig);
-//    }
-//
-//    public static ParamConfig Groovy(String name, String groovy) {
-//        return new GroovyParamConfig(name, "Groovy","","", groovy);
-//    }
-
     public String getName() {
         return name;
     }
@@ -141,9 +132,16 @@ public abstract class ParamConfig {
                 '}';
     }
 
-    @JsonIgnore
     public Collection<Object> getValues() {
-        return from.getValues();
+        if (from != null)
+            return from.getValues();
+        return null;
+//        return Arrays.asList();
+    }
+
+    public void setValues(Collection<Object> values)
+    {
+        // Ignore..
     }
 
     public String getId() {
