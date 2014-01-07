@@ -16,6 +16,7 @@
 
     <properties>
         <karaf.version>2.3.1</karaf.version>
+        <karaf-tooling.version>2.3.3</karaf-tooling.version>
         <camel.version>2.11.2</camel.version>
         <spring.version>3.1.4.RELEASE</spring.version>
         <jackson.version>2.2.2</jackson.version>
