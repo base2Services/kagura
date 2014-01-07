@@ -28,7 +28,7 @@ public class SQL extends Source {
     @Override
     public Collection<Object> getValues() {
         ReportConnector reportConnector = report.getReportConnector();
-        reportConnector.run(new HashMap<String, Object>());
+        reportConnector.run(extra);
         if (reportConnector.getRows() == null) return new ArrayList<Object>();
         return CollectionUtils.collect(reportConnector.getRows(), new Transformer() {
             @Override

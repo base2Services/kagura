@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -134,9 +136,18 @@ public abstract class ParamConfig {
 
     public Collection<Object> getValues() {
         if (from != null)
+        {
             return from.getValues();
+        }
         return null;
 //        return Arrays.asList();
+    }
+
+    public void prepareParameter(Map<String, Object> extra) {
+        if (from != null)
+        {
+            from.prepareParameter(extra);
+        }
     }
 
     public void setValues(Collection<Object> values)

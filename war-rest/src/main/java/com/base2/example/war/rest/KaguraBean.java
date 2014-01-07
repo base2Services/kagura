@@ -67,17 +67,23 @@ public class KaguraBean implements Serializable {
         ReportConfig reportConfig = getReportConfig(reportName, errors);
         if (reportConfig != null)
         {
-            result.setReportId(reportName);
-            result.setExtra(reportConfig.getExtraOptions());
-            if (full)
-            {
-                result.setParams(reportConfig.getParamConfig());
-                result.setColumns(reportConfig.getColumns());
-            }
+            getReportDetails(reportConfig, full, result);
         }
         else
         {
             result = noSuchReport(reportName, result);
+        }
+        return result;
+    }
+
+    public <T extends ReportDetails> T getReportDetails(ReportConfig reportConfig, boolean full, T result) {
+        reportConfig.prepareParameters(generateExtraRunOptions());
+        result.setReportId(reportConfig.getReportId());
+        result.setExtra(reportConfig.getExtraOptions());
+        if (full)
+        {
+            result.setParams(reportConfig.getParamConfig());
+            result.setColumns(reportConfig.getColumns());
         }
         return result;
     }
@@ -101,10 +107,14 @@ public class KaguraBean implements Serializable {
     }
 
     public ReportConnector getConnector(String reportId) {
-        final ReportConfig reportConfig = getReportsConfig().getReports().get(reportId);
+        final ReportConfig reportConfig = getReportConfig(reportId);
         if (reportConfig != null)
             return reportConfig.getReportConnector();
         return null;
+    }
+
+    public ReportConfig getReportConfig(String reportId) {
+        return getReportsConfig().getReports().get(reportId);
     }
 
     public Map<String, Object> generateExtraRunOptions() {

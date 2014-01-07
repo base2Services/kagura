@@ -1,6 +1,7 @@
 package com.base2.example.war.rest;
 
 import com.base2.kagura.core.ExportHandler;
+import com.base2.kagura.core.report.configmodel.ReportConfig;
 import com.base2.kagura.core.report.configmodel.parts.ColumnDef;
 import com.base2.kagura.core.report.connectors.ReportConnector;
 import com.base2.kagura.rest.ReportsRest;
@@ -105,16 +106,18 @@ public class ReportsRestImpl extends ReportsRest implements Serializable {
             int page,
             Parameters parameters
     ) throws AuthenticationException {
-        ReportDetailsAndResults result = kaguraBean.getReportDetails(reportName, true, new ReportDetailsAndResults());
         if (kaguraBean.getUser() == null) throw new AuthenticationException("Authentication failure");
-        if (!kaguraBean.userHasAccess(reportName)) return kaguraBean.noSuchReport(reportName, result);
-        ReportConnector reportConnector = kaguraBean.getConnector(reportName);
+        if (!kaguraBean.userHasAccess(reportName)) return kaguraBean.noSuchReport(reportName, new ReportDetailsAndResults());
+        ReportConfig reportConfig = kaguraBean.getReportConfig(reportName);
+        ReportConnector reportConnector = reportConfig.getReportConnector();
         if (reportConnector == null)
         {
-            result.setErrors(new ArrayList<String>() {{
-                add("Report error.");
-            }});
-            return result;
+            return new ReportDetailsAndResults()
+            {{
+                setErrors(new ArrayList<String>() {{
+                    add("Report error.");
+                }});
+            }};
         }
         reportConnector.setPage(page);
         List<String> errors = new ArrayList<String>();
@@ -126,8 +129,11 @@ public class ReportsRestImpl extends ReportsRest implements Serializable {
         else
         if (pageLimit != null && pageLimit > 0)
             reportConnector.setPageLimit(Math.min(KaguraBean.EXPORT_PAGE_LIMIT, pageLimit));
+        final Map<String, Object> extra = kaguraBean.generateExtraRunOptions();
+        reportConfig.prepareParameters(extra);
+        ReportDetailsAndResults result = kaguraBean.getReportDetails(reportConfig, true, new ReportDetailsAndResults());
         kaguraBean.insertParameters(parameters, reportConnector, errors);
-        reportConnector.run(kaguraBean.generateExtraRunOptions());
+        reportConnector.run(extra);
         errors.addAll(reportConnector.getErrors());
         List<ColumnDef> columns = reportConnector.getColumns();
         List<Map<String, Object>> rows = reportConnector.getRows();

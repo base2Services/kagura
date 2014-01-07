@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author aubels
@@ -21,4 +23,9 @@ import java.util.Collection;
 })
 public abstract class Source {
     public abstract Collection<Object> getValues();
+    protected Map<String, Object> extra = new HashMap<String, Object>();
+
+    public void prepareParameter(Map<String, Object> extra) {
+        this.extra = extra;
+    }
 }

@@ -7,9 +7,7 @@ import com.base2.kagura.rest.model.ReportDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ejb.SessionContext;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.io.Serializable;

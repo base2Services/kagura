@@ -152,7 +152,9 @@ public class ReportBean {
             if (pageLimit != null && pageLimit > 0)
                 reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
         insertParameters(parameters, reportConnector, errors);
-        reportConnector.run(generateExtraRunOptions(authDetails,groups, userExtra));
+        final Map<String, Object> extra = generateExtraRunOptions(authDetails, groups, userExtra);
+        reportConfig.prepareParameters(extra);
+        reportConnector.run(extra);
         errors.addAll(reportConnector.getErrors());
         List<ColumnDef> columns = reportConnector.getColumns();
         List<Map<String, Object>> rows = reportConnector.getRows();
@@ -162,7 +164,7 @@ public class ReportBean {
         return result;
     }
 
-    private Map<String, Object> generateExtraRunOptions(final AuthBean.AuthDetails authDetails, final Collection<String> groups, final Map<String, Object> userExtra) {
+    public Map<String, Object> generateExtraRunOptions(final AuthBean.AuthDetails authDetails, final Collection<String> groups, final Map<String, Object> userExtra) {
         return new HashMap<String, Object>()
         {{
              put("username", authDetails.getUsername());

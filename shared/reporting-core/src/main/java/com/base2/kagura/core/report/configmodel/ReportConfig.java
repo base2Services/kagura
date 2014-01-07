@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,5 +77,13 @@ public abstract class ReportConfig {
 
     public void setPageLimit(Integer pageLimit) {
         this.pageLimit = pageLimit;
+    }
+
+    public void prepareParameters(Map<String, Object> extra) {
+        if (paramConfig == null) return;
+        for (ParamConfig param : paramConfig)
+        {
+            param.prepareParameter(extra);
+        }
     }
 }

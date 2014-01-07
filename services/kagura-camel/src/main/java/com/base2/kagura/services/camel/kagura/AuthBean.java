@@ -127,7 +127,10 @@ public class AuthBean {
         return result;
     }
 
-    public Map<String, Object> getReportsDetailed(@Header("authToken") String authToken, Exchange exchange) throws AuthenticationException {
+    public Map<String, Object> getReportsDetailed(
+            @Header("authToken") String authToken
+            , Exchange exchange
+    ) throws AuthenticationException {
         if (!tokens.containsKey(authToken) || !tokens.get(authToken).getLoggedIn())
             throw new AuthenticationException("User is not logged in.");
         AuthDetails authDetails = tokens.get(authToken);
@@ -135,9 +138,14 @@ public class AuthBean {
         Set<String> reports = authenticationProvider.getUserReports(username);
         Map<String, Object> result = new LinkedHashMap<String, Object>();
         ReportsConfig reportsConfig = reportsBean.getReportsConfig(reports);
+        User user = authenticationProvider.getUser(tokens.get(authToken).getUsername());
+        Collection<String> groups = user.getGroups();
+        Map<String, Object> userExtra = user.getExtraOptions();
+        final Map<String, Object> extra = reportsBean.generateExtraRunOptions(authDetails,groups, userExtra);
         for (String reportName : reports)
         {
             ReportConfig reportConfig = reportsConfig.getReport(reportName);
+            reportConfig.prepareParameters(extra);
             result.put(reportName, reportsBean.getReportDetails(reportName, false, reportConfig));
         }
         return result;
