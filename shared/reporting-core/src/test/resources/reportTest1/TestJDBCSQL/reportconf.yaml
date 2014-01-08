@@ -22,7 +22,12 @@ columns:
     extraOptions:
       styleType: text
 jdbc: "jdbc:mysql://localhost:3306/test"
-sql: "SELECT id, email, enabled, username, version FROM User <#if param.User?has_content>WHERE username=${method.value(param.User)}</#if><@limit />;"
+sql: "SELECT id, email, enabled, username, version
+      FROM User
+       <@where>
+        <@clause render=param.User?has_content>username=${method.value(param.User)}</@clause>
+      </@where>
+      <@limit />;"
 username: root
 password:
 extraOptions:
