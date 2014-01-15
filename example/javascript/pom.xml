@@ -71,6 +71,46 @@
                 <configuration>
                 </configuration>
             </plugin>
+            <!-- allow for karaf deploy -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- Allows for a hot deploy into karaf -->
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.4.0</version>
+                <executions>
+                    <execution>
+                        <id>bundle-manifest</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>manifest</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <supportedProjectTypes>
+                        <supportedProjectType>jar</supportedProjectType>
+                        <supportedProjectType>bundle</supportedProjectType>
+                        <supportedProjectType>war</supportedProjectType>
+                    </supportedProjectTypes>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${pom.version}</Bundle-Version>
+                        <Bundle-ClassPath>.,WEB-INF/classes</Bundle-ClassPath>
+                        <Embed-Directory>WEB-INF/lib</Embed-Directory>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <Import-Package>*;resolution:=optional</Import-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>
