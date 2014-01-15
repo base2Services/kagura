@@ -21,6 +21,12 @@
             <version>${jetty-server.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.eclipse.jetty.orbit</groupId>
+            <artifactId>javax.servlet</artifactId>
+            <version>2.5.0.v201103041518</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
@@ -32,19 +38,10 @@
             <version>2.2</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>6.0</version>
-        </dependency>
     </dependencies>
     <properties>
+        <!--<jetty-server.version>7.6.8.v20121106</jetty-server.version> Karaf version -->
+        <!--<jetty-server.version>8.1.7.v20120910</jetty-server.version> CXF version -->
         <jetty-server.version>8.1.12.v20130726</jetty-server.version>
     </properties>
     <build>
