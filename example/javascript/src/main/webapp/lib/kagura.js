@@ -136,7 +136,7 @@ function loadReportListData(data)
             } else {
                 reportDDList.append(template);
             }
-            var andRun = data[reportId].extra.autorun == "no" ? "false" : "true";
+            var andRun = data[reportId].extra && data[reportId].extra.autorun == "no" ? "false" : "true";
             if (data[reportId].extra && data[reportId].extra.reportName)
             {
                 template.html("<a href='#' onclick='reportTitle = this.text; loadReport(\""+reportId+"\", "+andRun+");return false;'>"+data[reportId].extra.reportName+"</a>");
