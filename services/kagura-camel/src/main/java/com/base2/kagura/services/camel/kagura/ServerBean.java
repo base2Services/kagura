@@ -2,6 +2,7 @@ package com.base2.kagura.services.camel.kagura;
 
 import com.base2.kagura.core.authentication.AuthenticationProvider;
 import com.base2.kagura.core.storage.ReportsProvider;
+import com.base2.kagura.rest.helpers.ParameterUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.DateTimeConverter;
@@ -35,9 +36,7 @@ public class ServerBean implements ApplicationContextAware {
     private ApplicationContext applicationContext;
 
     public ServerBean() {
-        DateTimeConverter dtConverter = new DateConverter(null);
-        dtConverter.setPatterns(new String[] {"yyyy-MM-dd", "yyyy-MM-dd hh:mm:ss"});
-        ConvertUtils.register(dtConverter, Date.class);
+        ParameterUtils.SetupDateConverters();
     }
 
     public void setConfigPath(String configPath) {

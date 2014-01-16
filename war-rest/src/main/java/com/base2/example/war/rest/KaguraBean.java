@@ -6,18 +6,11 @@ import com.base2.kagura.core.authentication.model.User;
 import com.base2.kagura.core.report.configmodel.ReportConfig;
 import com.base2.kagura.core.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.report.connectors.ReportConnector;
-import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.storage.FileReportsProvider;
 import com.base2.kagura.core.storage.ReportsProvider;
-import com.base2.kagura.rest.model.Parameters;
+import com.base2.kagura.rest.helpers.ParameterUtils;
 import com.base2.kagura.rest.model.ReportDetails;
 import com.base2.kagura.rest.model.ReportDetailsAndResults;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.ConversionException;
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.converters.DateConverter;
-import org.apache.commons.beanutils.converters.DateTimeConverter;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +18,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -42,9 +34,7 @@ public class KaguraBean implements Serializable {
     User user;
 
     {{
-        DateTimeConverter dtConverter = new DateConverter(null);
-        dtConverter.setPatterns(new String[] {"yyyy-MM-dd", "yyyy-MM-dd hh:mm:ss"});
-        ConvertUtils.register(dtConverter, Date.class);
+        ParameterUtils.SetupDateConverters();
     }}
 
     @PostConstruct

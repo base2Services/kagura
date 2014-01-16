@@ -5,9 +5,13 @@ import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 import com.base2.kagura.rest.model.Parameters;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConversionException;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.DateTimeConverter;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,5 +43,11 @@ public class ParameterUtils {
                 }
             }
         }
+    }
+
+    public static void SetupDateConverters() {
+        DateTimeConverter dtConverter = new DateConverter(null);
+        dtConverter.setPatterns(new String[] {"yyyy-MM-dd", "yyyy-MM-dd hh:mm:ss"});
+        ConvertUtils.register(dtConverter, Date.class);
     }
 }
