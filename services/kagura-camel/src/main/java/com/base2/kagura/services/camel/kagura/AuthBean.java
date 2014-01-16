@@ -145,6 +145,11 @@ public class AuthBean {
         for (String reportName : reports)
         {
             ReportConfig reportConfig = reportsConfig.getReport(reportName);
+            if (reportConfig == null)
+            {
+                LOG.error("Report: {} didn't load.", reportName);
+                continue;
+            }
             reportConfig.prepareParameters(extra);
             result.put(reportName, reportsBean.getReportDetails(reportName, false, reportConfig));
         }
