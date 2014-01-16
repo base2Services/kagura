@@ -124,32 +124,6 @@ public class KaguraBean implements Serializable {
         }};
     }
 
-    public void insertParameters(Parameters parameters, ReportConnector reportConnector, List<String> errors) {
-        if (reportConnector.getParameterConfig() != null)
-        {
-            for (ParamConfig paramConfig : reportConnector.getParameterConfig())
-            {
-                if (parameters.getParameters().containsKey(paramConfig.getId()))
-                {
-                    Object o = parameters.getParameters().get(paramConfig.getId());
-                    try {
-                        if (o != null && StringUtils.isNotBlank(o.toString()))
-                            BeanUtils.setProperty(paramConfig, "value", o);
-                        else
-                            BeanUtils.setProperty(paramConfig, "value", null);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    } catch (ConversionException e){
-                        e.printStackTrace();
-                        errors.add("Could not convert parameter: " + paramConfig.getId() + " value " + o);
-                    }
-                }
-            }
-        }
-    }
-
     public void authenticateUser(String user, String pass) throws Exception {
         authenticationProvider.authenticateUser(user, pass);
     }

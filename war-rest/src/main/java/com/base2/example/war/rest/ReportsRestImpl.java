@@ -6,6 +6,7 @@ import com.base2.kagura.core.report.configmodel.parts.ColumnDef;
 import com.base2.kagura.core.report.connectors.ReportConnector;
 import com.base2.kagura.rest.ReportsRest;
 import com.base2.kagura.rest.exceptions.AuthenticationException;
+import com.base2.kagura.rest.helpers.ParameterUtils;
 import com.base2.kagura.rest.model.Parameters;
 import com.base2.kagura.rest.model.ReportDetails;
 import com.base2.kagura.rest.model.ReportDetailsAndResults;
@@ -88,7 +89,7 @@ public class ReportsRestImpl extends ReportsRest implements Serializable {
         else
             if (pageLimit != null && pageLimit > 0)
                 reportConnector.setPageLimit(Math.min(KaguraBean.EXPORT_PAGE_LIMIT, pageLimit));
-        kaguraBean.insertParameters(parameters, reportConnector, errors);
+        ParameterUtils.insertParameters(parameters, reportConnector, errors);
         reportConnector.run(kaguraBean.generateExtraRunOptions());
         errors.addAll(reportConnector.getErrors());
         List<ColumnDef> columns = reportConnector.getColumns();
@@ -132,7 +133,7 @@ public class ReportsRestImpl extends ReportsRest implements Serializable {
         final Map<String, Object> extra = kaguraBean.generateExtraRunOptions();
         reportConfig.prepareParameters(extra);
         ReportDetailsAndResults result = kaguraBean.getReportDetails(reportConfig, true, new ReportDetailsAndResults());
-        kaguraBean.insertParameters(parameters, reportConnector, errors);
+        ParameterUtils.insertParameters(parameters, reportConnector, errors);
         reportConnector.run(extra);
         errors.addAll(reportConnector.getErrors());
         List<ColumnDef> columns = reportConnector.getColumns();
@@ -158,7 +159,7 @@ public class ReportsRestImpl extends ReportsRest implements Serializable {
         ReportConnector reportConnector = kaguraBean.getConnector(reportName);
         try {
             List<String> errors = new ArrayList<String>();
-            kaguraBean.insertParameters(parameters, reportConnector, errors);
+            ParameterUtils.insertParameters(parameters, reportConnector, errors);
             reportConnector.setPage(page);
             if (allpages)
             {

@@ -8,6 +8,7 @@ import com.base2.kagura.core.report.configmodel.ReportsConfig;
 import com.base2.kagura.core.report.connectors.ReportConnector;
 import com.base2.kagura.core.storage.ReportsProvider;
 import com.base2.kagura.rest.exceptions.AuthenticationException;
+import com.base2.kagura.rest.helpers.ParameterUtils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.camel.Exchange;
 import org.apache.camel.Header;
@@ -119,7 +120,7 @@ public class ReportBean {
         else
             if (pageLimit != null && pageLimit > 0)
                 reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
-        insertParameters(parameters, reportConnector, errors);
+        ParameterUtils.insertParameters(parameters, reportConnector, errors);
         reportConnector.run(generateExtraRunOptions(authDetails,groups, userExtra));
         errors.addAll(reportConnector.getErrors());
         List<ColumnDef> columns = reportConnector.getColumns();
@@ -151,7 +152,7 @@ public class ReportBean {
         else
             if (pageLimit != null && pageLimit > 0)
                 reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
-        insertParameters(parameters, reportConnector, errors);
+        ParameterUtils.insertParameters(parameters, reportConnector, errors);
         final Map<String, Object> extra = generateExtraRunOptions(authDetails, groups, userExtra);
         reportConfig.prepareParameters(extra);
         reportConnector.run(extra);
@@ -173,32 +174,6 @@ public class ReportBean {
         }};
     }
 
-    private void insertParameters(Parameters parameters, ReportConnector reportConnector, List<String> errors) {
-        if (reportConnector.getParameterConfig() != null)
-        {
-            for (ParamConfig paramConfig : reportConnector.getParameterConfig())
-            {
-                if (parameters.getParameters().containsKey(paramConfig.getId()))
-                {
-                    Object o = parameters.getParameters().get(paramConfig.getId());
-                    try {
-                        if (o != null && StringUtils.isNotBlank(o.toString()))
-                            BeanUtils.setProperty(paramConfig, "value", o);
-                        else
-                            BeanUtils.setProperty(paramConfig, "value", null);
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    } catch (ConversionException e){
-                        e.printStackTrace();
-                        errors.add("Could not convert parameter: " + paramConfig.getId() + " value " + o);
-                    }
-                }
-            }
-        }
-    }
-
     public ByteArrayInputStream export(@Header("reportId") String reportId
             , Exchange exchange
             , @Header("page") int page
@@ -215,7 +190,7 @@ public class ReportBean {
         ReportConnector reportConnector = getConnector(reportId);
         try {
             List<String> errors = new ArrayList<String>();
-            insertParameters(parameters, reportConnector, errors);
+            ParameterUtils.insertParameters(parameters, reportConnector, errors);
             reportConnector.setPage(page);
             if (all)
                 reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
