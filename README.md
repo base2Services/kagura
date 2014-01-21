@@ -56,8 +56,8 @@ Then start two shells; and each one change them to one of both the directories b
 ####Shell 2:
 
     cd kagura-assembly/target
-    tar xzf kagura-assembly-1.3-SNAPSHOT.tar.gz
-    cd kagura-assembly-1.3-SNAPSHOT/bin
+    tar xzf kagura-assembly-1.3.tar.gz
+    cd kagura-assembly-1.3/bin
     ./karaf debug
 
 ##Imaginary Questions
@@ -66,7 +66,7 @@ Then start two shells; and each one change them to one of both the directories b
 
 1. Copy one of the "TestReports" directories, modify the users.yaml and groups.yaml file as desired, then modify the reports as desired
 
-2. Start the assembly project, then shut it down. This creates the com.base2.kagura.services.camel.cfg file in the kagura-assmebly-1.3-SNAPSHOT/etc/
+2. Start the assembly project, then shut it down. This creates the com.base2.kagura.services.camel.cfg file in the kagura-assmebly-1.3/etc/
 
 3. Modify the created "com.base2.kagura.services.camel.cfg" file, put the full path the new directory
 
