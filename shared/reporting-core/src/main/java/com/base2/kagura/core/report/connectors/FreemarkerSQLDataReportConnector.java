@@ -123,6 +123,33 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
                 return "?";
             }
         });
+        methods.put("values", new TemplateMethodModelEx() {
+            @Override
+            public Object exec(List arguments) throws TemplateModelException {
+                final Object param1 = arguments.get(0);
+                List<String> result = new ArrayList<String>();
+                if (param1 instanceof SimpleSequence)
+                {
+                    for (Object object : ((SimpleSequence)param1).toList())
+                    {
+                        usedParams.add(object);
+                        result.add("?");
+                    }
+                } else if (param1 instanceof SimpleCollection)
+                {
+                    final TemplateModelIterator iterator = ((SimpleCollection) param1).iterator();
+                    while (iterator.hasNext())
+                    {
+                        usedParams.add(iterator.next());
+                        result.add("?");
+                    }
+                } else {
+                    usedParams.add(arguments.get(0));
+                    result.add("?");
+                }
+                return "(" + StringUtils.join(result, ",") + ")";
+            }
+        });
         final Boolean[] limitExists = {false};
         root.put("where", new FreemarkerWhere(errors));
         root.put("clause", new FreemarkerWhereClause(errors));

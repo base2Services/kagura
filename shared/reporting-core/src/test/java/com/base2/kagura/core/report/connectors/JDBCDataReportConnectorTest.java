@@ -1,6 +1,7 @@
 package com.base2.kagura.core.report.connectors;
 
 import com.base2.kagura.core.report.freemarker.FreemarkerSQLResult;
+import com.base2.kagura.core.report.parameterTypes.MultiParamConfig;
 import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.report.parameterTypes.SingleParamConfig;
 import com.base2.kagura.core.report.configmodel.JDBCReportConfig;
@@ -8,6 +9,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -257,7 +259,31 @@ public class JDBCDataReportConnectorTest {
         String expected = "SELECT * FROM table  WHERE columnB=? LIMIT 20 OFFSET 0 ";
         FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
         Assert.assertEquals(expected, actual.getSql());
-        org.junit.Assert.assertArrayEquals(new Object[] {"ParameterOutput"}, actual.getParams().toArray());
+        org.junit.Assert.assertArrayEquals(new Object[]{"ParameterOutput"}, actual.getParams().toArray());
+    }
+    @Test
+    public void testFreemarkerValues() throws Exception {
+        JDBCReportConfig reportConfig = new JDBCReportConfig();
+        reportConfig.setSql("SELECT * FROM table " +
+                "<@where>" +
+                    "<@clause render=true>columnB IN ${method.values(param.test)}</@clause>" +
+                "</@where>" +
+                "<@limit />");
+        reportConfig.setClassLoaderPath("org.h2.Driver");
+        reportConfig.setJdbc(JDBC);
+        reportConfig.setUsername("sa");
+        reportConfig.setPassword("");
+        reportConfig.setParamConfig(new ArrayList<ParamConfig>()
+        {{
+                MultiParamConfig multiParamConfig = (MultiParamConfig)ParamConfig.ManyCombo("test", Arrays.asList("1","2","3"));
+                multiParamConfig.setValue(Arrays.asList("1", "2"));
+                add(multiParamConfig);
+        }});
+        JDBCDataReportConnector jdbcDataReportConnector = new JDBCDataReportConnector(reportConfig);
+        String expected = "SELECT * FROM table  WHERE columnB IN (?,?) LIMIT 20 OFFSET 0 ";
+        FreemarkerSQLResult actual = jdbcDataReportConnector.freemakerParams(new HashMap<String, Object>(), true, reportConfig.getSql());
+        Assert.assertEquals(expected, actual.getSql());
+        org.junit.Assert.assertArrayEquals(new Object[] {"1","2"}, actual.getParams().toArray());
     }
 
 }
