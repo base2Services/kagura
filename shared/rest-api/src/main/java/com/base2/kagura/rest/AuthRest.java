@@ -12,6 +12,7 @@ import java.util.Map;
  * @author aubels
  *         Date: 26/08/13
  */
+@Path("/auth")
 public class AuthRest {
     /**
      * Allows you to login and see reports

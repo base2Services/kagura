@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
  * @author aubels
  *         Date: 26/08/13
  */
+@Path("/favicon.ico")
 public class FaviconRest {
     /**
      * Fav icon

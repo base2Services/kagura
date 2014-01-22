@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<enunciate label="Kagura" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="http://enunciate.codehaus.org/schemas/enunciate-1.28.xsd">
+    <namespaces>
+        <namespace id="api" uri="http://www.base2services.com/kagura/"/>
+    </namespaces>
+    <services>
+        <rest defaultRestSubcontext="/rest" />
+    </services>
+    <modules>
+        <!-- Disabled due to lack of custom hash classes. -->
+        <obj-c disabled="true"/>
+        <csharp disabled="true"/>
+        <c disabled="true"/>
+        <!-- Docs -->
+        <docs
+                splashPackage="com.base2.kagura.rest"
+                title="Kagura REST"
+                copyright="Kagura"
+                includeExampleJson="true"
+                includeExampleXml="false"
+                />
+    </modules>
+</enunciate>

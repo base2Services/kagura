@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
  * @author aubels
  *         Date: 26/08/13
  */
+@Path("/server")
 public class ServerRest {
     /**
      * Test command.

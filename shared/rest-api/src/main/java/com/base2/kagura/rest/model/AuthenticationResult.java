@@ -1,11 +1,12 @@
 package com.base2.kagura.rest.model;
 
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author aubels
  *         Date: 13/12/2013
  */
+@XmlRootElement
 public class AuthenticationResult extends ResponseBase {
     String token;
 

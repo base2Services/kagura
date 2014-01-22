@@ -14,7 +14,7 @@ import java.io.InputStream;
  * @author aubels
  *         Date: 26/08/13
  */
-@Path("{authToken}/{reportId}")
+@Path("/report/{authToken}/{reportId}")
 public class ReportsRest {
 //    @PathParam("reportId")
 //    private String reportId;

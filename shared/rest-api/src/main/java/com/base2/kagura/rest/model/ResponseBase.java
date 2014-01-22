@@ -1,8 +1,8 @@
 package com.base2.kagura.rest.model;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +11,7 @@ import java.util.Map;
  * @author aubels
  *         Date: 13/12/2013
  */
+@XmlRootElement
 public class ResponseBase {
     String error;
     String reportId;

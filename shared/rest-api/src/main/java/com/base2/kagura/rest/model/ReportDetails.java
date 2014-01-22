@@ -3,6 +3,7 @@ package com.base2.kagura.rest.model;
 import com.base2.kagura.core.report.configmodel.parts.ColumnDef;
 import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
  * @author aubels
  *         Date: 13/12/2013
  */
+@XmlRootElement
 public class ReportDetails extends ResponseBase {
     private List<ParamConfig> params;
     private List<ColumnDef> columns;

@@ -6,10 +6,13 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author aubels
  *         Date: 4/09/13
  */
+@XmlRootElement
 public class Parameters {
     Map<String, Object> parameters;
 
@@ -23,6 +26,9 @@ public class Parameters {
         {
             exception.printStackTrace();
         }
+    }
+
+    protected Parameters() {
     }
 
     public Map<String, Object> getParameters() {
