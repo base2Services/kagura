@@ -8,9 +8,10 @@ package com.base2.kagura.core.report.configmodel;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class FreeMarkerSQLReportConfig extends ReportConfig {
-    String sql;
-    String presqlsql;
-    String postsqlsql;
+    protected String sql;
+    protected String presqlsql;
+    protected String postsqlsql;
+    protected int queryTimeout = 10 * 60; // 10 minutes default query timeout.
 
     public String getSql() {
         return sql;
@@ -34,5 +35,13 @@ public abstract class FreeMarkerSQLReportConfig extends ReportConfig {
 
     public void setPostsqlsql(String postsqlsql) {
         this.postsqlsql = postsqlsql;
+    }
+
+    public int getQueryTimeout() {
+        return queryTimeout;
+    }
+
+    public void setQueryTimeout(int queryTimeout) {
+        this.queryTimeout = queryTimeout;
     }
 }

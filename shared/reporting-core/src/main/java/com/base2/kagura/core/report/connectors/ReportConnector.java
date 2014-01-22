@@ -17,10 +17,10 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class ReportConnector implements Serializable {
-    Integer page = 0;
-    Integer pageLimit = 20;
-    List<ColumnDef> columns;
-    List<ParamConfig> parameterConfig;
+    protected Integer page = 0;
+    protected Integer pageLimit = 20;
+    protected List<ColumnDef> columns;
+    protected List<ParamConfig> parameterConfig;
     protected List<String> errors;
 
     public abstract List<Map<String,Object>> getRows();

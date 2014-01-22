@@ -30,7 +30,6 @@ import java.util.*;
  */
 @Service
 public class ReportBean {
-    private static final Integer EXPORT_PAGE_LIMIT = 1000;
     private ServerBean serverBean;
     private static final Logger LOG = LoggerFactory.getLogger(ReportBean.class);
     @Autowired()
@@ -116,10 +115,10 @@ public class ReportBean {
         reportConnector.setPage(page);
         List<String> errors = new ArrayList<String>();
         if (all)
-            reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
+            reportConnector.setPageLimit(serverBean.getExportLimit());
         else
             if (pageLimit != null && pageLimit > 0)
-                reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
+                reportConnector.setPageLimit(Math.min(serverBean.getExportLimit(), pageLimit));
         ParameterUtils.insertParameters(parameters, reportConnector, errors);
         reportConnector.run(generateExtraRunOptions(authDetails,groups, userExtra));
         errors.addAll(reportConnector.getErrors());
@@ -148,10 +147,10 @@ public class ReportBean {
         reportConnector.setPage(page);
         List<String> errors = new ArrayList<String>();
         if (all)
-            reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
+            reportConnector.setPageLimit(serverBean.getExportLimit());
         else
             if (pageLimit != null && pageLimit > 0)
-                reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
+                reportConnector.setPageLimit(Math.min(serverBean.getExportLimit(), pageLimit));
         ParameterUtils.insertParameters(parameters, reportConnector, errors);
         final Map<String, Object> extra = generateExtraRunOptions(authDetails, groups, userExtra);
         reportConfig.prepareParameters(extra);
@@ -193,10 +192,10 @@ public class ReportBean {
             ParameterUtils.insertParameters(parameters, reportConnector, errors);
             reportConnector.setPage(page);
             if (all)
-                reportConnector.setPageLimit(EXPORT_PAGE_LIMIT);
+                reportConnector.setPageLimit(serverBean.getExportLimit());
             else
                 if (pageLimit != null && pageLimit > 0)
-                    reportConnector.setPageLimit(Math.min(EXPORT_PAGE_LIMIT, pageLimit));
+                    reportConnector.setPageLimit(Math.min(serverBean.getExportLimit(), pageLimit));
             reportConnector.run(generateExtraRunOptions(authDetails,groups, userExtra));
             List<ColumnDef> columns = reportConnector.getColumns();
             List<Map<String, Object>> rows = reportConnector.getRows();

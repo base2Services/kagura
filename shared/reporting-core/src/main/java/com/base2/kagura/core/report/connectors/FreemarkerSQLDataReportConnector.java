@@ -32,12 +32,14 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
     private final String presql;
     private final String postsql;
     private List<Map<String, Object>> rows;
+    protected int queryTimeout;
 
     public FreemarkerSQLDataReportConnector(FreeMarkerSQLReportConfig reportConfig) {
         super(reportConfig);
         this.freemarkerSql = reportConfig.getSql();
         this.postsql = reportConfig.getPostsqlsql();
         this.presql = reportConfig.getPresqlsql();
+        this.queryTimeout = reportConfig.getQueryTimeout();
     }
 
     protected Connection connection;
@@ -54,6 +56,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
                 for(int i=0;i<prefreemarkerSQLResult.getParams().size();i++) {
                     statement.setObject(i + 1, prefreemarkerSQLResult.getParams().get(i));
                 }
+                statement.setQueryTimeout(queryTimeout);
                 statement.executeBatch();
             }
             FreemarkerSQLResult freemarkerSQLResult = freemakerParams(extra, true, freemarkerSql);
@@ -61,6 +64,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
             for(int i=0;i<freemarkerSQLResult.getParams().size();i++) {
                 statement.setObject(i + 1, freemarkerSQLResult.getParams().get(i));
             }
+            statement.setQueryTimeout(queryTimeout);
             rows = resultSetToMap(statement.executeQuery());
             if (StringUtils.isNotBlank(postsql))
             {
@@ -69,6 +73,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
                 for(int i=0;i<postfreemarkerSQLResult.getParams().size();i++) {
                     statement.setObject(i + 1, postfreemarkerSQLResult.getParams().get(i));
                 }
+                statement.setQueryTimeout(queryTimeout);
                 statement.executeBatch();
             }
         } catch (Exception ex) {
