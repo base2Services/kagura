@@ -57,7 +57,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
                     statement.setObject(i + 1, prefreemarkerSQLResult.getParams().get(i));
                 }
                 statement.setQueryTimeout(queryTimeout);
-                statement.executeBatch();
+                statement.execute();
             }
             FreemarkerSQLResult freemarkerSQLResult = freemakerParams(extra, true, freemarkerSql);
             statement = connection.prepareStatement(freemarkerSQLResult.getSql());
@@ -74,7 +74,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
                     statement.setObject(i + 1, postfreemarkerSQLResult.getParams().get(i));
                 }
                 statement.setQueryTimeout(queryTimeout);
-                statement.executeBatch();
+                statement.execute();
             }
         } catch (Exception ex) {
             errors.add(ex.getMessage());
