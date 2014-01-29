@@ -4,11 +4,11 @@
 	<parent>
         <artifactId>kagura-services</artifactId>
         <groupId>com.base2.kagura.services</groupId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
 	<artifactId>kagura-camel</artifactId>
 	<packaging>bundle</packaging>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.5-SNAPSHOT</version>
 	<name>kagura-camel</name>
 
 	<dependencies>
