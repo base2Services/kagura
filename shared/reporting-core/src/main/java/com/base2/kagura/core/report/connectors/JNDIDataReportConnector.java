@@ -8,17 +8,20 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
- * Created with IntelliJ IDEA.
+ * Jndi database backend, used by FreemarkerSQLDataReportConnector.
  * User: aubels
  * Date: 24/07/13
  * Time: 4:39 PM
  * To change this template use File | Settings | File Templates.
  */
 public class JNDIDataReportConnector extends FreemarkerSQLDataReportConnector {
-
     private DataSource datasource;
     private String jndi;
 
+    /**
+     * Constructor. Does a shallow copy of needed values, also prepares parameters and tests the connection.
+     * @param reportConfig
+     */
     public JNDIDataReportConnector(JNDIReportConfig reportConfig) {
         super(reportConfig);
 
@@ -36,6 +39,9 @@ public class JNDIDataReportConnector extends FreemarkerSQLDataReportConnector {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void getStartConnection() throws NamingException, SQLException {
         InitialContext initContext = new InitialContext();
@@ -44,10 +50,17 @@ public class JNDIDataReportConnector extends FreemarkerSQLDataReportConnector {
         connection = datasource.getConnection();
     }
 
+    /**
+     * JNDI connection string.
+     * @return
+     */
     public String getJndi() {
         return jndi;
     }
 
+    /**
+     * @see #getJndi()
+     */
     public void setJndi(String jndi) {
         this.jndi = jndi;
     }

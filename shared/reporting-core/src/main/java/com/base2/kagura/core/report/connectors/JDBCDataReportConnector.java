@@ -9,17 +9,20 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 /**
- * Created with IntelliJ IDEA.
+ * JDBC database backend, used by FreemarkerSQLDataReportConnector.
  * User: aubels
  * Date: 24/07/13
  * Time: 4:39 PM
- * To change this template use File | Settings | File Templates.
  */
 public class JDBCDataReportConnector extends FreemarkerSQLDataReportConnector {
-
     private String jdbc;
     private Properties connectionProps;
 
+    /**
+     * Constructor. Does a shallow copy of needed values, also prepares parameters and tests the connection. Does the
+     * ClassPath search too.
+     * @param reportConfig
+     */
     public JDBCDataReportConnector(JDBCReportConfig reportConfig) {
         super(reportConfig);
         try {
@@ -49,15 +52,25 @@ public class JDBCDataReportConnector extends FreemarkerSQLDataReportConnector {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void getStartConnection() throws NamingException, SQLException {
         connection = DriverManager.getConnection(getJdbc(), connectionProps);
     }
 
+    /**
+     * The JDBC connection URL
+     * @return
+     */
     public String getJdbc() {
         return jdbc;
     }
 
+    /**
+     * @see #getJdbc()
+     */
     public void setJdbc(String jdbc) {
         this.jdbc = jdbc;
     }

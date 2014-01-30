@@ -16,27 +16,39 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created with IntelliJ IDEA.
+ * Fake Data Report connector. This provides the fake data from the configuration back to the middleware to pass on
+ * where-ever it's due. It also has a rough filtering method it applies to the data if the user were to select the
+ * appropriate parameters.
  * User: aubels
  * Date: 22/07/13
  * Time: 11:57 AM
- * To change this template use File | Settings | File Templates.
  */
 public class FakeDataReportConnector extends ReportConnector {
     private Map<String, FakeReportConfig.ParamToColumnRule> paramRules;
     private List<Map<String, Object>> rows;
     private List<Map<String, Object>> data;
 
+    /**
+     * Empty constructor, for unit tests. Do not use.
+     * @param reportParams Unused object.
+     */
     public FakeDataReportConnector(Object reportParams) {
         super(null);
     }
 
+    /**
+     * Constructs the fake data report connector. Initializes appropriate values.
+     * @param reportConfig
+     */
     public FakeDataReportConnector(FakeReportConfig reportConfig) {
         super(reportConfig);
         data = reportConfig.getRows();
         paramRules = reportConfig.getParamRules();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void run(Map<String, Object> extra) {
         rows = new ArrayList<Map<String, Object>>(data != null ? data : new ArrayList<Map<String, Object>>());
@@ -62,10 +74,10 @@ public class FakeDataReportConnector extends ReportConnector {
                 switch (paramToColumnRule.getMapRule())
                 {
                     case Exact:
-                        rows = (List<Map<String, Object>>) CollectionUtils.select(rows, new exactEquals(paramToColumnRule, paramConfig));
+                        rows = (List<Map<String, Object>>) CollectionUtils.select(rows, new ExactEquals(paramToColumnRule, paramConfig));
                         break;
                     case SubString:
-                        rows = (List<Map<String, Object>>) CollectionUtils.select(rows, new substringOrExact(paramToColumnRule, paramConfig));
+                        rows = (List<Map<String, Object>>) CollectionUtils.select(rows, new SubstringOrExact(paramToColumnRule, paramConfig));
                         break;
                     case IntegerRange:
                         rows = (List<Map<String, Object>>) CollectionUtils.select(rows, new IntegerRange(paramToColumnRule, paramConfig));
@@ -75,23 +87,46 @@ public class FakeDataReportConnector extends ReportConnector {
         }
     }
 
+    /**
+     * Filtered rows, returned to middleware.
+     * @return
+     */
     public List<Map<String, Object>> getRows() {
         return rows;
     }
 
+    /**
+     * @see #getRows()
+     */
     public void setRows(List<Map<String, Object>> rows) {
         this.rows = rows;
     }
 
-    private static class exactEquals implements Predicate {
+    /**
+     * Exact equals predicate class. This provides the parameter filtering rules, this one is a simple one that filters
+     * the element if it does not exactly match the value provided in the parameter. Basically it:
+     * keep only if: parameter.value IS EMPTY OR row[column] == parameter.value
+     */
+    private static class ExactEquals implements Predicate {
         protected final FakeReportConfig.ParamToColumnRule paramToColumnRule;
         protected final ParamConfig paramConfig;
 
-        public exactEquals(FakeReportConfig.ParamToColumnRule paramToColumnRule, ParamConfig paramConfig) {
+        /**
+         * Constructor, allows copying the values from parent into class context. Required for the filtering rules and
+         * parameter configuration / selection
+         * @param paramToColumnRule The filtering rule
+         * @param paramConfig The appropriate parameter configuration + selection
+         */
+        public ExactEquals(FakeReportConfig.ParamToColumnRule paramToColumnRule, ParamConfig paramConfig) {
             this.paramToColumnRule = paramToColumnRule;
             this.paramConfig = paramConfig;
         }
 
+        /**
+         * Checks to ensure that the value directly matches. Silently ignores any errors counting those as a match
+         * failure.
+         * {@inheritDoc}
+         */
         @Override
         public boolean evaluate(Object object) {
             String column = ((Map<String, Object>)object).get(paramToColumnRule.getToColumn()).toString();
@@ -108,11 +143,20 @@ public class FakeDataReportConnector extends ReportConnector {
         }
     }
 
-    private static class substringOrExact extends exactEquals {
-        public substringOrExact(FakeReportConfig.ParamToColumnRule paramToColumnRule, ParamConfig paramConfig) {
+    /**
+     * Provides a CollectionUtils usable filtering mechanism that is exactly like @see #ExactEquals however will pass
+     * a row if the column contents contains the selected parameter value.
+     */
+    private static class SubstringOrExact extends ExactEquals {
+        public SubstringOrExact(FakeReportConfig.ParamToColumnRule paramToColumnRule, ParamConfig paramConfig) {
             super(paramToColumnRule, paramConfig);
         }
 
+        /**
+         * In the case of a Single Parameter value, checks to see if the column value contains the parameter selection
+         * if it does the value is kept in the list.
+         * {@inheritDoc}
+         */
         @Override
         public boolean evaluate(Object object) {
             String column = ((Map<String, Object>)object).get(paramToColumnRule.getToColumn()).toString();
@@ -122,11 +166,22 @@ public class FakeDataReportConnector extends ReportConnector {
         }
     }
 
-    private static class IntegerRange extends exactEquals {
+    /**
+     * Just like it's parent @see #ExactEquals provides a CollectionUtils filtering predicate, this one however determines
+     * if the value in the parameter is a single value, a range of values (x-y) or a "value or greater" (ie x+) then
+     * prases the column value as an integer and checks to see if it matches the selected value. If the selected value
+     * is null, everything passes. If the value fails to parse, the value is rejected. An example of where could be used
+     * is when a user is picking age ranges.
+     */
+    private static class IntegerRange extends ExactEquals {
         public IntegerRange(FakeReportConfig.ParamToColumnRule paramToColumnRule, ParamConfig paramConfig) {
             super(paramToColumnRule, paramConfig);
         }
 
+        /**
+         * See class description as to how it evaluates.
+         * {@inheritDoc}
+         */
         @Override
         public boolean evaluate(Object object) {
             Pattern isRange = Pattern.compile("^(\\d+)-(\\d+)$");

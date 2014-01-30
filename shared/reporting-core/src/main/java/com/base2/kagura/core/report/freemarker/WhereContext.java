@@ -5,6 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 
 /**
+ * Because the WHERE tag can be used multiple times, and it's one instance for the life time of the freemarker
+ * engine, we require a stackable "context" to allow for multiple tags and nestable where statements. The previous
+ * WhereContext is stored in the "parent" parameter. (These are inturn stored in FreeMakers attribute storage.)
  * @author aubels
  *         Date: 18/09/13
  */
@@ -13,41 +16,74 @@ public class WhereContext {
     private String connector = "AND";
     private ArrayList<String> freemarkerWhereClauses = new ArrayList<String>();
 
+    /**
+     * Initializes, pointing to parent context.
+     * @param parent Parent context, can be null.
+     */
     public WhereContext(Object parent) {
         this.parent = (WhereContext)parent;
     }
 
+    /**
+     * Adds a where clause to the current context. Only performed on where clauses which are rendered.
+     * @param freemarkerWhereClause
+     */
     public void addWhereClause(FreemarkerWhereClause freemarkerWhereClause) {
         String outputBody = freemarkerWhereClause.getOutputBody();
         if (StringUtils.isNotBlank(outputBody))
             freemarkerWhereClauses.add(outputBody);
     }
 
+    /**
+     * Adds a nested where clause.
+     * @param outputBody we aren't doing many smarts so we only care for the output.
+     */
     public void addWhereBody(String outputBody) {
         if (StringUtils.isNotBlank(outputBody))
             freemarkerWhereClauses.add(outputBody);
     }
 
+    /**
+     * Parent where context.
+     * @return Parent where context. Null if highest. (Means we output the WHERE sql token.
+     */
     public WhereContext getParent() {
         return parent;
     }
 
+    /**
+     * @see #getParent()
+     */
     public void setParent(WhereContext parent) {
         this.parent = parent;
     }
 
+    /**
+     * Returns the logical connector. AND or OR. Stored by the where clause. Used when constructing output.
+     * @return logical connector to join with.
+     */
     public String getConnector() {
         return connector;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void setConnector(String connector) {
         this.connector = connector;
     }
 
+    /**
+     * The array of bodies produced by the where clauses and nested wheres.
+     * @return
+     */
     public ArrayList<String> getFreemarkerWhereClauses() {
         return freemarkerWhereClauses;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void setFreemarkerWhereClauses(ArrayList<String> freemarkerWhereClauses) {
         this.freemarkerWhereClauses = freemarkerWhereClauses;
     }

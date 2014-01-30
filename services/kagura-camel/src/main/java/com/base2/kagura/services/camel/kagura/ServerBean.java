@@ -32,6 +32,8 @@ public class ServerBean implements ApplicationContextAware {
     private String authType;
     @Value("${com.base2.kagura.reportStorage:fileReportsProvider}")
     private String reportStorage;
+    @Value("${com.base2.kagura.exportLimit:10000}")
+    private Integer exportLimit;
 
     private ApplicationContext applicationContext;
 
@@ -112,5 +114,13 @@ public class ServerBean implements ApplicationContextAware {
 
     public void setReportStorage(String reportStorage) {
         this.reportStorage = reportStorage;
+    }
+
+    public Integer getExportLimit() {
+        return exportLimit;
+    }
+
+    public void setExportLimit(Integer exportLimit) {
+        this.exportLimit = exportLimit;
     }
 }

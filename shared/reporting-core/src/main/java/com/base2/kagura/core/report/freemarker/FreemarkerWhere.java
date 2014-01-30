@@ -11,20 +11,36 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
+ * Where tag. Has two functions:
+ * 1. Inserts WHERE if not nested and contains content.
+ * 2. Acts like a JOIN statement for clauses, so that if a you have a couple of children clause statements some of which
+ *      do return results, others that don't, it will insert an AND or OR between each one.
+ *
+ * For complicated logic, WHERE tags can be nested, the parent one provides the WHERE clause if required. Each where
+ * clause allows you to specify if elements should be joined with a "AND" or an "OR" by specifying the "type" attribute.
  * User: aubels
  * Date: 29/07/13
  * Time: 2:50 PM
- * To change this template use File | Settings | File Templates.
  */
 public class FreemarkerWhere implements TemplateDirectiveModel
 {
     private final List<String> errors;
 
+    /**
+     * Constructor
+     * @param errors Location to append errors if there are any.
+     */
     public FreemarkerWhere(List<String> errors) {
         this.errors = errors;
     }
 
+    /**
+     * Detects if it's a child where or a parent where, runs the child clauses and where statements, if there are any
+     * results, adds a WHERE at the start if it's a parent, then adds the selected operator (and or or ) between each
+     * clause.
+     *
+     * {@inheritDoc}
+     */
     @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
         StringWriter stringWriter = new StringWriter();

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Simple Freemaker custom tag to insert the appropriate query (page) limit and offset (page number) for the query being run. Takes 1 optional
+ * parameter called "sql" which execpts the SQL engine to be there, defaults to mysql. Outputs the appropriate style
+ * LIMIT tag depending on input. Currently only supports mysql and postgres.
  * @author aubels
  *         Date: 13/09/13
  */
@@ -17,12 +20,23 @@ public class FreemarkerLimit implements TemplateDirectiveModel {
     private List<String> errors;
     private FreemarkerSQLDataReportConnector freemarkerSQLDataReportConnector;
 
+    /**
+     * Constructor
+     * @param limitExists A reference to an array of boolean to store if the limit has been used. In a sql statement
+     *                    that is a query it is required and can only be used once. Other times it is optional
+     * @param errors A reference to a list of errors, this is something to populate if there are any errors encountered
+     * @param freemarkerSQLDataReportConnector A reference back to the report connector.
+     */
     public FreemarkerLimit(Boolean[] limitExists, List<String> errors, FreemarkerSQLDataReportConnector freemarkerSQLDataReportConnector) {
         this.limitExists = limitExists;
         this.errors = errors;
         this.freemarkerSQLDataReportConnector = freemarkerSQLDataReportConnector;
     }
 
+    /**
+     * Inserts the appropriate LIMIT .. OFFSET .. statement into the query.
+     * {@inheritDoc}
+     */
     @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
         if (params.size() > 1)

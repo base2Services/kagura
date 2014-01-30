@@ -28,19 +28,25 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
+ * Export Handler. This is a POJO to help you convert output from report-core into various output file formats.
  * User: aubels
  * Date: 30/07/13
  * Time: 1:49 PM
- * To change this template use File | Settings | File Templates.
  */
 public class ExportHandler implements Serializable {
+    /**
+     * Takes the output and transforms it into a PDF file.
+     * @param out Output stream.
+     * @param rows Rows of data from reporting-core
+     * @param columns Columns to list on report
+     */
     public void generatePdf(OutputStream out, List<Map<String, Object>> rows, List<ColumnDef> columns) {
         try {
             Document document = new Document();
             PdfWriter.getInstance(document, out);
-            if (columns == null && rows.size() > 0)
+            if (columns == null)
             {
+                if (rows.size() > 0) return;
                 columns = new ArrayList<ColumnDef>(CollectionUtils.collect(rows.get(0).keySet(), new Transformer() {
                     @Override
                     public Object transform(final Object input) {
@@ -51,36 +57,35 @@ public class ExportHandler implements Serializable {
                     }
                 }));
             }
-            if (columns.size() > 14)
-                document.setPageSize(PageSize.A1);
-            else if (columns.size() > 10)
-                document.setPageSize(PageSize.A2);
-            else if (columns.size() > 7)
-                document.setPageSize(PageSize.A3);
-            else
-                document.setPageSize(PageSize.A4);
+                if (columns.size() > 14)
+                    document.setPageSize(PageSize.A1);
+                else if (columns.size() > 10)
+                    document.setPageSize(PageSize.A2);
+                else if (columns.size() > 7)
+                    document.setPageSize(PageSize.A3);
+                else
+                    document.setPageSize(PageSize.A4);
             document.open();
             Font font = FontFactory.getFont(FontFactory.COURIER, 8, Font.NORMAL, BaseColor.BLACK);
             Font headerFont = FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD, BaseColor.BLACK);
 
-            PdfPTable table = new PdfPTable(columns.size());
-            if (columns != null)
+            int size = columns.size();
+            PdfPTable table = new PdfPTable(size);
+            for (ColumnDef column : columns)
             {
-                for (ColumnDef column : columns)
-                {
-                    PdfPCell c1 = new PdfPCell(new Phrase(column.getName(), headerFont));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table.addCell(c1);
-                }
+                PdfPCell c1 = new PdfPCell(new Phrase(column.getName(), headerFont));
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table.addCell(c1);
             }
             table.setHeaderRows(1);
-            for (Map<String, Object> row : rows)
-            {
-                for (ColumnDef column : columns)
+            if (rows != null)
+                for (Map<String, Object> row : rows)
                 {
-                    table.addCell(new Phrase(String.valueOf(row.get(column.getName())), font));
+                    for (ColumnDef column : columns)
+                    {
+                        table.addCell(new Phrase(String.valueOf(row.get(column.getName())), font));
+                    }
                 }
-            }
             document.add(table);
             document.close();
         } catch (Exception e) {
@@ -88,6 +93,12 @@ public class ExportHandler implements Serializable {
         }
     }
 
+    /**
+     * Takes the output and transforms it into a csv file.
+     * @param out Output stream.
+     * @param rows Rows of data from reporting-core
+     * @param columns Columns to list on report
+     */
     public void generateCsv(OutputStream out, List<Map<String, Object>> rows, List<ColumnDef> columns) {
         ICsvMapWriter csvWriter = null;
         try {
@@ -121,11 +132,11 @@ public class ExportHandler implements Serializable {
                 }).toArray(new CellProcessor[0]);
             }
             csvWriter.writeHeader(header);
-            for (Map<String, Object> row : rows)
-            {
-                csvWriter.write(row, header, processors);
-            }
-
+            if (rows != null)
+                for (Map<String, Object> row : rows)
+                {
+                    csvWriter.write(row, header, processors);
+                }
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } finally {
@@ -139,6 +150,12 @@ public class ExportHandler implements Serializable {
         }
     }
 
+    /**
+     * Takes the output and transforms it into a Excel file.
+     * @param out Output stream.
+     * @param rows Rows of data from reporting-core
+     * @param columns Columns to list on report
+     */
     public void generateXls(OutputStream out, List<Map<String, Object>> rows, List<ColumnDef> columns) {
         try {
             Workbook wb = new HSSFWorkbook();  // or new XSSFWorkbook();
