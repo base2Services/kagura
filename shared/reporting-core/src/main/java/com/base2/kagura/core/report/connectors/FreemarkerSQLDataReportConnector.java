@@ -21,11 +21,12 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * Created with IntelliJ IDEA.
+ * Does the freemarker pre-processing of sql (it requires a SQL Connection initialized via "#getStartConnection()".)
+ * Primarily allows for the insertion of values, however flexible enough to be used for other purposes. This doesn't
+ * actually produce of provide data itself, the child class needs to provide the data via connection..
  * User: aubels
  * Date: 24/07/13
  * Time: 4:39 PM
- * To change this template use File | Settings | File Templates.
  */
 public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
     private final String freemarkerSql;
@@ -34,6 +35,10 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
     private List<Map<String, Object>> rows;
     protected int queryTimeout;
 
+    /**
+     * Constructor. Shallow copies arguments.
+     * @param reportConfig
+     */
     public FreemarkerSQLDataReportConnector(FreeMarkerSQLReportConfig reportConfig) {
         super(reportConfig);
         this.freemarkerSql = reportConfig.getSql();
@@ -44,20 +49,26 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
 
     protected Connection connection;
 
+    /**
+     * Runs freemarker against the 3 sql queries, then executes them in order.
+     * {@inheritDoc}
+     */
     @Override
     public void run(Map<String, Object> extra) {
+        PreparedStatement prestatement = null;
+        PreparedStatement poststatement = null;
         PreparedStatement statement = null;
         try {
             getStartConnection();
             if (StringUtils.isNotBlank(presql))
             {
                 FreemarkerSQLResult prefreemarkerSQLResult = freemakerParams(extra, false, presql);
-                statement = connection.prepareStatement(prefreemarkerSQLResult.getSql());
+                prestatement = connection.prepareStatement(prefreemarkerSQLResult.getSql());
                 for(int i=0;i<prefreemarkerSQLResult.getParams().size();i++) {
-                    statement.setObject(i + 1, prefreemarkerSQLResult.getParams().get(i));
+                    prestatement.setObject(i + 1, prefreemarkerSQLResult.getParams().get(i));
                 }
-                statement.setQueryTimeout(queryTimeout);
-                statement.execute();
+                prestatement.setQueryTimeout(queryTimeout);
+                prestatement.execute();
             }
             FreemarkerSQLResult freemarkerSQLResult = freemakerParams(extra, true, freemarkerSql);
             statement = connection.prepareStatement(freemarkerSQLResult.getSql());
@@ -69,12 +80,12 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
             if (StringUtils.isNotBlank(postsql))
             {
                 FreemarkerSQLResult postfreemarkerSQLResult = freemakerParams(extra, false, postsql);
-                statement = connection.prepareStatement(postfreemarkerSQLResult.getSql());
+                poststatement = connection.prepareStatement(postfreemarkerSQLResult.getSql());
                 for(int i=0;i<postfreemarkerSQLResult.getParams().size();i++) {
-                    statement.setObject(i + 1, postfreemarkerSQLResult.getParams().get(i));
+                    poststatement.setObject(i + 1, postfreemarkerSQLResult.getParams().get(i));
                 }
-                statement.setQueryTimeout(queryTimeout);
-                statement.execute();
+                poststatement.setQueryTimeout(queryTimeout);
+                poststatement.execute();
             }
         } catch (Exception ex) {
             errors.add(ex.getMessage());
@@ -84,6 +95,16 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
                 {
                     statement.close();
                     statement = null;
+                }
+                if (prestatement != null && !prestatement.isClosed())
+                {
+                    prestatement.close();
+                    prestatement = null;
+                }
+                if (poststatement != null && !poststatement.isClosed())
+                {
+                    poststatement.close();
+                    poststatement = null;
                 }
                 if (connection != null && !connection.isClosed())
                 {
@@ -97,6 +118,18 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         }
     }
 
+    /**
+     * Prepares and runs the FreeMarker against the SQL query, returning an object that has the appropriate
+     * preparedStatement ready parameters and output SQL statement. This is responsible for populating the freemarker
+     * with additional values. ExtraOptions will be passed to FreeMarker and could contain FreeMaker specific components
+     * without causing issue.
+     * @param extra Extras provided by the middleware, could be merged with the file. Intended for environmental options
+     * @param requireLimit requireLimit, on queries that are query related requires the the <limit /> tag at the end to
+     *                     ensure the report has limitations
+     * @param sql the SQL query to preprocess.
+     * @return A structure containing the processed values and the parameters
+     * @throws Exception Any error is passed back. Ideally to be put in the List<String> errors list
+     */
     protected FreemarkerSQLResult freemakerParams(Map<String, Object> extra, boolean requireLimit, String sql) throws Exception {
         Configuration cfg = new Configuration();
         cfg.setDateFormat("yyyy-MM-dd");
@@ -176,6 +209,13 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         return new FreemarkerSQLResult(out.toString(), usedParams);
     }
 
+    /**
+     * Returns a preparedStatement result into a List of Maps. Not the most efficient way of storing the values, however
+     * the results should be limited at this stage.
+     * @param rows The result set.
+     * @return Mapped results.
+     * @throws RuntimeException upon any error, adds values to "errors"
+     */
     public List<Map<String,Object>> resultSetToMap(ResultSet rows) {
         try {
             List<Map<String,Object>> beans = new ArrayList<Map<String,Object>>();
@@ -197,14 +237,26 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Map<String, Object>> getRows() {
         return rows;
     }
 
+    /**
+     * @see #getRows()
+     */
     public void setRows(List<Map<String, Object>> rows) {
         this.rows = rows;
     }
 
+    /**
+     * Responsible for bringing up the connection to the database, this was created to avoid a connection leakage
+     * problem. Everytime a call needs to be made the connection is Opened the closed.
+     * @throws NamingException
+     * @throws SQLException
+     */
     protected abstract void getStartConnection() throws NamingException, SQLException;
 }

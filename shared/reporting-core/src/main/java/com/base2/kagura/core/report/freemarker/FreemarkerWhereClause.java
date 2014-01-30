@@ -10,21 +10,35 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
+ * Where clause, meant to be used in conjunction with a WHERE. The where clause is similar to an if statement, where it
+ * will render the contents inside if the render= option has been set correctly. (The render option is optional in cases
+ * you want it to always render.) Render= has to be a freemarker boolean expression. This has been designed for
+ * continence when handling report parameters.
  * User: aubels
  * Date: 29/07/13
  * Time: 2:50 PM
- * To change this template use File | Settings | File Templates.
  */
 public class FreemarkerWhereClause implements TemplateDirectiveModel
 {
     private final List<String> errors;
     private String outputBody;
 
+    /**
+     * Constructor.
+     * @param errors location to append errors.
+     */
     public FreemarkerWhereClause(List<String> errors) {
         this.errors = errors;
     }
 
+    /**
+     * Looks for a render option, to determine if it should be run. This is supposed to encapsulate a single SQL where
+     * clause. Such as "name IS NOT NULL" or "id > ${method.value(param.lowLimit)}". This should be encapsulated within
+     * a where tag. If this doesn't have an render attribute it will run regardless. When this is successful it will
+     * populate the parent where clause with the contents.
+     *
+     * {@inheritDoc}
+     */
     @Override
     public void execute(Environment env, Map params, TemplateModel[] loopVars, TemplateDirectiveBody body) throws TemplateException, IOException {
         if (params.size() > 1) {
@@ -68,11 +82,11 @@ public class FreemarkerWhereClause implements TemplateDirectiveModel
         whereContext.addWhereClause(this);
     }
 
+    /**
+     * The output of the last run instance of this tag.
+     * @return rendered text
+     */
     public String getOutputBody() {
         return outputBody;
-    }
-
-    public void setOutputBody(String outputBody) {
-        this.outputBody = outputBody;
     }
 }

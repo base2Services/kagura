@@ -7,26 +7,45 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.io.PatternFilenameFilter;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 /**
+ * The base class for all ReportProviders. Allows a templated type, the "InternalType" type must be safe to pass
+ * internally, and reversible, such as you can determine the report name from the report's instance of "InternalType"
  * @author aubels
  *         Date: 15/10/13
  */
 public abstract class ReportsProvider<InternalType> {
     protected List<String> errors = new ArrayList<String>();
 
+    /**
+     * Loads the report, and stores it in ReportsConfig
+     * @param result Where to store the report
+     * @param report Which report to load
+     * @return The name of the report / report id
+     * @throws Exception
+     */
     protected abstract String loadReport(ReportsConfig result, InternalType report) throws Exception;
+
+    /**
+     * This is one of the most important calls, it lists all the reports, which is then used to selectively (or in some
+     * cases nonselectively) load the other reports.
+     * @return
+     */
     protected abstract InternalType[] getReportList();
 
+    /**
+     * Loads a report, this does the deserialization, this method can be substituted with another, called by child
+     * classes. Once it has deserialized it, it put it into the map.
+     * @param result
+     * @param report
+     * @param reportName
+     * @return
+     */
     protected boolean loadReport(ReportsConfig result, InputStream report, String reportName) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         ReportConfig reportConfig = null;
@@ -42,10 +61,23 @@ public abstract class ReportsProvider<InternalType> {
         return true;
     }
 
+    /**
+     * Returns a reports Configuration with all reports loaded. Strongly recommend using
+     *          getReportsConfig(Collection<String> restrictToNamed)
+     * as it will only load the reports with the names passed in. This is useful such as if you passed the reports which
+     * the current user can access.
+     * @return The reports configration
+     */
     public ReportsConfig getReportsConfig() {
         return getReportsConfig(null);
     }
 
+    /**
+     * Returns a list of reports in a ReportsConfig-uration object, it only loads reports in "restrictedToNamed", this
+     * is useful as a secondary report-restriction mechanism. So you would pass in all reports the user can access.
+     * @param restrictToNamed A list of report names to load. No error if one is not found.
+     * @return
+     */
     public ReportsConfig getReportsConfig(Collection<String> restrictToNamed) {
         resetErrors();
         ReportsConfig result = new ReportsConfig();
@@ -71,16 +103,33 @@ public abstract class ReportsProvider<InternalType> {
         return result;
     }
 
+    /**
+     * Mapping of InternalType to a report name. In the case of a FileReportsProvider, it is the directory name containing
+     * the reportconf.yaml or reportconf.json file.
+     * @param report
+     * @return
+     */
     protected abstract String reportToName(InternalType report);
 
+    /**
+     * Stores loading errors here. Once checked #resetErrors()
+     * @return
+     */
     public List<String> getErrors() {
         return errors;
     }
 
+    /**
+     * @see #getErrors()
+     * @param errors
+     */
     public void setErrors(List<String> errors) {
         this.errors = errors;
     }
 
+    /**
+     * Clears reports.
+     */
     public void resetErrors() {
         errors.clear();
     }

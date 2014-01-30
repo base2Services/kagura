@@ -12,18 +12,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * This uses another report to populate the combo box values. Essentially you can use any option you like, just be
+ * aware that only one column is used, and that requiring parameters will do nothing. It's recommended that you keep
+ * the content very simple.
  * @author aubels
  *         Date: 17/12/2013
  */
 public class SQL extends Source {
     private ReportConfig report;
 
+    /**
+     * Sets the report to be used. No getter is provided so the contents doesn't get serialized.
+     * @param report
+     */
     public void setReport(ReportConfig report) {
         this.report = report;
     }
 
     String selectedColumn;
 
+    /**
+     * Executes the report, selecting the first column OR the column designated to make up the parameters values.
+     * {@inheritDoc}
+     */
     @JsonIgnore
     @Override
     public Collection<Object> getValues() {
@@ -42,13 +53,26 @@ public class SQL extends Source {
         });
     }
 
+    /**
+     * The Selected column, basically the name of the column to extract the parameter values and names from.
+     * (No distinction atm.)
+     * @param selectedColumn
+     */
     public void setSelectedColumn(String selectedColumn) {
         this.selectedColumn = selectedColumn;
     }
 
+    /**
+     * Constructor.
+     */
     public SQL() {
     }
 
+    /**
+     * Reference copying constructor.
+     * @param report             The new report config
+     * @param selectedColumn     The column you wish to extract the values and names from
+     * */
     public SQL(ReportConfig report, String selectedColumn) {
         this.report = report;
         this.selectedColumn = selectedColumn;

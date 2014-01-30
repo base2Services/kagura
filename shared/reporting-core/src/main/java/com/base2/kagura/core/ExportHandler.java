@@ -28,13 +28,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
+ * Export Handler. This is a POJO to help you convert output from report-core into various output file formats.
  * User: aubels
  * Date: 30/07/13
  * Time: 1:49 PM
- * To change this template use File | Settings | File Templates.
  */
 public class ExportHandler implements Serializable {
+    /**
+     * Takes the output and transforms it into a PDF file.
+     * @param out Output stream.
+     * @param rows Rows of data from reporting-core
+     * @param columns Columns to list on report
+     */
     public void generatePdf(OutputStream out, List<Map<String, Object>> rows, List<ColumnDef> columns) {
         try {
             Document document = new Document();
@@ -88,6 +93,12 @@ public class ExportHandler implements Serializable {
         }
     }
 
+    /**
+     * Takes the output and transforms it into a csv file.
+     * @param out Output stream.
+     * @param rows Rows of data from reporting-core
+     * @param columns Columns to list on report
+     */
     public void generateCsv(OutputStream out, List<Map<String, Object>> rows, List<ColumnDef> columns) {
         ICsvMapWriter csvWriter = null;
         try {
@@ -139,6 +150,12 @@ public class ExportHandler implements Serializable {
         }
     }
 
+    /**
+     * Takes the output and transforms it into a Excel file.
+     * @param out Output stream.
+     * @param rows Rows of data from reporting-core
+     * @param columns Columns to list on report
+     */
     public void generateXls(OutputStream out, List<Map<String, Object>> rows, List<ColumnDef> columns) {
         try {
             Workbook wb = new HSSFWorkbook();  // or new XSSFWorkbook();
