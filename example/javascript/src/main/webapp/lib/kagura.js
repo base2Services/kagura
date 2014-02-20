@@ -24,26 +24,43 @@ var callCount = 0;
 var reportTitle = null;
 var storedHash;
 
+/**
+ * Starts the login spinner, installs it into #signinSection
+ */
 function loginSpin() {
     spinner.stop();
     $('#signinSection').find('input, button').prop("disabled", true);
     spinner.spin(document.getElementById('signinSection'));
 }
 
+/**
+ * Finds and stops the spinner.
+ */
 function loginUnspin() {
     spinner.stop();
     $('#signinSection').find('input, button').prop("disabled", false);
 }
 
+/**
+ * Stores the token into a cookie, and sets the time out for 2 days.
+ * @param token
+ */
 function setToken(token) {
     this.token = token;
     var date = new Date();
     setCookie("token", token, date.getTime() + (2 * 24 * 60 * 60 * 1000));
 }
+/**
+ * Changes the URL to go to "main.jsp"
+ */
 function gotoMain()
 {
     window.location.href = server_base + "main.jsp";
 }
+/**
+ * Attempts a login. Gets username from #loginEmail and gets password from #loginPassword.
+ * If successful calls "gotoMain()" Otherwise loginUnspin() and alerts the user to the error
+ */
 function doLogin()
 {
     loginSpin();
@@ -72,6 +89,10 @@ function doLogin()
         alert(errorThrown);
     });
 }
+/**
+ * Loads the report content list, as a simple list. (List of reports with no details.)
+ * With data when it gets it back calls: loadReportListData
+ */
 function loadReportListSimple() {
     token = getCookie("token");
     $.ajax({
@@ -89,6 +110,10 @@ function loadReportListSimple() {
         }
     }).fail(ajaxFail);
 };
+/**
+ * Loads the report content list, as a detailed list with parameter values and more.
+ * With data when it gets it back calls: loadReportListData
+ */
 function loadReportListDetailed() {
     token = getCookie("token");
     $.ajax({
@@ -106,6 +131,12 @@ function loadReportListDetailed() {
         }
     }).fail(ajaxFail);
 };
+/**
+ * Once you obtain the list of reports, this function populates the UI with the correct data
+ * It looks for #reportDropdownList, removes all non-hidden child nodes from it. Clones the hidden node. And populates
+ * the data into it as appropriate.
+ * @param data
+ */
 function loadReportListData(data)
 {
     var reportDDList = $("#reportDropdownList");
@@ -161,9 +192,17 @@ function loadReportListData(data)
         });
     }
 }
+/**
+ * Hides all categories, such as the main view, contact us view, about view and report view.
+ * Looks for: #kaguraMain,#kaguraContactUs,#kaguraAbout,#reportMain
+ */
 function resetDisplay() {
     $('#kaguraMain,#kaguraContactUs,#kaguraAbout,#reportMain').addClass("hidden");
 }
+/**
+ * Resets report table data & columns, and parameter side bar.
+ * Looks for: #reportTableHeader, #reportTableBody, #reportTableBody, #paramPanel
+ */
 function resetReportConfig()
 {
     $('#reportTableHeader>tr:not(.hidden)').remove();
@@ -171,10 +210,18 @@ function resetReportConfig()
     $('#reportTableBody>tr>td:not(.hidden)').remove();
     $('#paramPanel>div:not(.hidden)').remove();
 }
+/**
+ * Resets report table data
+ * Looks for: #reportTableBody
+ */
 function resetReportBody()
 {
     $('#reportTableBody>tr:not(.hidden)').remove();
 }
+/**
+ * Resets report table data & columns.
+ * Looks for: #reportTableHeader, #reportTableBody, #reportTableBody
+ */
 function resetReport()
 {
     $('#reportTableHeader>tr:not(.hidden)').remove();
@@ -182,6 +229,11 @@ function resetReport()
     $('#reportTableBody>tr>td:not(.hidden)').remove();
 }
 
+/**
+ * Adds columns to the report.
+ * Expects to see: #reportTableHeader, #reportTableBody
+ * @param columns
+ */
 function addColumns(columns)
 {
     var reportTableHeader = $("#reportTableHeader");
@@ -215,6 +267,12 @@ function addColumns(columns)
         templateRow.addClass("hidden");
     });
 }
+/**
+ * From the report data structure builds up the parameter input. Mostly pre-written components which are inserted.
+ * Looks for: #inputParamFieldTemplate, #runReportButton
+ * @param msg
+ * @param inputParamFieldTemplate
+ */
 function buildReportParameters(msg, inputParamFieldTemplate) {
     var inputParamFieldTemplate = $('#inputParamFieldTemplate');
     msg.params.forEach(function (param) {
@@ -300,6 +358,12 @@ function buildReportParameters(msg, inputParamFieldTemplate) {
         template.insertBefore('#runReportButton');
     });
 }
+/**
+ * Handles special extraOptions on the report.
+ * Looks for: #reportTitle, #reportDescription, #reportImage
+ * @param msg
+ * @param reportId
+ */
 function processReportExtras(msg, reportId) {
     if (msg.extra.reportName) {
         $("#reportTitle").text(msg.extra.reportName);
@@ -319,10 +383,19 @@ function processReportExtras(msg, reportId) {
         reportImage.addClass("hidden");
     }
 }
+/**
+ * Load report details.
+ * @param reportId
+ */
 function loadReport(reportId)
 {
     loadReport(reportId, true);
 }
+/**
+ * Load and optionally run a report.
+ * @param reportId
+ * @param andRun
+ */
 function loadReport(reportId, andRun)
 {
     if (reportId == null || reportId == "") { return; }
@@ -340,21 +413,36 @@ function loadReport(reportId, andRun)
     callKagura(reportId, method, url, contentType)
 }
 
+/**
+ * Display the main section , after resetting the view.
+ * Looks for: #kaguraMain
+ */
 function displayMain()
 {
     resetDisplay();
     $('#kaguraMain').removeClass("hidden");
 }
+/**
+ * Displays the contact us section, after resetting the view.
+ */
 function displayContactUs()
 {
     resetDisplay();
     $('#kaguraContactUs').removeClass("hidden");
 }
+/**
+ * Displays the about us section, after resetting the view.
+ */
 function displayAbout()
 {
     resetDisplay();
     $('#kaguraAbout').removeClass("hidden");
 }
+/**
+ * Starts a download of the report int he desired format
+ * @param fileType
+ * @param all
+ */
 function exportReport(fileType, all)
 {
     var values = "";
@@ -368,6 +456,11 @@ function exportReport(fileType, all)
     window.location.href = server_base + "rest/report/" + token + "/" + curReport + "/export."+fileType+"?" + values;
 }
 
+/**
+ * Compiles a JSON string of the report parameters, then URI encodes it.
+ * Looks for: .parameterFieldInput
+ * @returns {string}
+ */
 function buildRequestParameters() {
     var params = {};
     $('div.parameterField:not(.hidden)').each(function (index, divfield) {
@@ -378,11 +471,19 @@ function buildRequestParameters() {
     var encParams = encodeURIComponent(JSON.stringify(params));
     return encParams;
 }
+/**
+ * Reruns the report, resetting the page number
+ */
 function rerunReport()
 {
     pageNumber = 0;
     runReport();
 }
+/**                                                            4
+ * Writes a bootstrap alert for errors returned in the message.
+ * Looks for: #reportErrors
+ * @param msg
+ */
 function reportErrors(msg) {
     msg.errors.forEach(function (error) {
         var newDiv = $('<div></div>');
@@ -393,6 +494,11 @@ function reportErrors(msg) {
         $('#reportErrors').append(newDiv);
     })
 }
+/**
+ * Populates the table.
+ * Looks for: #reportTableBody
+ * @param msg
+ */
 function populateReportRows(msg) {
     var reportTableBody = $("#reportTableBody");
     var templateRow = reportTableBody.find("tr.hidden");
@@ -406,6 +512,10 @@ function populateReportRows(msg) {
         })
     });
 }
+/**
+ * Updates column with new column details if changed.
+ * @param msg
+ */
 function fixReportColumns(msg) {
     if (!msg.rows || msg.rows.length == 0) {
         resetReportBody();
@@ -417,6 +527,9 @@ function fixReportColumns(msg) {
         addColumns(columns);
     }
 }
+/**
+ * Runs the report.
+ */
 function runReport()
 {
     var values = "page=" + pageNumber;
@@ -427,6 +540,13 @@ function runReport()
     callKagura(curReport, method, url, contentType)
 }
 
+/**
+ * Ajax call to restful services, then executes the appopriate functions based on the structure of the response.
+ * @param reportId
+ * @param method
+ * @param url
+ * @param contentType
+ */
 function callKagura(reportId, method, url, contentType)
 {
     // If we have changed report, reset everything.
@@ -500,24 +620,39 @@ function callKagura(reportId, method, url, contentType)
     }).fail(ajaxFail);
 }
 
+/**
+ * Decrements the page number then runs the report again
+ */
 function prevPage()
 {
     pageNumber = Math.max(pageNumber - 1, 0);
     runReport();
 }
 
+/**
+ * Increments the page number then runs the report again
+ */
 function nextPage()
 {
     pageNumber = pageNumber + 1;
     runReport();
 }
 
+/**
+ * Logouts, removes token, and resets page.
+ */
 function logout()
 {
     setCookie("token", "",1);
     window.location = server_base + "index.jsp";
 }
 
+/**
+ * Reports failures to the user. Used in AJAX calls.
+ * @param jqXHR
+ * @param textStatus
+ * @param errorThrown
+ */
 function ajaxFail(jqXHR, textStatus, errorThrown)
 {
     if (errorThrown == "Not Found")
