@@ -542,6 +542,7 @@ function runReport()
 
 /**
  * Ajax call to restful services, then executes the appopriate functions based on the structure of the response.
+ * Requires tags: #reportPageNumber, #reportMain, #reportTitle
  * @param reportId
  * @param method
  * @param url

@@ -131,7 +131,8 @@ public class ExportHandler implements Serializable {
                     }
                 }).toArray(new CellProcessor[0]);
             }
-            csvWriter.writeHeader(header);
+            if (header.length > 0)
+                csvWriter.writeHeader(header);
             if (rows != null)
                 for (Map<String, Object> row : rows)
                 {
