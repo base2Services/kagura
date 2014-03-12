@@ -8,3 +8,5 @@ target
 .settings
 *.iml
 *.db
+.DS_Store
+war-rest/overlays/
