@@ -9,6 +9,18 @@
     <version>1.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <name>Kagura</name>
+    <description>The base POM of the Kagura project</description>
+    <url>https://kagura.atlassian.net/</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <properties>
         <maven-resources-plugin.version>2.4.2</maven-resources-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,55 +39,9 @@
         <maven-bundle-plugin.version>2.3.7</maven-bundle-plugin.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>public</id>
-            <url>http://maven.nuxeo.org/nexus/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>fusesource</id>
-            <url>http://repo.fusesource.com/nexus/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>springsource-repo</id>
-            <name>SpringSource Repository</name>
-            <url>http://repo.springsource.org/release</url>
-        </repository>
-        <!-- JBoss Repository used for Java EE 6 pieces -->
-        <repository>
-            <id>repository.jboss.org</id>
-            <name>JBoss Repository</name>
-            <url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-        </repository>
-
-        <repository>
-            <id>org.springframework.maven.milestone</id>
-            <name>Spring Maven Milestone Repository</name>
-            <url>http://maven.springframework.org/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <!-- Snake yaml -->
-        <repository>
-            <id>Sonatype-public</id>
-            <name>SnakeYAML repository</name>
-            <url>http://oss.sonatype.org/content/groups/public/</url>
-        </repository>
-
-        <!-- JGit -->
-        <!--<repository>-->
-            <!--<id>jgit-repository</id>-->
-            <!--<url>https://repo.eclipse.org/content/groups/releases/</url>-->
-        <!--</repository>-->
-
-    </repositories>
+    <scm>
+        <url>git@github.com:base2Services/kagura.git</url>
+    </scm>
 
     <modules>
         <module>shared</module>
@@ -120,19 +86,6 @@
 
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>base2-releases</id>
-            <name>Internal Releases</name>
-            <url>http://maven.base2services.com/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>base2-releases</id>
-            <name>Internal Releases</name>
-            <url>http://maven.base2services.com/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <profiles>
         <!-- Jenkins by default defines a property BUILD_NUMBER which is used to enable the profile. -->
