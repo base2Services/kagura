@@ -40,6 +40,8 @@
     </properties>
 
     <scm>
+        <connection>scm:git:git@github.com:base2Services/kagura.git</connection>
+        <developerConnection>scm:git:git@github.com:base2Services/kagura.git</developerConnection>
         <url>git@github.com:base2Services/kagura.git</url>
     </scm>
 
