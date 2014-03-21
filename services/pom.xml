@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.base2.kagura</groupId>
+        <groupId>com.kagurabi</groupId>
         <artifactId>kagura</artifactId>
         <version>1.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.base2.kagura.services</groupId>
+    <groupId>com.kagurabi.services</groupId>
     <artifactId>kagura-services</artifactId>
     <version>1.5-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -34,35 +34,35 @@
         <dependencies>
             <!-- Kagura -->
             <dependency>
-                <groupId>com.base2.kagura.services</groupId>
+                <groupId>com.kagurabi.services</groupId>
                 <artifactId>kagura-camel</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.base2.kagura.shared</groupId>
+                <groupId>com.kagurabi.shared</groupId>
                 <artifactId>reporting-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.base2.kagura.services</groupId>
+                <groupId>com.kagurabi.services</groupId>
                 <artifactId>kagura-features</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
             </dependency>
             <dependency>
-                <groupId>com.base2.kagura.shared</groupId>
+                <groupId>com.kagurabi.shared</groupId>
                 <artifactId>kagura-resources</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.base2.kagura.shared</groupId>
+                <groupId>com.kagurabi.shared</groupId>
                 <artifactId>rest-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- Kagura example components -->
             <dependency>
-                <groupId>com.base2.kagura.services</groupId>
+                <groupId>com.kagurabi.services</groupId>
                 <artifactId>example-authrest</artifactId>
                 <version>${project.version}</version>
             </dependency>

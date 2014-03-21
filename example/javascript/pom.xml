@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <artifactId>kagura-examples</artifactId>
-        <groupId>com.base2.kagura.example</groupId>
+        <groupId>com.kagurabi.example</groupId>
         <version>1.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>

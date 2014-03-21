@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>kagura</artifactId>
-        <groupId>com.base2.kagura</groupId>
+        <groupId>com.kagurabi</groupId>
         <version>1.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.base2.kagura</groupId>
+    <groupId>com.kagurabi</groupId>
     <artifactId>war-rest</artifactId>
     <packaging>war</packaging>
     <name>Kagura-war-rest</name>
@@ -28,12 +28,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.base2.kagura.shared</groupId>
+            <groupId>com.kagurabi.shared</groupId>
             <artifactId>reporting-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.base2.kagura.shared</groupId>
+            <groupId>com.kagurabi.shared</groupId>
             <artifactId>rest-api</artifactId>
             <version>${project.version}</version>
             <exclusions>
@@ -56,7 +56,7 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.base2.kagura.example</groupId>
+            <groupId>com.kagurabi.example</groupId>
             <artifactId>kagura-example-javascript</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>

@@ -23,7 +23,7 @@
 
     <parent>
         <artifactId>kagura-services</artifactId>
-        <groupId>com.base2.kagura.services</groupId>
+        <groupId>com.kagurabi.services</groupId>
         <version>1.5-SNAPSHOT</version>
     </parent>
 
@@ -35,7 +35,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.base2.kagura.services</groupId>
+            <groupId>com.kagurabi.services</groupId>
             <artifactId>kagura-features</artifactId>
             <type>pom</type>
         </dependency>

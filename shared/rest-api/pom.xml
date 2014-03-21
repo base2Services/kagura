@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>kagura-shared</artifactId>
-        <groupId>com.base2.kagura.shared</groupId>
+        <groupId>com.kagurabi.shared</groupId>
         <version>1.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.base2.kagura.shared</groupId>
+    <groupId>com.kagurabi.shared</groupId>
     <artifactId>rest-api</artifactId>
     <packaging>bundle</packaging>
     <name>Kagura-rest-api</name>
@@ -54,7 +54,7 @@
             <artifactId>commons-beanutils</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.base2.kagura.shared</groupId>
+            <groupId>com.kagurabi.shared</groupId>
             <artifactId>reporting-core</artifactId>
         </dependency>
     </dependencies>
