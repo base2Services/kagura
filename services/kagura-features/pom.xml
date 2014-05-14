@@ -24,11 +24,11 @@
     <parent>
         <groupId>com.kagurabi.services</groupId>
         <artifactId>kagura-services</artifactId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>kagura-features</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.6-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>kagura-features</name>
     <description>Create a feature with the defined dependencies set.</description>

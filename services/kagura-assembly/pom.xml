@@ -24,11 +24,11 @@
     <parent>
         <artifactId>kagura-services</artifactId>
         <groupId>com.kagurabi.services</groupId>
-        <version>1.5-SNAPSHOT</version>
+        <version>1.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>kagura-assembly</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.6-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>kagura-assembly</name>
     <description>This project creates a Karaf custom distribution that you can customize to fit your needs.</description>
