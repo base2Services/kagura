@@ -10,3 +10,5 @@ target
 *.db
 .DS_Store
 war-rest/overlays/
+settings.xml
+profile.xml
