@@ -39,6 +39,21 @@
         <maven-bundle-plugin.version>2.3.7</maven-bundle-plugin.version>
     </properties>
 
+      <developers>
+	      <developer>
+		      <id>Arran</id>
+		      <name>Arran Ubels</name>
+		      <email>arran@kagurabi.com</email>
+		      <url>http://www.base2services.com/about/team.html</url>
+		      <organization>base2Services</organization>
+		      <organizationUrl>http://www.base2services.com/</organizationUrl>
+		      <roles>
+			      <role>developer</role>
+		      </roles>
+		      <timezone>+10</timezone>
+	      </developer>
+      </developers>
+
     <scm>
         <connection>scm:git:git@github.com:base2Services/kagura.git</connection>
         <developerConnection>scm:git:git@github.com:base2Services/kagura.git</developerConnection>
