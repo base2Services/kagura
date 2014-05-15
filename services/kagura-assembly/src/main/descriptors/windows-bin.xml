@@ -49,7 +49,6 @@
             <fileMode>0644</fileMode>
         </fileSet>
 
-
         <!-- Copy over bin/* separately to get the correct file mode -->
         <fileSet>
             <directory>target/dependencies/windows/apache-karaf-${karaf.version}</directory>
@@ -63,10 +62,15 @@
             <fileMode>0755</fileMode>
         </fileSet>
 
+        <!-- Add our dependencies to the package -->
+        <fileSet>
+            <outputDirectory>system</outputDirectory>
+            <directory>target/features-repo</directory>
+        </fileSet>
+
     </fileSets>
 
     <files>
-
         <file>
             <source>${project.basedir}/target/dependencies/windows/apache-karaf-${karaf.version}/bin/karaf.bat</source>
             <outputDirectory>/bin</outputDirectory>
@@ -74,7 +78,6 @@
             <fileMode>0755</fileMode>
             <lineEnding>unix</lineEnding>
         </file>
-
     </files>
 
 </assembly>
