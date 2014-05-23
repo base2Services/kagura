@@ -16,9 +16,11 @@
 package com.base2.kagura.core.report.connectors;
 
 import com.base2.kagura.core.report.configmodel.GroovyReportConfig;
+import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 import groovy.lang.GroovyShell;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +67,14 @@ public class GroovyDataReportConnector extends ReportConnector {
             groovyShell.setProperty("columns", getColumns());
             groovyShell.setProperty("page", getPage());
             groovyShell.setProperty("pageLimit", getPageLimit());
-            groovyShell.setProperty("params", getParameterConfig());
+            groovyShell.setProperty("paramConfig", getParameterConfig());
+            groovyShell.setProperty("param", new HashMap<String, ParamConfig>()
+            {{
+                for(ParamConfig paramConfig : getParameterConfig())
+                {
+                    put(paramConfig.getId(), paramConfig);
+                }
+            }});
             groovyShell.setProperty("extra", extra);
             groovyShell.evaluate(groovyScript);
         } catch (Exception ex)
