@@ -15,7 +15,9 @@
  */
 package com.base2.kagura.services.camel.utils;
 
+import com.base2.kagura.services.camel.authentication.FileAuthentication;
 import com.base2.kagura.services.camel.kagura.ServerBean;
+import com.base2.kagura.services.camel.storage.FileReportsProvider;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -37,6 +39,10 @@ public class TestUtils {
         ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("/META-INF/spring/test.xml");
         ServerBean serverBean = (ServerBean)classPathXmlApplicationContext.getBean("serverBean");
         serverBean.setConfigPath(getResourcePath("TestReports"));
+        FileAuthentication fileAuthentication = (FileAuthentication)classPathXmlApplicationContext.getBean("fileAuthentication");
+        fileAuthentication.setConfigPath(getResourcePath("TestReports"));
+        FileReportsProvider fileReportsProvider = (FileReportsProvider)classPathXmlApplicationContext.getBean("fileReportsProvider");
+        fileReportsProvider.setReportDirectory(getResourcePath("TestReports"));
         return classPathXmlApplicationContext;
     }
 }

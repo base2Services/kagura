@@ -127,6 +127,7 @@ public class FileAuthentication extends AuthenticationProvider {
     }
 
     private String getFile(String filenameToAdd) {
+        LOG.info("Using config path: {}", configPath);
         String filename = FilenameUtils.concat(configPath, filenameToAdd);
         if (filename == null)
         {
