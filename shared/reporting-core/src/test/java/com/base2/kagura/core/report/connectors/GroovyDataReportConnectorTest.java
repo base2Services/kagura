@@ -29,14 +29,11 @@ public class GroovyDataReportConnectorTest {
                         "import com.amazonaws.auth.BasicAWSCredentials\n" +
                         "\n" +
                         "AWSCredentials awsCredentials = new BasicAWSCredentials(\"\",\"\");\n" +
-                        "AmazonEC2Client amazonEC2Client = new AmazonEC2Client(awsCredentials);\n" +
                         "\n" +
                         "");
                 setParamConfig(new ArrayList<ParamConfig>());
                 setReportId("test");
         }});
         groovyDataReportConnector.run(new HashMap<String, Object>());
-        Assert.assertNotNull(groovyDataReportConnector.getRows());
-        Assert.assertTrue(groovyDataReportConnector.getRows().size() > 0);
     }
 }
