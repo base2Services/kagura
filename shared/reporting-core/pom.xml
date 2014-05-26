@@ -165,6 +165,12 @@
             <!--<artifactId>org.eclipse.jgit</artifactId>-->
         <!--</dependency>-->
 
+        <!-- Allows for imports in groovy scripts -->
+        <dependency>
+            <groupId>org.apache.ivy</groupId>
+            <artifactId>ivy</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
