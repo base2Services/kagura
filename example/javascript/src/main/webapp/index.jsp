@@ -47,7 +47,6 @@
             padding-bottom: 150px;
         }
     </style>
-
 </head>
 
 <body>
@@ -60,14 +59,18 @@
                     <h2 class="form-signin-heading">Please sign in</h2>
                     <input id="loginEmail" type="text" class="input-block-level" placeholder="Email address">
                     <input id="loginPassword" type="password" class="input-block-level" placeholder="Password">
-                    <%--<label class="checkbox">--%>
-                    <%--<input type="checkbox" value="remember-me"> Remember me--%>
-                    <%--</label>--%>
-                    <button class="btn btn-large btn-primary" type="submit" onclick="doLogin()">Sign in</button>
+                    <button class="btn btn-large btn-primary" type="submit" onclick="doLogin()" id="loginBtn">Sign in</button>
                 </div>
             </p>
         </div>
     </div> <!-- /container -->
     <t:footer />
+    <script language="JavaScript">
+        $('#loginPassword').keypress(function(e) {
+            if (e.which == '13') {
+                doLogin();
+            }
+        });
+    </script>
 </body>
 </html>
