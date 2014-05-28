@@ -17,7 +17,10 @@ package com.base2.kagura.core.report.connectors;
 
 import com.base2.kagura.core.report.configmodel.GroovyReportConfig;
 import com.base2.kagura.core.report.parameterTypes.ParamConfig;
+import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
+import groovy.lang.Script;
+import org.codehaus.groovy.runtime.InvokerHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +47,7 @@ import java.util.Map;
 public class GroovyDataReportConnector extends ReportConnector {
     private List<Map<String, Object>> rows;
     private String groovyScript;
-
+    private static GroovyShell groovyShell = new GroovyShell();
     /**
      * Constructor, shallow copies appropriate values.
      * @param reportConfig
@@ -62,21 +65,23 @@ public class GroovyDataReportConnector extends ReportConnector {
         try
         {
             rows = new ArrayList<Map<String, Object>>();
-            GroovyShell groovyShell = new GroovyShell();
-            groovyShell.setProperty("rows", rows);
-            groovyShell.setProperty("columns", getColumns());
-            groovyShell.setProperty("page", getPage());
-            groovyShell.setProperty("pageLimit", getPageLimit());
-            groovyShell.setProperty("paramConfig", getParameterConfig());
-            groovyShell.setProperty("param", new HashMap<String, ParamConfig>()
+            Script script = groovyShell.parse(groovyScript);
+            script.setProperty("rows", rows);
+            script.setProperty("columns", getColumns());
+            script.setProperty("page", getPage());
+            script.setProperty("pageLimit", getPageLimit());
+            script.setProperty("paramConfig", getParameterConfig());
+            script.setProperty("param", new HashMap<String, ParamConfig>()
             {{
                 for(ParamConfig paramConfig : getParameterConfig())
                 {
                     put(paramConfig.getId(), paramConfig);
                 }
             }});
-            groovyShell.setProperty("extra", extra);
-            groovyShell.evaluate(groovyScript);
+            script.setProperty("extra", extra);
+            script.run();
+            script.setBinding(new Binding());
+            InvokerHelper.removeClass(script.getClass());
         } catch (Exception ex)
         {
             ex.printStackTrace();

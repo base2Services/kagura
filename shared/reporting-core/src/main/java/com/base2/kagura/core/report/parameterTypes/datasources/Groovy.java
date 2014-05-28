@@ -32,6 +32,7 @@ import java.util.List;
  */
 public class Groovy extends Source {
     private String groovy;
+    private static GroovyShell groovyShell = new GroovyShell();
 
     /**
      * Setter only for groovy script. This is so when sending the values to the user they do not get the original
@@ -65,7 +66,6 @@ public class Groovy extends Source {
     @Override
     public Collection<Object> getValues() {
         List<Object> result = new ArrayList<Object>();
-        GroovyShell groovyShell = new GroovyShell();
         groovyShell.setProperty("result", result);
         groovyShell.setProperty("extra", extra);
         groovyShell.evaluate(groovy);
