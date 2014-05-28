@@ -104,8 +104,6 @@ public abstract class ParamConfig {
     /**
      * String constructor
      * @param name
-     * @param help
-     * @param placeholder
      * @return
      */
     public static ParamConfig String(String name) {
@@ -115,8 +113,6 @@ public abstract class ParamConfig {
     /**
      * Combo constructor
      * @param name
-     * @param help
-     * @param placeholder
      * @return
      */
     public static ParamConfig Combo(String name, Collection list) {
@@ -126,8 +122,6 @@ public abstract class ParamConfig {
     /**
      * ManyCombo constructor
      * @param name
-     * @param help
-     * @param placeholder
      * @return
      */
     public static ParamConfig ManyCombo(String name, Collection list) {
@@ -137,8 +131,6 @@ public abstract class ParamConfig {
     /**
      * Number constructor
      * @param name
-     * @param help
-     * @param placeholder
      * @return
      */
     public static ParamConfig Number(String name) {
@@ -148,8 +140,6 @@ public abstract class ParamConfig {
     /**
      * Boolean constructor
      * @param name
-     * @param help
-     * @param placeholder
      * @return
      */
     public static ParamConfig Boolean(String name) {
@@ -159,8 +149,6 @@ public abstract class ParamConfig {
     /**
      * DateTime constructor
      * @param name
-     * @param help
-     * @param placeholder
      * @return
      */
     public static ParamConfig DateTime(String name) {
@@ -170,8 +158,6 @@ public abstract class ParamConfig {
     /**
      * Date constructor
      * @param name
-     * @param help
-     * @param placeholder
      * @return
      */
     public static ParamConfig Date(String name) {
