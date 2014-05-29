@@ -20,7 +20,6 @@ import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
-import org.codehaus.groovy.runtime.InvokerHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +60,7 @@ public class GroovyDataReportConnector extends ReportConnector {
      * {@inheritDoc}
      */
     @Override
-    public void run(Map<String, Object> extra) {
+    public void runReport(Map<String, Object> extra) {
         try
         {
             rows = new ArrayList<Map<String, Object>>();

@@ -18,8 +18,13 @@ package com.base2.kagura.core.report.connectors;
 import com.base2.kagura.core.report.configmodel.parts.ColumnDef;
 import com.base2.kagura.core.report.parameterTypes.ParamConfig;
 import com.base2.kagura.core.report.configmodel.ReportConfig;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +54,45 @@ public abstract class ReportConnector implements Serializable {
      * @param extra middleware provided values, such as date/time, system configuration, logged in user, permissions
      *              and what ever else is of value to the user.
      */
-    public abstract void run(Map<String, Object> extra);
+    public void run(Map<String, Object> extra) {
+        if (getParameterConfig() != null)
+        {
+            Boolean parametersRequired = false;
+            List<String> requiredParameters = new ArrayList<String>();
+            for (ParamConfig paramConfig : getParameterConfig())
+            {
+                if (BooleanUtils.isTrue(paramConfig.getRequired()))
+                {
+                    try {
+                        if (StringUtils.isBlank(ObjectUtils.toString(PropertyUtils.getProperty(paramConfig, "value"))))
+                        {
+                            parametersRequired = true;
+                            requiredParameters.add(paramConfig.getName());
+                        }
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            if (parametersRequired)
+            {
+                errors.add("Some required parameters weren't filled in: " + StringUtils.join(requiredParameters ,", ")+ ".");
+                return;
+            }
+        }
+        runReport(extra);
+    }
+
+    /**
+     * Runs the report.
+     * @param extra middleware provided values, such as date/time, system configuration, logged in user, permissions
+     *              and what ever else is of value to the user.
+     */
+    protected abstract void runReport(Map<String, Object> extra);
 
     /**
      * Does a shallow copy of the necessary reportConfig values. Initializes the error structure.

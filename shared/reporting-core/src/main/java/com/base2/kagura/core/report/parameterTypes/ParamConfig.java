@@ -54,6 +54,7 @@ public abstract class ParamConfig {
     String placeholder;
     private Source from;
     private String id;
+    protected Boolean required = false;
 
     /**
      * Constructor
@@ -302,5 +303,21 @@ public abstract class ParamConfig {
      */
     public void setFrom(Source from) {
         this.from = from;
+    }
+
+    /**
+     * If the parameter is required in-order to run the report.
+     * @return is required
+     */
+    public Boolean getRequired() {
+        return required;
+    }
+
+    /**
+     * Sets if the report requires this value to continue
+     * @param required is the value required.
+     */
+    public void setRequired(Boolean required) {
+        this.required = required;
     }
 }

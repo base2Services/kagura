@@ -295,8 +295,13 @@ function buildReportParameters(msg, inputParamFieldTemplate) {
         template.removeAttr("id");
         template.removeClass("hidden");
         template.addClass("parameterField");
-        var label = template.find("label");
+        var label = template.find("span[name='inputParamLabel']");
         label.text(param.name);
+        var requiredLabel = template.find("span[name='requiredLabel']");
+        if (param.required)
+        {
+            requiredLabel.removeClass("hidden");
+        }
         var paramIdField = template.find("span[name='paramId']");
         paramIdField.text(param.id);
         var paramId = param.id + "Param";

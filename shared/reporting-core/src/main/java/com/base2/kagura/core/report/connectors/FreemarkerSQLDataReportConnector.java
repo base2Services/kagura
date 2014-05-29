@@ -69,7 +69,7 @@ public abstract class FreemarkerSQLDataReportConnector extends ReportConnector {
      * {@inheritDoc}
      */
     @Override
-    public void run(Map<String, Object> extra) {
+    public void runReport(Map<String, Object> extra) {
         PreparedStatement prestatement = null;
         PreparedStatement poststatement = null;
         PreparedStatement statement = null;
