@@ -66,22 +66,19 @@ public class GroovyDataReportConnector extends ReportConnector {
         {
             rows = new ArrayList<Map<String, Object>>();
             Script script = groovyShell.parse(groovyScript);
-            script.setProperty("rows", rows);
-            script.setProperty("columns", getColumns());
-            script.setProperty("page", getPage());
-            script.setProperty("pageLimit", getPageLimit());
-            script.setProperty("paramConfig", getParameterConfig());
-            script.setProperty("param", new HashMap<String, ParamConfig>()
-            {{
-                for(ParamConfig paramConfig : getParameterConfig())
-                {
+            script.setBinding(new Binding());
+            script.getBinding().setVariable("rows", rows);
+            script.getBinding().setVariable("columns", getColumns());
+            script.getBinding().setVariable("page", getPage());
+            script.getBinding().setVariable("pageLimit", getPageLimit());
+            script.getBinding().setVariable("paramConfig", getParameterConfig());
+            script.getBinding().setVariable("param", new HashMap<String, ParamConfig>() {{
+                for (ParamConfig paramConfig : getParameterConfig()) {
                     put(paramConfig.getId(), paramConfig);
                 }
             }});
-            script.setProperty("extra", extra);
+            script.getBinding().setVariable("extra", extra);
             script.run();
-            script.setBinding(new Binding());
-            InvokerHelper.removeClass(script.getClass());
         } catch (Exception ex)
         {
             ex.printStackTrace();
