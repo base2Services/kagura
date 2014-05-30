@@ -120,7 +120,8 @@ public class ReportsRoutesSystemTest extends CamelSpringTestSupport {
         String token = login.jsonPath().get("token");
         ResponseBody responseBody =  expect().when().get("http://localhost:8432/report/{1}/fake1/export.pdf", token);
         byte[] bytes = responseBody.asByteArray();
-        Assert.assertThat(bytes.length, equalTo(1216));
+        Assert.assertThat(bytes.length, lessThanOrEqualTo(1220));
+        Assert.assertThat(bytes.length, greaterThanOrEqualTo(1200));
     }
 
     @Test
@@ -152,7 +153,8 @@ public class ReportsRoutesSystemTest extends CamelSpringTestSupport {
         String param = buildParameters();
         ResponseBody responseBody =  expect().when().get("http://localhost:8432/report/{1}/fake1/export.pdf?parameters={2}", token, param);
         byte[] bytes = responseBody.asByteArray();
-        Assert.assertThat(bytes.length, equalTo(1216));
+        Assert.assertThat(bytes.length, lessThanOrEqualTo(1220));
+        Assert.assertThat(bytes.length, greaterThanOrEqualTo(1200));
     }
 
     @Test
