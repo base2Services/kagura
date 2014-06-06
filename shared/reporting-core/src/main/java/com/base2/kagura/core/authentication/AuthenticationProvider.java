@@ -59,6 +59,7 @@ public abstract class AuthenticationProvider {
     public Map<String, User> getStringUserMap() {
         List<User> users = getUsers();
         Map<String, User> userMap = new HashMap<String, User>();
+        if (users == null) return userMap;
         for (User each : users) {
             userMap.put(each.getUsername(), each);
         }
@@ -66,12 +67,13 @@ public abstract class AuthenticationProvider {
     }
 
     public Map<String, Group> getStringGroupMap() {
-        List<Group> users = getGroups();
-        Map<String, Group> userMap = new HashMap<String, Group>();
-        for (Group each : users) {
-            userMap.put(each.getGroupname(), each);
+        List<Group> groups = getGroups();
+        Map<String, Group> groupMap = new HashMap<String, Group>();
+        if (groups == null) return groupMap;
+        for (Group each : groups) {
+            groupMap.put(each.getGroupname(), each);
         }
-        return userMap;
+        return groupMap;
     }
 
     public abstract void authenticateUser(String user, String pass) throws Exception;
