@@ -5,13 +5,13 @@
     <parent>
         <groupId>com.kagurabi</groupId>
         <artifactId>kagura</artifactId>
-        <version>1.8-SNAPSHOT</version>
+        <version>1.9-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.kagurabi.services</groupId>
     <artifactId>kagura-services</artifactId>
-    <version>1.8-SNAPSHOT</version>
+    <version>1.9-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>

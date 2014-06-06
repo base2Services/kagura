@@ -6,7 +6,7 @@
 
     <groupId>com.kagurabi</groupId>
     <artifactId>kagura</artifactId>
-    <version>1.8-SNAPSHOT</version>
+    <version>1.9-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Kagura</name>

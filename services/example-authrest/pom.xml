@@ -4,7 +4,7 @@
     <parent>
         <artifactId>kagura-services</artifactId>
         <groupId>com.kagurabi.services</groupId>
-        <version>1.8-SNAPSHOT</version>
+        <version>1.9-SNAPSHOT</version>
     </parent>
 
     <!--
@@ -29,7 +29,7 @@
 
     <artifactId>example-authrest</artifactId>
     <packaging>bundle</packaging>
-    <version>1.8-SNAPSHOT</version>
+    <version>1.9-SNAPSHOT</version>
     <properties>
         <jackson-1.version>1.9.11</jackson-1.version>
     </properties>
